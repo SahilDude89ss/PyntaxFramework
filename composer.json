@@ -1,0 +1,25 @@
+{
+  "name": "SahilSharma",
+  "type": "library",
+  "description": "A simple form creator",
+  "keywords": ["Form builder","DAO","ORM"],
+  "homepage": "http://github.com/SahilDude89ss/PyntaxFormBuilder",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sahil Sharma",
+      "email": "SahilSharmaMIT2013@gmail.com",
+      "homepage": "http://pyntax.net",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "aura/sqlschema": "2.*@dev",
+    "aura/sqlquery": "2.*@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pyntax\\": "src/Pyntax/"
+    }
+  }
+}
