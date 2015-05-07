@@ -8,6 +8,7 @@
 
 namespace Pyntax\DAO\Sql;
 use Aura\SqlQuery\QueryFactory;
+use Pyntax\DAO\SqlSchema\Table;
 
 class QueryBuilder {
 
@@ -31,5 +32,14 @@ class QueryBuilder {
             ->where("TABLE_NAME = '$tableName';");
 
         return $select->__toString();
+    }
+
+    public function selectById(Table $table, $id, $loadRelatedData = false) {
+        $select = $this->queryFactory->newSelect();
+        $select->cols($table->getSelectColumns())
+            ->from($table->getTableName())
+            ->where("{$table->getPrimaryKey()} = $id");
+
+        return $select->__toString()." LIMIT 1";
     }
 }

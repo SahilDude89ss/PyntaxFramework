@@ -1,9 +1,6 @@
 <?php
 require_once('vendor/autoload.php');
 
-use Aura\SqlSchema\ColumnFactory;
-use Aura\SqlSchema\MysqlSchema;
-
 $pdo = new PDO('mysql:host=localhost;dbname=world_db;charset=utf8', 'root', '');
 //$columnFactory = new ColumnFactory();
 //$schema = new MysqlSchema($pdo, $columnFactory);
@@ -30,6 +27,11 @@ where
  */
 
 
-$table = new \Pyntax\DAO\SqlSchema\Table('City',$pdo, new \Pyntax\DAO\Sql\QueryBuilder());
-var_dump($table);
+//$table = new \Pyntax\DAO\SqlSchema\Table('City',$pdo, new \Pyntax\DAO\Sql\QueryBuilder());
+$beanFactory = new \Pyntax\DAO\Bean\BeanFactory($pdo, new \Pyntax\DAO\Sql\QueryBuilder());
+$bean =  $beanFactory->createNewBean('City');
+$bean->get(1);
+echo $bean->ID.": ".$bean->Name.": ".$bean->Population."\n";
+
+var_dump($bean->getForeignKeys());
 

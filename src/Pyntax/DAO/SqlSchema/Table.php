@@ -35,7 +35,7 @@ class Table {
 
     protected $schema = false;
 
-    protected $_columns = array();
+    protected $columns = array();
 
     public function __construct($name, PDO $dbConnection, QueryBuilder $queryBuilder) {
 
@@ -55,7 +55,7 @@ class Table {
     }
 
     protected function populateColumns() {
-        $this->_columns = $this->mysqlSchema->fetchTableCols($this->getTableName());
+        $this->columns = $this->mysqlSchema->fetchTableCols($this->getTableName());
     }
 
     protected function setColumnsWithRelationships()  {
@@ -72,6 +72,35 @@ class Table {
                 );
             }
         }
+    }
+
+    /**
+     * @param $id
+     * @param bool $loadRelatedData
+     *
+     * @return array
+     */
+    public function get($id, $loadRelatedData = false) {
+        $result = $this->dbConnection->query($this->queryBuilder->selectById($this, $id, $loadRelatedData));
+        $columns = $result->fetchAll(PDO::FETCH_ASSOC);
+
+        if($columns > 0) {
+            return $columns[0];
+        }
+
+        return $this->getSelectColumns();
+    }
+
+    public function hasColumn($name) {
+        return array_key_exists($this->columns,$name);
+    }
+
+    public function getSelectColumns() {
+        return array_keys($this->columns);
+    }
+
+    public function getColumns() {
+        return $this->columns;
     }
 
     public function getTableName() {
