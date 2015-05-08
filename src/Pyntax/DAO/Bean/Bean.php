@@ -17,13 +17,36 @@ class Bean {
 
     protected $_column_definition = array();
 
-    public function __construct(Table $table) {
+    public function __construct(Table $table, array $data = array()) {
         $this->table = $table;
         $this->_column_definition = $table->getColumns();
+
+        $this->setBeanData($data);
     }
 
-    public function get($id , $loadRelatedData = false) {
+    protected function setBeanData(array $data) {
+        $this->_data = $data;
+    }
+
+    public function get($id , $loadRelatedData = true) {
         $this->_data = $this->table->get($id, $loadRelatedData);
+        return $this;
+    }
+
+    public function select($where = array(), $loadRelatedData = true, $limit = 10) {
+        $this->_data = $this->table->select(null, $where, $loadRelatedData, $limit);
+
+        if(count($this->_data) > 1) {
+            $r = array();
+            foreach($this->_data as $beanData) {
+                $r[] = new Bean($this->table, $beanData);
+            }
+
+            return $r;
+        } else if(count($this->_data) == 1) {
+            $this->_data = $this->_data[0];
+        }
+
         return $this;
     }
 
@@ -47,4 +70,11 @@ class Bean {
         return false;
     }
 
+    public function getForeignKeys() {
+        return $this->table->getForeignKeys();
+    }
+
+    public function getData() {
+        return $this->_data;
+    }
 }

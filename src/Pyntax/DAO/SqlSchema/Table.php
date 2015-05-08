@@ -8,6 +8,7 @@
 
 namespace Pyntax\DAO\SqlSchema;
 
+use Aura\SqlQuery\Exception;
 use Aura\SqlSchema\ColumnFactory;
 use Aura\SqlSchema\MysqlSchema;
 use \PDO;
@@ -67,8 +68,9 @@ class Table {
                 $this->primary_key = $key['COLUMN_NAME'];
             } else {
                 $this->foreign_keys[] = array(
-                    'table' => $key['REFERENCED_TABLE_NAME'],
-                    'column' => $key['REFERENCED_COLUMN_NAME']
+                    'f.table' => $key['REFERENCED_TABLE_NAME'],
+                    'f.column' => $key['REFERENCED_COLUMN_NAME'],
+                    'this.column' => $key['COLUMN_NAME']
                 );
             }
         }
@@ -80,15 +82,77 @@ class Table {
      *
      * @return array
      */
-    public function get($id, $loadRelatedData = false) {
+    public function get($id, $loadRelatedData = true) {
         $result = $this->dbConnection->query($this->queryBuilder->selectById($this, $id, $loadRelatedData));
         $columns = $result->fetchAll(PDO::FETCH_ASSOC);
 
-        if($columns > 0) {
-            return $columns[0];
+        if($loadRelatedData) {
+            if(count($columns) > 0) {
+                $columns = $columns[0];
+
+                foreach($this->getForeignKeys() as $foreignKey) {
+                    $columns[$foreignKey['table']] = $this->select(
+                        new Table('Country', $this->dbConnection, $this->queryBuilder),
+                        array(
+                            'Code' => $foreignKey['column']
+                        )
+                    );
+                }
+            }
         }
 
-        return $this->getSelectColumns();
+        return $columns;
+    }
+
+    /**
+     * @param Table $table
+     * @param array $where
+     * @param bool $loadRelatedData
+     * @param int $limit
+     *
+     * @return array
+     */
+    public function select(Table $table = null, array $where, $loadRelatedData = true, $limit = 10) {
+        $table = is_null($table) ? $this : $table;
+        $result = $this->dbConnection->query($this->queryBuilder->select($table, $this->computeWhere($where), $limit));
+        $columns = $result->fetchAll(PDO::FETCH_ASSOC);
+
+        if($loadRelatedData)
+        {
+            if(count($columns) > 0)
+            {
+                foreach($columns as &$columnData)
+                {
+                    foreach($table->getForeignKeys() as $foreignKey)
+                    {
+                        if(!empty($columnData[$foreignKey['this.column']])) {
+                            try {
+                                $columnData[$foreignKey['f.table']] = $this->select(
+                                    new Table($foreignKey['f.table'], $this->dbConnection, $this->queryBuilder),
+                                    array($foreignKey['f.column'] => $columnData[$foreignKey['this.column']]),
+                                    true,
+                                    false
+                                );
+                            } catch(Exception $e) {
+                                echo $e->getMessage(); die;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $columns;
+    }
+
+    /**
+     * @param array $where
+     * @return string
+     */
+    protected function computeWhere(array $where) {
+        return implode(', ', array_map(function ($v, $k) {
+            return sprintf("%s='%s'", $k, $v);
+        }, $where, array_keys($where)));
     }
 
     public function hasColumn($name) {

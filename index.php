@@ -30,8 +30,10 @@ where
 //$table = new \Pyntax\DAO\SqlSchema\Table('City',$pdo, new \Pyntax\DAO\Sql\QueryBuilder());
 $beanFactory = new \Pyntax\DAO\Bean\BeanFactory($pdo, new \Pyntax\DAO\Sql\QueryBuilder());
 $bean =  $beanFactory->createNewBean('City');
-$bean->get(1);
-echo $bean->ID.": ".$bean->Name.": ".$bean->Population."\n";
+//$r = $bean->get(1);
 
-var_dump($bean->getForeignKeys());
+$r = $bean->select(array(),true,2);
+
+//echo $bean->ID.": ".$bean->Name.": ".$bean->Population.": ".$bean->CountryCode."\n";
+var_dump($r);
 

@@ -27,6 +27,6 @@ class BeanFactory {
      * @return Bean
      */
     public function createNewBean($tableName) {
-        return new Bean(new Table($tableName,$this->dbConnection,$this->queryBuilder));
+        return new Bean(new Table($tableName,$this->dbConnection, $this->queryBuilder));
     }
 }

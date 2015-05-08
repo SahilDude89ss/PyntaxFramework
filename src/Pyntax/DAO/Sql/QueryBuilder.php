@@ -21,10 +21,6 @@ class QueryBuilder {
         $this->queryFactory = new QueryFactory($dbType);
     }
 
-    /**
-     * @param $tableName
-     * @return string
-     */
     public function getForeignKeys($tableName) {
         $select = $this->queryFactory->newSelect();
         $select->cols(array('TABLE_NAME','COLUMN_NAME','CONSTRAINT_NAME','REFERENCED_TABLE_NAME','REFERENCED_COLUMN_NAME'))
@@ -34,12 +30,24 @@ class QueryBuilder {
         return $select->__toString();
     }
 
-    public function selectById(Table $table, $id, $loadRelatedData = false) {
+    public function selectById(Table $table, $id) {
         $select = $this->queryFactory->newSelect();
         $select->cols($table->getSelectColumns())
             ->from($table->getTableName())
             ->where("{$table->getPrimaryKey()} = $id");
 
         return $select->__toString()." LIMIT 1";
+    }
+
+    public function select(Table $table, $where, $limit = 10) {
+        $select = $this->queryFactory->newSelect();
+        $select->cols($table->getSelectColumns())
+            ->from($table->getTableName());
+
+        if(strlen($where) > 0)  {
+            $select->where($where);
+        }
+
+        return $select->__toString().(($limit) ? " LIMIT $limit" : "");
     }
 }
