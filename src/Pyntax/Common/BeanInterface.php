@@ -6,7 +6,7 @@
  * Time: 10:53 AM
  */
 
-namespace Pyntax\Common;
+namespace OLDPyntaxCommon;
 
 
 interface BeanInterface {

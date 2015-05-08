@@ -6,10 +6,10 @@
  * Time: 10:57 AM
  */
 
-namespace Pyntax\DAO\Bean;
+namespace OLDPyntaxDAO\Bean;
 
 
-use Pyntax\Common\BeanInterface;
+use OLDPyntaxCommon\BeanInterface;
 
 abstract class BeanAbstract implements  BeanInterface {
 
@@ -28,5 +28,33 @@ abstract class BeanAbstract implements  BeanInterface {
 
     protected function setBeanData(array $data) {
         $this->_data = $data;
+    }
+
+    function __get($name)
+    {
+        if(isset($this->_data[$name])) {
+            return $this->_data[$name];
+        }
+
+        return false;
+    }
+
+    function __set($name, $value)
+    {
+        if(isset($this->_data[$name])) {
+            $this->_data[$name] = $value;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getForeignKeys() {
+        return $this->table->getForeignKeys();
+    }
+
+    public function getData() {
+        return $this->_data;
     }
 }

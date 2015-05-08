@@ -6,7 +6,7 @@
  * Time: 11:46 AM
  */
 
-namespace Pyntax\Cache\Adapter;
+namespace OLDPyntaxCache\Adapter;
 use \Redis;
 
 class RedisAdapter extends Adapter {

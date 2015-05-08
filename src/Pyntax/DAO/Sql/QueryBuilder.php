@@ -6,9 +6,9 @@
  * Time: 2:19 PM
  */
 
-namespace Pyntax\DAO\Sql;
+namespace OLDPyntaxDAO\Sql;
 use Aura\SqlQuery\QueryFactory;
-use Pyntax\DAO\SqlSchema\Table;
+use OLDPyntaxDAO\SqlSchema\Table;
 
 class QueryBuilder {
 

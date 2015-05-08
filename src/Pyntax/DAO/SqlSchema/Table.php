@@ -6,17 +6,17 @@
  * Time: 11:08 AM
  */
 
-namespace Pyntax\DAO\SqlSchema;
+namespace OLDPyntaxDAO\SqlSchema;
 
 use Aura\SqlQuery\Exception;
 use Aura\SqlSchema\ColumnFactory;
 use Aura\SqlSchema\MysqlSchema;
 use \PDO;
-use Pyntax\DAO\Sql\QueryBuilder;
+use OLDPyntaxDAO\Sql\QueryBuilder;
 
 /**
  * Class Table
- * @package Pyntax\DAO\SqlSchema
+ * @package OLDPyntaxDAO\SqlSchema
  */
 class Table {
 

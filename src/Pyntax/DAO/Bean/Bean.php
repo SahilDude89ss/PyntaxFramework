@@ -6,42 +6,14 @@
  * Time: 3:21 PM
  */
 
-namespace Pyntax\DAO\Bean;
-use Pyntax\DAO\SqlSchema\Table;
+namespace OLDPyntaxDAO\Bean;
+use OLDPyntaxDAO\SqlSchema\Table;
 
 class Bean extends BeanAbstract {
 
-    function __get($name)
-    {
-        if(isset($this->_data[$name])) {
-            return $this->_data[$name];
-        }
-
-        return false;
-    }
-
-    function __set($name, $value)
-    {
-        if(isset($this->_data[$name])) {
-            $this->_data[$name] = $value;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public function getForeignKeys() {
-        return $this->table->getForeignKeys();
-    }
-
-    public function getData() {
-        return $this->_data;
-    }
-
     public function selectOne($where = array(), $loadRelatedData = true)
     {
-        // TODO: Implement selectOne() method.
+        return $this->select($where,$loadRelatedData,1);
     }
 
     public function select($where = array(), $loadRelatedData = true, $limit = 10)

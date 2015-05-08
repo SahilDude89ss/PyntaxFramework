@@ -6,7 +6,7 @@
  * Time: 11:47 AM
  */
 
-namespace Pyntax\Cache\Adapter;
+namespace OLDPyntaxCache\Adapter;
 
 
 abstract class Adapter {

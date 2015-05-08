@@ -6,7 +6,7 @@
  * Time: 11:30 AM
  */
 
-namespace Pyntax\Cache;
+namespace OLDPyntaxCache;
 
 
 class CacheManager {
