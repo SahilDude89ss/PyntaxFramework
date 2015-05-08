@@ -9,46 +9,7 @@
 namespace Pyntax\DAO\Bean;
 use Pyntax\DAO\SqlSchema\Table;
 
-class Bean {
-
-    protected $table = false;
-
-    protected $_data = array();
-
-    protected $_column_definition = array();
-
-    public function __construct(Table $table, array $data = array()) {
-        $this->table = $table;
-        $this->_column_definition = $table->getColumns();
-
-        $this->setBeanData($data);
-    }
-
-    protected function setBeanData(array $data) {
-        $this->_data = $data;
-    }
-
-    public function get($id , $loadRelatedData = true) {
-        $this->_data = $this->table->get($id, $loadRelatedData);
-        return $this;
-    }
-
-    public function select($where = array(), $loadRelatedData = true, $limit = 10) {
-        $this->_data = $this->table->select(null, $where, $loadRelatedData, $limit);
-
-        if(count($this->_data) > 1) {
-            $r = array();
-            foreach($this->_data as $beanData) {
-                $r[] = new Bean($this->table, $beanData);
-            }
-
-            return $r;
-        } else if(count($this->_data) == 1) {
-            $this->_data = $this->_data[0];
-        }
-
-        return $this;
-    }
+class Bean extends BeanAbstract {
 
     function __get($name)
     {
@@ -76,5 +37,48 @@ class Bean {
 
     public function getData() {
         return $this->_data;
+    }
+
+    public function selectOne($where = array(), $loadRelatedData = true)
+    {
+        // TODO: Implement selectOne() method.
+    }
+
+    public function select($where = array(), $loadRelatedData = true, $limit = 10)
+    {
+        $this->_data = $this->table->select(null, $where, $loadRelatedData, $limit);
+
+        if(count($this->_data) > 1) {
+            $r = array();
+            foreach($this->_data as $beanData) {
+                $r[] = new Bean($this->table, $beanData);
+            }
+
+            return $r;
+        } else if(count($this->_data) == 1) {
+            $this->_data = $this->_data[0];
+        }
+
+        return $this;
+    }
+
+    public function insert($data = array())
+    {
+        // TODO: Implement insert() method.
+    }
+
+    public function updated($data = array(), array $where = array())
+    {
+        // TODO: Implement updated() method.
+    }
+
+    public function delete($where = array())
+    {
+        // TODO: Implement delete() method.
+    }
+
+    public function selectById($id = array(), $loadRelatedData = true)
+    {
+        // TODO: Implement selectById() method.
     }
 }
