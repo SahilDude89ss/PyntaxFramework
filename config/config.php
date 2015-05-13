@@ -1,16 +1,15 @@
 <?php
-
-$pyntax_confing['database'] = array(
+$pyntax_config['database'] = array(
     'server' => 'localhost',
     'user' => 'root',
     'password' => '',
     'port' => '3306'
 );
 
-$pyntax_confing['cache'] = array(
+$pyntax_config['cache'] = array(
     'Redis' => array(
         'enable' =>  true
     )
 );
 
-return $pyntax_confing;
+return $pyntax_config;

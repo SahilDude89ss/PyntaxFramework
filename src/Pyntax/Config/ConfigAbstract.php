@@ -7,8 +7,18 @@
  */
 
 namespace Pyntax\Config;
+use Pyntax\Common\ConfigInterface;
 
+abstract class ConfigAbstract implements ConfigInterface {
 
-class ConfigAbstract {
+    protected $_config = array();
+
+    public function __construct() {
+        if(file_exists('config/config.php')) {
+            include_once "config/config.php";
+
+            $this->_config = $pyntax_config;
+        }
+    }
 
 }

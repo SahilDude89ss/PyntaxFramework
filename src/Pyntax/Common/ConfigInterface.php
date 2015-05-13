@@ -9,8 +9,10 @@
 namespace Pyntax\Common;
 
 
-class Config {
+interface ConfigInterface {
 
+    public function get($configName);
 
+    public function set($configName, $value);
 
 }

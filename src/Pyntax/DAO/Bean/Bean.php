@@ -1,56 +1,24 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: ssharma
- * Date: 7/05/15
- * Time: 3:21 PM
+ * User: sahil
+ * Date: 8/05/15
+ * Time: 11:03 PM
  */
 
-namespace OLDPyntaxDAO\Bean;
-use OLDPyntaxDAO\SqlSchema\Table;
+namespace Pyntax\DAO\Bean;
 
-class Bean extends BeanAbstract {
+use Pyntax\Common\BeanInterface;
 
-    public function selectOne($where = array(), $loadRelatedData = true)
+class Bean implements BeanInterface {
+
+    public function save()
     {
-        return $this->select($where,$loadRelatedData,1);
+        // TODO: Implement save() method.
     }
 
-    public function select($where = array(), $loadRelatedData = true, $limit = 10)
-    {
-        $this->_data = $this->table->select(null, $where, $loadRelatedData, $limit);
-
-        if(count($this->_data) > 1) {
-            $r = array();
-            foreach($this->_data as $beanData) {
-                $r[] = new Bean($this->table, $beanData);
-            }
-
-            return $r;
-        } else if(count($this->_data) == 1) {
-            $this->_data = $this->_data[0];
-        }
-
-        return $this;
-    }
-
-    public function insert($data = array())
-    {
-        // TODO: Implement insert() method.
-    }
-
-    public function updated($data = array(), array $where = array())
-    {
-        // TODO: Implement updated() method.
-    }
-
-    public function delete($where = array())
+    public function delete()
     {
         // TODO: Implement delete() method.
-    }
-
-    public function selectById($id = array(), $loadRelatedData = true)
-    {
-        // TODO: Implement selectById() method.
     }
 }

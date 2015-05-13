@@ -9,6 +9,8 @@
 namespace Pyntax\Common;
 
 
-interface BeanFactory {
+interface BeanFactoryInterface {
+
+    public function getBean($tableName);
 
 }
