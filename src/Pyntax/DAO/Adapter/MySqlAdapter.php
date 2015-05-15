@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sahil
- * Date: 14/05/15
- * Time: 10:22 PM
- */
 
 namespace Pyntax\DAO\Adapter;
-
 
 use Pyntax\Common\AdapterInterface;
 
