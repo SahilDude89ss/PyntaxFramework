@@ -2,9 +2,45 @@
 
 namespace Pyntax\DAO\Adapter;
 
+use Aura\SqlQuery\QueryFactory;
 use Pyntax\Common\AdapterInterface;
 
-class MySqlAdapter implements AdapterInterface {
+/**
+ * Class MySqlAdapter
+ * @package Pyntax\DAO\Adapter
+ */
+class MySqlAdapter implements AdapterInterface
+{
+
+    /**
+     * database stores the name of the current database.
+     * @var string
+     */
+    protected $database = "";
+
+    /**
+     * Sql stores the current executing SQL.
+     * @var string
+     */
+    protected $sql = "";
+
+    /**
+     * PDO stores the PDO connection
+     * @var \PDO
+     */
+    protected $connection = NULL;
+
+    protected $queryFactory = NULL;
+
+    /**
+     * MySqlAdapter can only be instantiated with a PDO connection object.
+     * @param \PDO $connection
+     */
+    public function __construct(\PDO $connection)
+    {
+        $this->queryFactory = new QueryFactory('mysql');
+        $this->connection = $connection;
+    }
 
     /**
      * Returns the current/last executed query
@@ -13,7 +49,7 @@ class MySqlAdapter implements AdapterInterface {
      */
     public function getSql()
     {
-        // TODO: Implement getSql() method.
+        return $this->sql;
     }
 
     /**
@@ -21,7 +57,7 @@ class MySqlAdapter implements AdapterInterface {
      */
     public function getDatabase()
     {
-        // TODO: Implement getDatabase() method.
+        return $this->database;
     }
 
     /**
@@ -30,11 +66,74 @@ class MySqlAdapter implements AdapterInterface {
      *
      * @param string $sql
      * @param array $bindingValues
+     * @param bool $insert
      * @return mixed
      */
-    public function exec($sql = "", $bindingValues = array())
+    public function exec($sql = "", $bindingValues = array(), $insert = true)
     {
-        // TODO: Implement exec() method.
+        //Check if the query is a SELECT|INSERT|UPDATE and :variation is available
+        if (preg_match('/.*(SELECT|INSERT|UPDATE).*/', $sql) && preg_match('\s*:(.+?)\s', $sql)) {
+
+            $this->sql = $sql;
+
+            //Always prepare the SQL statement first
+            $query = $this->connection->prepare($sql);
+
+            //Add the binding variables to the query
+            $query->execute($bindingValues);
+
+            if (preg_match('/.*(SELECT).*/', $sql)) {
+                $query->setFetchMode(\PDO::FETCH_ASSOC);
+            }
+
+            return $query->fetch();
+        }
+
+    }
+
+    /**
+     * SELECT
+     * [ALL | DISTINCT | DISTINCTROW ]
+     * [HIGH_PRIORITY]
+     * [STRAIGHT_JOIN]
+     * [SQL_SMALL_RESULT] [SQL_BIG_RESULT] [SQL_BUFFER_RESULT]
+     * [SQL_CACHE | SQL_NO_CACHE] [SQL_CALC_FOUND_ROWS]
+     * select_expr [, select_expr ...]
+     * [FROM table_references
+     * [WHERE where_condition]
+     * [GROUP BY {col_name | expr | position}
+     * [ASC | DESC], ... [WITH ROLLUP]]
+     * [HAVING where_condition]
+     * [ORDER BY {col_name | expr | position}
+     * [ASC | DESC], ...]
+     * [LIMIT {[offset,] row_count | row_count OFFSET offset}]
+     *
+     * @param $table
+     * @param String $where
+     * @param null $groupBy
+     * @param null $orderBy
+     * @param int $limit
+     */
+    public function Select($table, $where = null,  $groupBy = null, $orderBy = null, $limit = 0) {
+        $select = $this->queryFactory->newSelect();
+        $select->cols('*')
+            ->from($table);
+
+        if(is_string($where) && strlen($where) > 0) {
+            $select->where($where);
+        }
+
+        if(is_array($groupBy)) {
+            $select->groupBy($groupBy);
+        }
+
+        if(is_array($orderBy)) {
+            $select->orderBy($orderBy);
+        }
+
+        if($limit > 0) {
+            $select->limit($limit);
+        }
     }
 
     /**
@@ -46,7 +145,7 @@ class MySqlAdapter implements AdapterInterface {
      */
     public function getOneResult($sql = "", $bindingValues = array())
     {
-        // TODO: Implement getOneResult() method.
+        // TODO: Implement getOneResult()
     }
 
     /**
