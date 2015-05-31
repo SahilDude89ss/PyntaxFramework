@@ -1,7 +1,7 @@
 <?php
 require_once('vendor/autoload.php');
 
-$pdo = new PDO('mysql:host=localhost;dbname=simplemanager_db_v3;charset=utf8', 'root', '');
+$pdo = new PDO('mysql:host=localhost;dbname=world_db;charset=utf8', 'root', '');
 ////$columnFactory = new ColumnFactory();
 ////$schema = new MysqlSchema($pdo, $columnFactory);
 //
@@ -37,4 +37,8 @@ $pdo = new PDO('mysql:host=localhost;dbname=simplemanager_db_v3;charset=utf8', '
 ////echo $bean->ID.": ".$bean->Name.": ".$bean->Population.": ".$bean->CountryCode."\n";
 //var_dump($r);
 
-$config = new \Pyntax\Config\Config();
+$mysqlAdapter = new \Pyntax\DAO\Adapter\MySqlAdapter($pdo);
+
+$r = $mysqlAdapter->getMetaData('Country');
+
+print_r($r);

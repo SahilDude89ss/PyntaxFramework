@@ -72,23 +72,56 @@ class MySqlAdapter implements AdapterInterface
     public function exec($sql = "", $bindingValues = array(), $insert = true)
     {
         //Check if the query is a SELECT|INSERT|UPDATE and :variation is available
-        if (preg_match('/.*(SELECT|INSERT|UPDATE).*/', $sql) && preg_match('\s*:(.+?)\s', $sql)) {
+        if (preg_match("/.*(SELECT|INSERT|UPDATE|SHOW).*/", $sql)) {
 
             $this->sql = $sql;
 
             //Always prepare the SQL statement first
             $query = $this->connection->prepare($sql);
 
-            //Add the binding variables to the query
-            $query->execute($bindingValues);
+            if(preg_match('/\s*:(.+?)\s/', $sql)) {
+                //Add the binding variables to the query
+                $query->execute($bindingValues);
+            } else {
+                $query->execute();
+            }
 
-            if (preg_match('/.*(SELECT).*/', $sql)) {
+            if (preg_match('/.*(SELECT|SHOW).*/', $sql)) {
                 $query->setFetchMode(\PDO::FETCH_ASSOC);
             }
 
-            return $query->fetch();
+            return $query->fetchAll();
         }
 
+
+        return false;
+    }
+
+    /**
+     * @param $tableName
+     * @return array
+     */
+    public function getMetaData($tableName) {
+        return array(
+            'Fields' => $this->ShowColumns($tableName),
+            'Indexes' => $this->ShowIndexes($tableName)
+        );
+    }
+
+    /**
+     * @param $tableName
+     * @return mixed
+     */
+    public function ShowIndexes($tableName) {
+        return $this->exec("SHOW INDEXES FROM {$tableName}");
+    }
+
+    /**
+     * @param $tableName
+     * @return mixed
+     */
+    public function ShowColumns($tableName) {
+        return $this->exec("SHOW COLUMNS FROM {$tableName}");
     }
 
     /**
