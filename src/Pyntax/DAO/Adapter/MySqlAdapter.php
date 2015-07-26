@@ -30,6 +30,9 @@ class MySqlAdapter implements AdapterInterface
      */
     protected $connection = NULL;
 
+    /**
+     * @var QueryFactory|null
+     */
     protected $queryFactory = NULL;
 
     /**
@@ -142,14 +145,16 @@ class MySqlAdapter implements AdapterInterface
      * [LIMIT {[offset,] row_count | row_count OFFSET offset}]
      *
      * @param $table
-     * @param String $where
+     * @param null $where
      * @param null $groupBy
      * @param null $orderBy
      * @param int $limit
+     *
+     * @return mixed
      */
     public function Select($table, $where = null,  $groupBy = null, $orderBy = null, $limit = 0) {
         $select = $this->queryFactory->newSelect();
-        $select->cols('*')
+        $select->cols(array('*'))
             ->from($table);
 
         if(is_string($where) && strlen($where) > 0) {
@@ -167,18 +172,23 @@ class MySqlAdapter implements AdapterInterface
         if($limit > 0) {
             $select->limit($limit);
         }
+
+        return $this->exec($select->getStatement(), $where);
     }
 
     /**
      * Executes the current SQL query and returns the first result as ASSOC result set
      *
-     * @param string $sql
-     * @param array $bindingValues
+     * @param $table
+     * @param null $where
+     * @param null $groupBy
+     * @param null $orderBy
+     *
      * @return mixed
      */
-    public function getOneResult($sql = "", $bindingValues = array())
+    public function getOneResult($table, $where = null,  $groupBy = null, $orderBy = null)
     {
-        // TODO: Implement getOneResult()
+        return $this->Select($table, $where, $groupBy, $orderBy, 1);
     }
 
     /**

@@ -36,11 +36,14 @@ interface AdapterInterface {
     /**
      * Executes the current SQL query and returns the first result as ASSOC result set
      *
-     * @param string $sql
-     * @param array $bindingValues
+     * @param $table
+     * @param null $where
+     * @param null $groupBy
+     * @param null $orderBy
+     *
      * @return mixed
      */
-    public function getOneResult($sql = "", $bindingValues = array());
+    public function getOneResult($table, $where = null,  $groupBy = null, $orderBy = null);
 
     /**
      * Returns the last insert ID
@@ -78,4 +81,12 @@ interface AdapterInterface {
      * @return mixed
      */
     public function setCacheFacade($yesNo = false);
+
+    /**
+     * Returns the columns in a table and indexes.
+     *
+     * @param $tableName
+     * @return mixed
+     */
+    public function getMetaData($tableName);
 }
