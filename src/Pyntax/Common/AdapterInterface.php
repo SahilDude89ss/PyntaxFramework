@@ -89,4 +89,25 @@ interface AdapterInterface {
      * @return mixed
      */
     public function getMetaData($tableName);
+
+    /**
+     * Saves the data in the table with a new id;
+     *
+     * @param $table
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function Insert($table, $data = array());
+
+    /**
+     * Updates the present data in the table.
+     *
+     * @param $table
+     * @param array $data
+     * @param null $where
+     *
+     * @return mixed
+     */
+    public function Update($table, $data = array(), $where = null);
 }

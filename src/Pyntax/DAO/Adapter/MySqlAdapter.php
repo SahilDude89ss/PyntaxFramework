@@ -11,7 +11,6 @@ use Pyntax\Common\AdapterInterface;
  */
 class MySqlAdapter implements AdapterInterface
 {
-
     /**
      * database stores the name of the current database.
      * @var string
@@ -82,9 +81,12 @@ class MySqlAdapter implements AdapterInterface
             //Always prepare the SQL statement first
             $query = $this->connection->prepare($sql);
 
-            if(preg_match('/\s*:(.+?)\s/', $sql)) {
+            if (preg_match('/\s*:(.+?)\s/', $sql)) {
                 //Add the binding variables to the query
-                $query->execute($bindingValues);
+                if($query->execute($bindingValues)) {
+                    return $this->getLastInsertID();
+                }
+
             } else {
                 $query->execute();
             }
@@ -104,7 +106,8 @@ class MySqlAdapter implements AdapterInterface
      * @param $tableName
      * @return array
      */
-    public function getMetaData($tableName) {
+    public function getMetaData($tableName)
+    {
         return array(
             'Fields' => $this->ShowColumns($tableName),
             'Indexes' => $this->ShowIndexes($tableName)
@@ -115,7 +118,8 @@ class MySqlAdapter implements AdapterInterface
      * @param $tableName
      * @return mixed
      */
-    public function ShowIndexes($tableName) {
+    public function ShowIndexes($tableName)
+    {
         return $this->exec("SHOW INDEXES FROM {$tableName}");
     }
 
@@ -123,7 +127,8 @@ class MySqlAdapter implements AdapterInterface
      * @param $tableName
      * @return mixed
      */
-    public function ShowColumns($tableName) {
+    public function ShowColumns($tableName)
+    {
         return $this->exec("SHOW COLUMNS FROM {$tableName}");
     }
 
@@ -152,28 +157,58 @@ class MySqlAdapter implements AdapterInterface
      *
      * @return mixed
      */
-    public function Select($table, $where = null,  $groupBy = null, $orderBy = null, $limit = 0) {
+    public function Select($table, $where = null, $groupBy = null, $orderBy = null, $limit = 0)
+    {
         $select = $this->queryFactory->newSelect();
         $select->cols(array('*'))
             ->from($table);
 
-        if(is_string($where) && strlen($where) > 0) {
+        if (is_string($where) && strlen($where) > 0) {
             $select->where($where);
+        } else if (is_array($where) && count($where) > 0) {
+            $select->where($this->convertWhereToString($where));
         }
 
-        if(is_array($groupBy)) {
+        if (is_array($groupBy)) {
             $select->groupBy($groupBy);
         }
 
-        if(is_array($orderBy)) {
+        if (is_array($orderBy)) {
             $select->orderBy($orderBy);
         }
 
-        if($limit > 0) {
+        if ($limit > 0) {
             $select->limit($limit);
         }
-
         return $this->exec($select->getStatement(), $where);
+    }
+
+    /**
+     * This function converts an array into a Where String.
+     *
+     * @param array $whereArray
+     * @param string $concatenationOperator
+     *
+     * @return bool|string
+     */
+    protected function convertWhereToString(array $whereArray = array(), $concatenationOperator = " AND ")
+    {
+        if (empty($whereArray)) {
+            return false;
+        }
+
+        $returnWhereStringToken = array();
+
+        //Check if the the keys is AND or OR, if yes then use that as the concat operator
+        foreach ($whereArray as $key => $val) {
+            if ((strtoupper($key) == 'OR' || strtoupper($key) == 'AND') && is_array($val) && !empty($val)) {
+                $returnWhereStringToken = array_merge($returnWhereStringToken, array($this->convertWhereToString($val, " " . trim($key) . " ")));
+            } else {
+                $returnWhereStringToken[] = "$key = '$val'";
+            }
+        }
+
+        return implode($concatenationOperator, $returnWhereStringToken);
     }
 
     /**
@@ -186,9 +221,100 @@ class MySqlAdapter implements AdapterInterface
      *
      * @return mixed
      */
-    public function getOneResult($table, $where = null,  $groupBy = null, $orderBy = null)
+    public function getOneResult($table, $where = null, $groupBy = null, $orderBy = null)
     {
         return $this->Select($table, $where, $groupBy, $orderBy, 1);
+    }
+
+    /**
+     * @ToDo: Implement the Where clause
+     *
+     * Updates the present data in the table.
+     *
+     * UPDATE [LOW_PRIORITY] [IGNORE] table_reference
+     *  SET col_name1={expr1|DEFAULT} [, col_name2={expr2|DEFAULT}] ...
+     *  [WHERE where_condition]
+     *  [ORDER BY ...]
+     *  [LIMIT row_count]
+     *
+     * @param $table
+     * @param array $data
+     * @param null $where
+     *
+     * @return bool|mixed
+     */
+    public function Update($table, $data = array(), $where = null)
+    {
+        if (empty($table) || empty($data)) {
+            return false;
+        }
+
+        //Get all the columns that are being set
+        $columns = array_keys($data);
+
+        //If the columns are not empty, proceed with the save
+        if (!empty($columns)) {
+            //Create a newInsert object
+            $update = $this->queryFactory->newUpdate();
+
+            //Set the table
+            $update->table($table);
+
+            //Set the columns
+            $update->cols($columns);
+
+            //Bind the values to be saved
+            $update->bindValues($data);
+
+            //return the insert id
+            return $this->exec($update->getStatement(), $update->getBindValues());
+
+        }
+
+        return false;
+    }
+
+    /**
+     * Saves the data in the table with a new id;
+     *
+     * INSERT INTO tbl_temp2 (fld_id)
+     *  SELECT tbl_temp1.fld_order_id
+     *  FROM tbl_temp1 WHERE tbl_temp1.fld_order_id > 100;
+     *
+     * @param $table
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function Insert($table, $data = array())
+    {
+        if (empty($table) || empty($data)) {
+            return false;
+        }
+
+        //Get all the columns that are being set
+        $columns = array_keys($data);
+
+        //If the columns are not empty, proceed with the save
+        if (!empty($columns)) {
+            //Create a newInsert object
+            $insert = $this->queryFactory->newInsert();
+
+            //Set the table
+            $insert->into($table);
+
+            //Set the columns
+            $insert->cols($columns);
+
+            //Bind the values to be saved
+            $insert->bindValues($data);
+
+            //return the insert id
+            return $this->exec($insert->getStatement(), $insert->getBindValues());
+
+        }
+
+        return false;
     }
 
     /**
@@ -198,7 +324,8 @@ class MySqlAdapter implements AdapterInterface
      */
     public function getLastInsertID()
     {
-        // TODO: Implement getLastInsertID() method.
+        $result = $this->exec('SELECT LAST_INSERT_ID() as `id`');
+        return (isset($result[0]['id'])) ? $result[0]['id'] : false;
     }
 
     /**
@@ -230,7 +357,6 @@ class MySqlAdapter implements AdapterInterface
     {
         // TODO: Implement rollback() method.
     }
-
     /**
      * Sets the cache on/off. As a result any query that is executed is first searched in the CACHING engine for a
      * quick result.

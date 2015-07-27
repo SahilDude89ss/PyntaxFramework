@@ -2,6 +2,7 @@
 
 namespace Pyntax\DAO\Bean;
 
+use Aura\SqlQuery\Exception;
 use Pyntax\Common\AdapterInterface;
 use Pyntax\Common\BeanInterface;
 use Pyntax\DAO\Bean\Column\Column;
@@ -48,10 +49,11 @@ class Bean implements BeanInterface
     protected $_primary_key = false;
 
     /**
-     * @param bool $tableName
-     * @param AdapterInterface $adapter
+     * @param bool|false $tableName
+     * @param AdapterInterface|null $adapter
+     * @param array $metaData
      */
-    public function __construct($tableName = false, AdapterInterface $adapter = null)
+    public function __construct($tableName = false, AdapterInterface $adapter = null, array $metaData = array())
     {
         if (!$tableName || is_null($adapter)) {
             return false;
@@ -176,7 +178,14 @@ class Bean implements BeanInterface
 
     public function save()
     {
-        // TODO: Implement save() method.
+        if(empty($this->__get($this->_primary_key)) && !empty($this->_columns))
+        {
+            return $this->_db_adapter->Insert($this->_table_name, $this->_columns);
+        }
+        else
+        {
+            die("Updated");
+        }
     }
 
     public function delete()
@@ -187,14 +196,53 @@ class Bean implements BeanInterface
     /**
      * This function is used to find data from the database.
      *
-     * @param $searchCriteria
+     * @param bool|false $searchCriteria
+     * @return mixed
      */
     public function find($searchCriteria = false)
     {
-        if(is_int($searchCriteria)) {
-            $primaryKeyValueForSearch  = intval($searchCriteria);
+        $result = array();
+
+        if (is_int($searchCriteria)) {
+            $primaryKeyValueForSearch = intval($searchCriteria);
+            $result = $this->_db_adapter->getOneResult($this->_table_name, array($this->_primary_key => $primaryKeyValueForSearch));
+        } else if (is_array($searchCriteria) && !empty($searchCriteria)) {
+            $result = $this->_db_adapter->Select($this->_table_name, $searchCriteria);
         }
 
-        var_dump($this->_db_adapter->Select($this->_table_name)); die;
+        return $this->convertSearchResultIntoBean($result);
+    }
+
+    /**
+     * @param array $resultArray
+     * @return $this
+     * @throws Exception
+     */
+    protected function convertSearchResultIntoBean(array $resultArray)
+    {
+        if (!empty($resultArray)) {
+            //Check if the count is more than 1 then its a list search
+            if (count($resultArray) == 1) {
+                $_rowData = $resultArray[0];
+
+                foreach ($_rowData as $key => $val) {
+                    $this->__set($key, $val);
+                }
+
+                return $this;
+            } else {
+                $returnResults = array();
+                foreach ($resultArray as $_row) {
+                    //The object is being cloned because this will save use from initiating another object of the same
+                    //Bean, which means it will load the data either from the db or cache.
+                    $clonedObject = clone $this;
+                    $returnResults[] = $clonedObject->convertSearchResultIntoBean(array($_row));
+                }
+
+                return $returnResults;
+            }
+        }
+
+        return false;
     }
 }

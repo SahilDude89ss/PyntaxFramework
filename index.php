@@ -38,7 +38,12 @@ $pdo = new PDO('mysql:host=localhost;dbname=simplemanager_db_v3;charset=utf8', '
 //var_dump($r);
 
 $beanFactory = new \Pyntax\DAO\Bean\BeanFactory(new \Pyntax\DAO\Adapter\MySqlAdapter($pdo));
-$bean = $beanFactory->getBean('users');
+$bean = $beanFactory->getBean('client_documents');
 
-var_dump($bean->find());
-die;
+
+$bean->client_document_types_id = 5;
+$bean->project_reference = "SAHLI-NEW-PROJET";
+$bean->projects_id = 2;
+$bean->users_id = 16;
+
+var_dump($bean->save()); die;
