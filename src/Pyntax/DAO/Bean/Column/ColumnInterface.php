@@ -17,8 +17,11 @@ interface ColumnInterface {
 
     public function getDroDownValues();
 
-    public function isNullAllowed();
+    public function isNullNotAllowed();
 
     public function isEmptyAllowed();
 
+    public function isPrimaryKey();
+
+    public function validate();
 }

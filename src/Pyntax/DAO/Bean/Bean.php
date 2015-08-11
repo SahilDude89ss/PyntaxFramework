@@ -179,17 +179,27 @@ class Bean implements BeanInterface
     public function save()
     {
         $primaryKeyValue = $this->__get($this->_primary_key);
-        if (empty($primaryKeyValue) && !empty($this->_columns)) {
-            $this->_db_adapter->Insert($this->_table_name, $this->_columns);
+
+        if (empty($primaryKeyValue) && !empty($this->_columns))
+        {
+            if ($this->validateColumns())
+            {
+                $id = $this->_db_adapter->Insert($this->_table_name, $this->_columns);
+                $this->__set($this->_primary_key, $id);
+                return $id;
+            }
+
         } else {
             return $this->_db_adapter->Update($this->_table_name, $this->_columns, array($this->_primary_key => $primaryKeyValue));
         }
+
+        return false;
     }
 
     public function delete()
     {
         $primaryKeyValue = $this->__get($this->_primary_key);
-        if(!empty($primaryKeyValue)) {
+        if (!empty($primaryKeyValue)) {
             return $this->_db_adapter->Delete($this->_table_name, array($this->_primary_key => $primaryKeyValue));
         }
 
@@ -247,5 +257,9 @@ class Bean implements BeanInterface
         }
 
         return false;
+    }
+
+    protected function validateColumns() {
+        var_dump($this->_column_definitions); die;
     }
 }
