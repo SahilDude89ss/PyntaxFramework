@@ -79,7 +79,7 @@ class Column implements ColumnInterface
      */
     public function isEmptyAllowed()
     {
-        return !$this->isNullAllowed();
+        return !$this->isNullNotAllowed();
     }
 
     /**
