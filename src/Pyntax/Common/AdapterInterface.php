@@ -110,4 +110,14 @@ interface AdapterInterface {
      * @return mixed
      */
     public function Update($table, $data = array(), $where = null);
+
+    /**
+     * Deletes the present data from the table
+     *
+     * @param $table
+     * @param null $where
+     *
+     * @return mixed
+     */
+    public function Delete($table, $where = null);
 }

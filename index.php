@@ -38,12 +38,26 @@ $pdo = new PDO('mysql:host=localhost;dbname=simplemanager_db_v3;charset=utf8', '
 //var_dump($r);
 
 $beanFactory = new \Pyntax\DAO\Bean\BeanFactory(new \Pyntax\DAO\Adapter\MySqlAdapter($pdo));
-$bean = $beanFactory->getBean('client_documents');
 
+//$bean = $beanFactory->getBean('clients');
+//$bean->find(2);
+//$bean->website = "http://www.wwe.com";
+//$bean->save();
+//
 
-$bean->client_document_types_id = 5;
-$bean->project_reference = "SAHLI-NEW-PROJET";
-$bean->projects_id = 2;
-$bean->users_id = 16;
+$clientBean = $beanFactory->getBean('clients');
 
-var_dump($bean->save()); die;
+//$clientBean->find(3);
+//echo $clientBean->first_name."\n";
+//$clientBean->website = "http://pyntax.net";
+//$clientBean->save();
+
+//$clientBean = $beanFactory->getBean('clients');
+//$clientBean->first_name = "Warren";
+//$clientBean->last_name = "Hastings";
+//$clientBean->email = 'SahilDude89ss@gmail.com';
+//$clientBean->users_id = 4;
+//$kid = $clientBean->save();
+
+$r = $clientBean->find(25);
+var_dump($clientBean->delete());

@@ -4,20 +4,83 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "538927aff299aafc7babe67f3cc2534a",
+    "hash": "6c650bada389fde2f90d73abcfa962b6",
     "packages": [
+        {
+            "name": "aura/html",
+            "version": "2.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/auraphp/Aura.Html.git",
+                "reference": "7f575f35765af41091b85b23a92b168ae0c5765f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/auraphp/Aura.Html/zipball/7f575f35765af41091b85b23a92b168ae0c5765f",
+                "reference": "7f575f35765af41091b85b23a92b168ae0c5765f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "aura/di": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "aura": {
+                    "type": "library",
+                    "config": {
+                        "common": "Aura\\Html\\_Config\\Common"
+                    }
+                },
+                "branch-alias": {
+                    "dev-develop-2": "2.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Aura\\Html\\": "src/",
+                    "Aura\\Html\\_Config\\": "config/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Aura.Html Contributors",
+                    "homepage": "https://github.com/auraphp/Aura.Html/contributors"
+                }
+            ],
+            "description": "Provides HTML escapers and helpers, including form input helpers.",
+            "homepage": "https://github.com/auraphp/Aura.Html",
+            "keywords": [
+                "Escape",
+                "escaper",
+                "escapers",
+                "escaping",
+                "form",
+                "helper",
+                "helpers",
+                "html",
+                "input"
+            ],
+            "time": "2015-03-27 17:31:31"
+        },
         {
             "name": "aura/sqlquery",
             "version": "2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/auraphp/Aura.SqlQuery.git",
-                "reference": "56540c0a3f63e50a40dc1ebeaa4f1bc556738d56"
+                "reference": "cc2ccaf856ca1de01c7cded031c78f8a3c0bcb3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/auraphp/Aura.SqlQuery/zipball/56540c0a3f63e50a40dc1ebeaa4f1bc556738d56",
-                "reference": "56540c0a3f63e50a40dc1ebeaa4f1bc556738d56",
+                "url": "https://api.github.com/repos/auraphp/Aura.SqlQuery/zipball/cc2ccaf856ca1de01c7cded031c78f8a3c0bcb3a",
+                "reference": "cc2ccaf856ca1de01c7cded031c78f8a3c0bcb3a",
                 "shasum": ""
             },
             "require": {
@@ -68,7 +131,7 @@
                 "sqlserver",
                 "update"
             ],
-            "time": "2015-04-21 00:20:58"
+            "time": "2015-06-04 18:02:31"
         },
         {
             "name": "aura/sqlschema",
@@ -130,16 +193,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.18.1",
+            "version": "v1.18.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "9f70492f44398e276d1b81c1b43adfe6751c7b7f"
+                "reference": "e8e6575abf6102af53ec283f7f14b89e304fa602"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/9f70492f44398e276d1b81c1b43adfe6751c7b7f",
-                "reference": "9f70492f44398e276d1b81c1b43adfe6751c7b7f",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e8e6575abf6102af53ec283f7f14b89e304fa602",
+                "reference": "e8e6575abf6102af53ec283f7f14b89e304fa602",
                 "shasum": ""
             },
             "require": {
@@ -183,7 +246,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-04-19 08:30:27"
+            "time": "2015-06-06 23:31:24"
         }
     ],
     "packages-dev": [],

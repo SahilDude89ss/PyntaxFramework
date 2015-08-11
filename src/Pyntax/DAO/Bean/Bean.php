@@ -178,19 +178,22 @@ class Bean implements BeanInterface
 
     public function save()
     {
-        if(empty($this->__get($this->_primary_key)) && !empty($this->_columns))
-        {
-            return $this->_db_adapter->Insert($this->_table_name, $this->_columns);
-        }
-        else
-        {
-            die("Updated");
+        $primaryKeyValue = $this->__get($this->_primary_key);
+        if (empty($primaryKeyValue) && !empty($this->_columns)) {
+            $this->_db_adapter->Insert($this->_table_name, $this->_columns);
+        } else {
+            return $this->_db_adapter->Update($this->_table_name, $this->_columns, array($this->_primary_key => $primaryKeyValue));
         }
     }
 
     public function delete()
     {
-        // TODO: Implement delete() method.
+        $primaryKeyValue = $this->__get($this->_primary_key);
+        if(!empty($primaryKeyValue)) {
+            return $this->_db_adapter->Delete($this->_table_name, array($this->_primary_key => $primaryKeyValue));
+        }
+
+        return false;
     }
 
     /**

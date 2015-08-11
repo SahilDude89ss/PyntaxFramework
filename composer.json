@@ -16,7 +16,8 @@
   "require": {
     "aura/sqlschema": "2.*@dev",
     "aura/sqlquery": "2.*@dev",
-    "twig/twig": "~1.0"
+    "twig/twig": "~1.0",
+    "aura/html": "^2.4"
   },
   "autoload": {
     "psr-4": {

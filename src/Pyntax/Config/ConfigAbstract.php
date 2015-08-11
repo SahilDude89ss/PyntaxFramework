@@ -15,7 +15,7 @@ abstract class ConfigAbstract implements ConfigInterface {
 
     public function __construct() {
         if(file_exists('config/config.php')) {
-            include_once "config/config.php";
+            $pyntax_config = include_once "config/config.php";
 
             $this->_config = $pyntax_config;
         }

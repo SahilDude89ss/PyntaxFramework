@@ -74,28 +74,46 @@ class MySqlAdapter implements AdapterInterface
     public function exec($sql = "", $bindingValues = array(), $insert = true)
     {
         //Check if the query is a SELECT|INSERT|UPDATE and :variation is available
-        if (preg_match("/.*(SELECT|INSERT|UPDATE|SHOW).*/", $sql)) {
+        if (preg_match("/.*(SELECT|INSERT|UPDATE|SHOW|DELETE).*/", $sql)) {
+
+            $result = false;
 
             $this->sql = $sql;
 
             //Always prepare the SQL statement first
             $query = $this->connection->prepare($sql);
 
-            if (preg_match('/\s*:(.+?)\s/', $sql)) {
+            if (preg_match('/\s*:(.+?)\s/', $sql))
+            {
+                if(is_array($bindingValues) && !empty($bindingValues))
+                {
+                    foreach($bindingValues as $key => $val)
+                    {
+                        //Clean the bindingValues. Check if they start with :
+                        if(!preg_match('/:.*/', $key))
+                        {
+                            $bindingValues[":".$key] = $val;
+                            unset($bindingValues[$key]);
+                        }
+                    }
+                }
+
                 //Add the binding variables to the query
-                if($query->execute($bindingValues)) {
+                if ($query->execute($bindingValues))
+                {
                     return $this->getLastInsertID();
                 }
 
             } else {
-                $query->execute();
+                $result = $query->execute();
             }
 
             if (preg_match('/.*(SELECT|SHOW).*/', $sql)) {
                 $query->setFetchMode(\PDO::FETCH_ASSOC);
+                return $query->fetchAll();
             }
 
-            return $query->fetchAll();
+            return $result;
         }
 
 
@@ -266,12 +284,46 @@ class MySqlAdapter implements AdapterInterface
             //Bind the values to be saved
             $update->bindValues($data);
 
+            if (is_string($where)) {
+                $update->where($where);
+            } else if (is_array($where) && !empty($where)) {
+                $update->where($this->convertWhereToString($where));
+            }
+
             //return the insert id
             return $this->exec($update->getStatement(), $update->getBindValues());
 
         }
 
         return false;
+    }
+
+    /**
+     * DELETE [LOW_PRIORITY] [QUICK] [IGNORE] FROM tbl_name
+     *  [WHERE where_condition]
+     *  [ORDER BY ...]
+     *  [LIMIT row_count]
+     *
+     * @param $table
+     * @param null $where
+     *
+     * @return bool
+     */
+    public function Delete($table, $where = null)
+    {
+        if(empty($table) || empty($where) && is_array($where)) {
+            return false;
+        }
+
+        $delete = $this->queryFactory->newDelete();
+
+        //Set the table from which the data is to be deleted
+        $delete->from($table);
+
+        //Set the where
+        $delete->where($this->convertWhereToString($where));
+
+        return $this->exec($delete->getStatement());
     }
 
     /**
@@ -292,11 +344,19 @@ class MySqlAdapter implements AdapterInterface
             return false;
         }
 
+        //Before we set the columns, make sure we only use the column that re meant to be filled.
+        foreach($data as $key => $val) {
+            if(empty($val)) {
+                unset($data[$key]);
+            }
+        }
+
         //Get all the columns that are being set
         $columns = array_keys($data);
 
         //If the columns are not empty, proceed with the save
-        if (!empty($columns)) {
+        if (!empty($columns))
+        {
             //Create a newInsert object
             $insert = $this->queryFactory->newInsert();
 
@@ -357,6 +417,7 @@ class MySqlAdapter implements AdapterInterface
     {
         // TODO: Implement rollback() method.
     }
+
     /**
      * Sets the cache on/off. As a result any query that is executed is first searched in the CACHING engine for a
      * quick result.
