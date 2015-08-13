@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sahil
- * Date: 14/05/15
- * Time: 9:47 PM
- */
 
 namespace Pyntax\Common;
 
