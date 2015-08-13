@@ -3,7 +3,6 @@ $pyntax_config['database'] = array(
     'server' => 'localhost',
     'user' => 'root',
     'password' => '',
-//    'port' => '3306',
     'database' => 'simplemanager_db_v3',
 );
 
