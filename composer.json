@@ -1,8 +1,8 @@
 {
   "name": "pyntax/pyntax",
   "type": "library",
-  "description": "A simple form creator",
-  "keywords": ["Form builder","DAO","ORM"],
+  "description": "Pyntax Framework is a ORM under construction.",
+  "keywords": ["Form builder","DAO","ORM", "HTML Generator"],
   "homepage": "http://github.com/SahilDude89ss/PyntaxFormBuilder",
   "license": "MIT",
   "authors": [
