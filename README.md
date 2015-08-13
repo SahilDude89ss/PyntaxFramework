@@ -34,3 +34,13 @@ id of the new Record, when updating it will return a boolean value.
 $bean-><Column Name> = 4;
 $id = $bean->save();
 ```
+
+## Find a Bean
+Once an empty bean is retrieved it can be used to search for data in the database.
+
+```
+$bean = \Pyntax\PyntaxDAO::getBean('<TABLE_NAME>');
+$bean->find(1);
+```
+
+This will load the data for record with primary key id 1 into the same bean.
