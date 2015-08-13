@@ -13,6 +13,24 @@ $pyntax_config['database'] = array(
     'server' => 'localhost',
     'user' => 'root',
     'password' => '',
-    'database' => 'simplemanager_db_v3',
+    'database' => 'Database Name',
 );
+```
+
+## Create a Bean
+
+In order to save or retrieve data from the database, we need to create a BEAN.
+
+```
+$bean = \Pyntax\PyntaxDAO::getBean('<TABLE_NAME>');
+```
+
+### Save a Bean
+Once the bean is retrieved, the new value can be set by using the following method. Once all the required data has
+been set, save() function is called to save the data in the database. When saving a new Bean save function will return
+id of the new Record, when updating it will return a boolean value.
+
+```
+$bean-><Column Name> = 4;
+$id = $bean->save();
 ```
