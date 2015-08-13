@@ -1,5 +1,5 @@
 {
-  "name": "pyntax/pyntax-framework",
+  "name": "pyntax/pyntax",
   "type": "library",
   "description": "A simple form creator",
   "keywords": ["Form builder","DAO","ORM"],
