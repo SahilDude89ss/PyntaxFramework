@@ -3,9 +3,8 @@
 namespace Pyntax\DAO\Bean;
 
 use Aura\SqlQuery\Exception;
-use Pyntax\Common\AdapterInterface;
-use Pyntax\Common\BeanInterface;
 use Pyntax\DAO\Bean\Column\Column;
+use Pyntax\DAO\Adapter\AdapterInterface;
 
 /**
  * Class Bean
@@ -259,7 +258,11 @@ class Bean implements BeanInterface
         return false;
     }
 
+    /**
+     * @ToDo: Implement Validation depending on the table validation
+     * @return bool
+     */
     protected function validateColumns() {
-        var_dump($this->_column_definitions); die;
+        return true;
     }
 }

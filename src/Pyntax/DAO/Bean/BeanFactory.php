@@ -1,16 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sahil
- * Date: 8/05/15
- * Time: 11:03 PM
- */
 
 namespace Pyntax\DAO\Bean;
+use Pyntax\DAO\Adapter\AdapterInterface;
 
-use Pyntax\Common\AdapterInterface;
-use Pyntax\Common\BeanFactoryInterface;
-
+/**
+ * Class BeanFactory
+ * @package Pyntax\DAO\Bean
+ */
 class BeanFactory implements BeanFactoryInterface {
 
     /**

@@ -8,9 +8,6 @@
 
 namespace Pyntax\DAO\Bean;
 
-
-use Pyntax\Common\BeanFactoryInterface;
-
 abstract class BeanFactoryAbstract implements BeanFactoryInterface {
 
     protected $dbConnection = null;

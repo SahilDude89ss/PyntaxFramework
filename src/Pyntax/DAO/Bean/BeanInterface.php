@@ -6,8 +6,7 @@
  * Time: 11:01 PM
  */
 
-namespace Pyntax\Common;
-
+namespace Pyntax\DAO\Bean;
 
 interface BeanInterface {
 

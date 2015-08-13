@@ -1,14 +1,11 @@
 <?php
+
+namespace Pyntax\Config;
+
 /**
- * Created by PhpStorm.
- * User: sahil
- * Date: 8/05/15
- * Time: 11:13 PM
+ * Interface ConfigInterface
+ * @package Pyntax\Config
  */
-
-namespace Pyntax\Common;
-
-
 interface ConfigInterface {
 
     public function get($configName);

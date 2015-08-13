@@ -1,7 +1,6 @@
 <?php
 
-namespace Pyntax\Common;
-
+namespace Pyntax\DAO\Adapter;
 
 interface AdapterInterface {
 

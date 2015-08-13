@@ -3,7 +3,6 @@
 namespace Pyntax\DAO\Adapter;
 
 use Aura\SqlQuery\QueryFactory;
-use Pyntax\Common\AdapterInterface;
 
 /**
  * Class MySqlAdapter
