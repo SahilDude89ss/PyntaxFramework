@@ -69,4 +69,4 @@ WHERE
     first_name = 'Sahil' AND last_name = 'Sharma' OR email = 'SahilSHARM'"
 
 If the search results returns more than one bean, it will return an array with the associated bean or if the search
-returns only on record it will return the object and also can be accessed from the base bean.
+returns only return one record it will return the object and also can be accessed from the base bean.
