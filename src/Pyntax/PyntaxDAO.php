@@ -11,6 +11,7 @@ namespace Pyntax;
 use Pyntax\Config\Config;
 use Pyntax\DAO\Adapter\MySqlAdapter;
 use Pyntax\DAO\Bean\BeanFactory;
+use Pyntax\Html\Element\Element;
 
 class PyntaxDAO
 {
@@ -26,6 +27,20 @@ class PyntaxDAO
         }
 
         return false;
+    }
+
+    /**
+     * @param $elementName
+     * @param $value
+     * @param array $attributes
+     *
+     * @return Element
+     */
+    public static function generateHtmlElement($elementName, $value, array $attributes = array()) {
+        $el = new Element($elementName);
+        $el->setValue($value);
+
+        return $el;
     }
 
     private static function loadFactory() {

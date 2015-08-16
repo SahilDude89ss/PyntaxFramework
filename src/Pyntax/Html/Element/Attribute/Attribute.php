@@ -24,7 +24,19 @@ class Attribute
     /**
      * @var bool
      */
-    protected $isAttributeArrayable = false;
+    protected $isAttributeArray = false;
+
+    /**
+     * @param bool|false $isAttributeArray
+     */
+    public function __construct($isAttributeArray = false)
+    {
+        $this->isAttributeArray = $isAttributeArray;
+
+        if ($this->isAttributeArray) {
+            $this->value = array();
+        }
+    }
 
     /**
      * @return string
@@ -51,10 +63,48 @@ class Attribute
     }
 
     /**
-     * @param string $value
+     * @param $value
+     * @param bool|false $arrayKey
      */
-    public function setValue($value)
+    public function setValue($value, $arrayKey = false)
     {
-        $this->value = $value;
+        if ($this->isAttributeArray == true) {
+            if (is_array($this->value)) {
+                $this->value[] = array(
+                    $arrayKey => $value
+                );
+            } else {
+                $this->value = array(
+                    $value
+                );
+            }
+        } else {
+            $this->value = $value;
+        }
+    }
+
+    /**
+     * @param bool|false $returnString
+     * @return string
+     */
+    public function generateHtml($returnString = false)
+    {
+        $value = "";
+        if ($this->isAttributeArray == true) {
+            $value = "{$this->getName()} = '";
+            foreach ($this->getValue() as $attributeValueString => $value) {
+                $value .= "{$attributeValueString} : {$value}; ";
+            }
+            $value .= "'";
+        } else {
+            $value = "{$this->getName()} = '{$this->getValue()}'";
+        }
+
+
+        if ($returnString) {
+            return $value;
+        } else {
+            echo $value;
+        }
     }
 }
