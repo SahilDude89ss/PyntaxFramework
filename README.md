@@ -44,3 +44,26 @@ $bean->find(1);
 ```
 
 This will load the data for record with primary key id 1 into the same bean.
+
+### Finding a Bean with AND and OR
+
+A Bean can be used to search for data using an Array. The following is an example of using AND and OR at the same time.
+
+```
+$clientBean->find(array('AND' => array(
+    'first_name' => 'Sahil',
+    'OR' => array(
+        'last_name' => 'Sharma',
+        'email' => 'SahilSHARM'
+    )
+)));
+````
+
+The above vode will generate the following query:
+
+SELECT
+    *
+FROM
+    `clients`
+WHERE
+    first_name = 'Sahil' AND last_name = 'Sharma' OR email = 'SahilSHARM'"
