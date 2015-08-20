@@ -81,6 +81,12 @@ class Element
         $this->attributes[] = $attribute;
     }
 
+    public function addAttributes(array $attributes = array()) {
+        foreach($attributes as $attribute => $value) {
+            $this->addAttribute($attributes, $value);
+        }
+    }
+
     public function generateHtml($returnString = false)
     {
         $elementString = "<" . $this->getTagName() . " ";
