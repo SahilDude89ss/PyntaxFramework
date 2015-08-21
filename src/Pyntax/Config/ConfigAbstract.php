@@ -5,6 +5,7 @@ namespace Pyntax\Config;
 /**
  * Class ConfigAbstract
  * @package Pyntax\Config
+ *
  */
 abstract class ConfigAbstract implements ConfigInterface {
 

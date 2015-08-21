@@ -17,6 +17,10 @@ class PyntaxDAO
 {
     static $factory = null;
 
+    /**
+     * @param $beanName
+     * @return bool
+     */
     public static function getBean($beanName) {
         if(is_null(self::$factory)) {
             self::loadFactory();
@@ -43,7 +47,11 @@ class PyntaxDAO
         return $el;
     }
 
-    private static function loadFactory() {
+    /**
+     * @return bool
+     */
+    private static function loadFactory()
+    {
         $config = new Config();
         $db_config = $config->get('database');
 

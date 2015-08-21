@@ -16,9 +16,7 @@ class Element
     /**
      * @var array
      */
-    protected $allowedTypes = array(
-        'input', 'a'
-    );
+    protected $allowedTypes = array();
 
     /**
      * @var string
@@ -48,7 +46,7 @@ class Element
      */
     public function __construct($tableElementName, $isTagClosable = false)
     {
-        if (!$this->validateElementType($tableElementName)) {
+        if (!empty($this->allowedTypes) && !$this->validateElementType($tableElementName)) {
             return false;
         }
 
