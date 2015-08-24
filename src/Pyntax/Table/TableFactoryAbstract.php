@@ -2,6 +2,7 @@
 
 namespace Pyntax\Table;
 
+use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\BeanInterface;
 
 /**
@@ -29,7 +30,15 @@ abstract class TableFactoryAbstract implements TableFactoryInterface
         $table = $this->generateTableHeader($bean->getDisplayColumns());
         $table .= $this->generateTableBody($searchResults, $bean->getDisplayColumns());
 
-        return "<table>{$table}</table>";
+        $_table_config = Config::readConfig('table_config');
+
+        $_class = "";
+
+        if(isset($_table_config['table']['class'])) {
+            $_class = $_table_config['table']['class'];
+        }
+
+        return "<table class='{$_class}'>{$table}</table>";
     }
 
     /**
