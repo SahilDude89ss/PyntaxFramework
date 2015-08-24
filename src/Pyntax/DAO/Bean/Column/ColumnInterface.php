@@ -24,4 +24,8 @@ interface ColumnInterface {
     public function isPrimaryKey();
 
     public function validate();
+
+    public function isColumnVisible();
+
+    public function getName();
 }

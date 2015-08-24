@@ -53,7 +53,7 @@ class PyntaxDAO
     private static function loadFactory()
     {
         $config = new Config();
-        $db_config = $config->get('database');
+        $db_config = $config->readConfig('database');
 
         $pdo = null;
 

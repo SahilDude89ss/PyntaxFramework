@@ -5,6 +5,7 @@ namespace Pyntax\DAO\Bean;
 use Aura\SqlQuery\Exception;
 use Pyntax\DAO\Bean\Column\Column;
 use Pyntax\DAO\Adapter\AdapterInterface;
+use Pyntax\DAO\Bean\Column\ColumnInterface;
 
 /**
  * Class Bean
@@ -209,9 +210,11 @@ class Bean implements BeanInterface
      * This function is used to find data from the database.
      *
      * @param bool|false $searchCriteria
-     * @return mixed
+     * @param bool|true $returnArray
+     *
+     * @return Bean
      */
-    public function find($searchCriteria = false)
+    public function find($searchCriteria = false, $returnArray = false)
     {
         $result = array();
 
@@ -222,7 +225,37 @@ class Bean implements BeanInterface
             $result = $this->_db_adapter->Select($this->_table_name, $searchCriteria);
         }
 
+        if($returnArray) {
+             return $result;
+        }
+
         return $this->convertSearchResultIntoBean($result);
+    }
+
+    /**
+     * @ToDo: Check if the config has a list of columns
+     * @return array
+     */
+    public function getDisplayColumns()
+    {
+        $_display_columns = array();
+
+        foreach($this->_column_definitions as $_column) {
+            if($_column instanceof ColumnInterface) {
+                if($_column->isColumnVisible()) {
+                    $_display_columns[] = $_column->getName();
+                }
+            }
+        }
+
+        return $_display_columns;
+    }
+
+    /**
+     * @return array
+     */
+    public function getColumns() {
+        return $this->_columns;
     }
 
     /**

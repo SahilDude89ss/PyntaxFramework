@@ -14,6 +14,7 @@ interface BeanInterface {
 
     public function delete();
 
-    public function find($searchCriteria = false);
+    public function find($searchCriteria = false, $returnArray = true);
 
+    public function getDisplayColumns();
 }

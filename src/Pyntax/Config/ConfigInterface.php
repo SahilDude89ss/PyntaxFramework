@@ -8,8 +8,8 @@ namespace Pyntax\Config;
  */
 interface ConfigInterface {
 
-    public function get($configName);
+    public static function readConfig($key);
 
-    public function set($configName, $value);
+    public static function writeConfig($key, $value);
 
 }

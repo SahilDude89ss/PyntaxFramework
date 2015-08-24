@@ -120,4 +120,23 @@ class Column implements ColumnInterface
         return true;
     }
 
+    /**
+     * @return bool
+     */
+    public function isColumnVisible()
+    {
+        $keyValue = $this->getValueFromDefinition('Key');
+        if($keyValue == "MUL" || $keyValue == "PRI") {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+
 }
