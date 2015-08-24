@@ -1,7 +1,7 @@
 <?php
 require_once('vendor/autoload.php');
 
-$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
+//$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
 
 //$clientBean->users_id = 4;
 //$clientBean->first_name = "Sahil";
@@ -27,6 +27,8 @@ $clientBean = \Pyntax\PyntaxDAO::getBean('clients');
 //$anchorTag = \Pyntax\PyntaxDAO::generateHtmlElement('a', 'Sahil SHARMA');
 //echo $anchorTag->generateHtml();
 
+$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
+
 $tableFactory = new Pyntax\Table\TableFactory;
 $tableFactory->generateTable($clientBean, array('AND' => array(
     'first_name' => 'Sahil',
@@ -34,4 +36,5 @@ $tableFactory->generateTable($clientBean, array('AND' => array(
         'last_name' => 'Sharma'
     )
 )));
+
 
