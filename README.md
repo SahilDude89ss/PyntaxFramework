@@ -57,16 +57,35 @@ $clientBean->find(array('AND' => array(
         'email' => 'SahilSHARM'
     )
 )));
-````
+```
 
 The above code will generate the following query:
 
+```
 SELECT
     *
 FROM
-    `clients`
+    clients
 WHERE
-    first_name = 'Sahil' AND last_name = 'Sharma' OR email = 'SahilSHARM'"
+    first_name = 'Sahil' AND last_name = 'Sharma' OR email = 'SahilSHARM'";
+```
 
 If the search results returns more than one bean, it will return an array with the associated bean or if the search
 returns only return one record it will return the object and also can be accessed from the base bean.
+
+## Generate a Table using TableFactory
+A bean and a find query can be used to generate a table. PyntaxDAO, for now automatically finds the fields which are eligible for displaying. It removes
+all id fields and only keep string fields.
+
+
+```
+$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
+
+$tableFactory = new Pyntax\Table\TableFactory;
+$tableFactory->generateTable($clientBean, array('AND' => array(
+    'first_name' => 'Sahil',
+    'OR' => array(
+        'last_name' => 'Sharma'
+    )
+)));
+```
