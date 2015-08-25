@@ -64,16 +64,20 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
             foreach ($attributes as $attribute_name => $attribute_value) {
                 if (is_string($attribute_name) && !empty($attribute_name)) {
                     if (is_string($attribute_value) && !empty($attribute_value)) {
-                        $attribute_string .= "{$attribute_name}='{$attribute_value}' ";
+                        $attribute_string .= "{$attribute_name}=\"{$attribute_value}\" ";
                     } else if (is_array($attribute_value) && !empty($attribute_value)) {
                         $_attribute_value = $this->generateAttributeForArrayValue($attribute_value);
                         if (!empty($_attribute_value)) {
-                            $attribute_string .= "{$attribute_name}='{$_attribute_value}' ";
+                            $attribute_string .= "{$attribute_name}=\"{$_attribute_value}\" ";
                         }
                     }
                 }
             }
+
+            return $attribute_string;
         }
+
+        return null;
     }
 
     /**
@@ -82,18 +86,18 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
      */
     protected function generateAttributeForArrayValue(array $attributeValueArray = array())
     {
-        if (!empty($attributeValue)) {
-            $attribute_string = "";
+        if (!empty($attributeValueArray)) {
+            $attribute_string = array();
 
             foreach($attributeValueArray as $_name => $_value) {
                 if (is_string($_name) && !empty($_name)) {
                     if (is_string($_value) && !empty($_value)) {
-                        $attribute_string .= "{$_name}:'{$_value}' ";
+                        $attribute_string[] = "{$_name}: {$_value}";
                     }
                 }
             }
 
-            return $attribute_string;
+            return implode(";", $attribute_string);
         }
 
         return null;

@@ -38,6 +38,6 @@ $tableFactory = new Pyntax\Table\TableFactory;
 //)));
 
 echo $tableFactory->generateTable($clientBean);
-
+//
 //$elementFactory = new Pyntax\Html\Element\ElementFactory();
-//echo $elementFactory->generateElementHtml('a' ,array('href' => 'http://www.google.com/', 'style' => array('top' => '100px', 'left' => '200px')));
+//echo $elementFactory->generateElementHtml('a' , array('href' => 'http://www.google.com/', 'style' => array('padding-top' => '100px', 'padding-left' => '200px')), "Go To google");
