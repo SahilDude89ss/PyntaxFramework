@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6c650bada389fde2f90d73abcfa962b6",
+    "hash": "b0119499c2fa0770e1a158e17e1d05b4",
     "packages": [
         {
             "name": "aura/html",
@@ -75,12 +75,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/auraphp/Aura.SqlQuery.git",
-                "reference": "cc2ccaf856ca1de01c7cded031c78f8a3c0bcb3a"
+                "reference": "b7040ec03b4f1db178e4a8bcf5ebbbb5c2374bcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/auraphp/Aura.SqlQuery/zipball/cc2ccaf856ca1de01c7cded031c78f8a3c0bcb3a",
-                "reference": "cc2ccaf856ca1de01c7cded031c78f8a3c0bcb3a",
+                "url": "https://api.github.com/repos/auraphp/Aura.SqlQuery/zipball/b7040ec03b4f1db178e4a8bcf5ebbbb5c2374bcb",
+                "reference": "b7040ec03b4f1db178e4a8bcf5ebbbb5c2374bcb",
                 "shasum": ""
             },
             "require": {
@@ -131,7 +131,7 @@
                 "sqlserver",
                 "update"
             ],
-            "time": "2015-06-04 18:02:31"
+            "time": "2015-07-15 16:15:44"
         },
         {
             "name": "aura/sqlschema",
@@ -193,25 +193,29 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.18.2",
+            "version": "v1.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "e8e6575abf6102af53ec283f7f14b89e304fa602"
+                "reference": "913d282caca9ee0e8d05940c6caa486d58810dd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e8e6575abf6102af53ec283f7f14b89e304fa602",
-                "reference": "e8e6575abf6102af53ec283f7f14b89e304fa602",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/913d282caca9ee0e8d05940c6caa486d58810dd4",
+                "reference": "913d282caca9ee0e8d05940c6caa486d58810dd4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.7"
             },
+            "require-dev": {
+                "symfony/debug": "~2.7",
+                "symfony/phpunit-bridge": "~2.7"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.18-dev"
+                    "dev-master": "1.21-dev"
                 }
             },
             "autoload": {
@@ -246,7 +250,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-06-06 23:31:24"
+            "time": "2015-08-24 09:51:18"
         }
     ],
     "packages-dev": [],

@@ -125,7 +125,7 @@ abstract class TableFactoryAbstract implements TableFactoryInterface
             }
         }
 
-        if (empty(trim($_id))) {
+        if (empty($_id)) {
             $_id = md5(time()) . "_" . $elTag;
         }
 

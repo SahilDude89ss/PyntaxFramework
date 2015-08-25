@@ -30,11 +30,12 @@ require_once('vendor/autoload.php');
 $clientBean = \Pyntax\PyntaxDAO::getBean('clients');
 
 $tableFactory = new Pyntax\Table\TableFactory;
-$tableFactory->generateTable($clientBean, array('AND' => array(
-    'first_name' => 'Sahil',
-    'OR' => array(
-        'last_name' => 'Sharma'
-    )
-)));
+//$tableFactory->generateTable($clientBean, array('AND' => array(
+//    'first_name' => 'Sahil',
+//    'OR' => array(
+//        'last_name' => 'Sharma'
+//    )
+//)));
+echo $tableFactory->generateTable($clientBean);
 
 

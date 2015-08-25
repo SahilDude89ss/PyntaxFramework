@@ -223,6 +223,8 @@ class Bean implements BeanInterface
             $result = $this->_db_adapter->getOneResult($this->_table_name, array($this->_primary_key => $primaryKeyValueForSearch));
         } else if (is_array($searchCriteria) && !empty($searchCriteria)) {
             $result = $this->_db_adapter->Select($this->_table_name, $searchCriteria);
+        } else if(empty($searchCriteria) || !$searchCriteria) {
+            $result = $this->_db_adapter->Select($this->_table_name);
         }
 
         if($returnArray) {
