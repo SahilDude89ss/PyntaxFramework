@@ -1,6 +1,10 @@
 <?php
 require_once('vendor/autoload.php');
 
+if(!empty($_POST)) {
+    var_dump($_POST); die;
+}
+
 //$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
 
 //$clientBean->users_id = 4;
@@ -27,9 +31,9 @@ require_once('vendor/autoload.php');
 //$anchorTag = \Pyntax\PyntaxDAO::generateHtmlElement('a', 'Sahil SHARMA');
 //echo $anchorTag->generateHtml();
 
-$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
+$clientBean = \Pyntax\PyntaxDAO::getBean('clients')->find(8);
 
-$tableFactory = new Pyntax\Table\TableFactory;
+//$tableFactory = new Pyntax\Table\TableFactory;
 //$tableFactory->generateTable($clientBean, array('AND' => array(
 //    'first_name' => 'Sahil',
 //    'OR' => array(
@@ -37,7 +41,20 @@ $tableFactory = new Pyntax\Table\TableFactory;
 //    )
 //)));
 
-echo $tableFactory->generateTable($clientBean);
-//
+//echo $tableFactory->generateTable($clientBean);
+
 //$elementFactory = new Pyntax\Html\Element\ElementFactory();
-//echo $elementFactory->generateElementHtml('a' , array('href' => 'http://www.google.com/', 'style' => array('padding-top' => '100px', 'padding-left' => '200px')), "Go To google");
+//echo $elementFactory->generateElementHtml('a' , array(
+//    'href' => 'http://www.google.com/',
+//    'style' => array(
+//        'padding-top' => '100px',
+//        'padding-left' => '200px'
+//    )
+//), "Go To google");
+
+//echo $elementFactory->generateElementHtml('input', array(
+//    'type' => 'text',
+//), "Sahil Sharma", false);
+
+$formFactory = new \Pyntax\Form\FormFactory();
+echo $formFactory->generateForm($clientBean);

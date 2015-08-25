@@ -13,12 +13,9 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
      */
     protected $_valid_html_elements = array(
         'a',
-        'input' => array(
-            "button", "checkbox", "color", "date", "datetime", "datetime-local", "email", "file", "hidden", "image",
-            "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url",
-            "week",
-        ),
-        'button'
+        'input',
+        'button',
+        'form'
     );
 
     /**
@@ -39,7 +36,7 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
             if($isClosable) {
                 $_el_html .= ">{$value}</{$tagName}>";
             } else {
-                $_el_html .= " value='{$value} />";
+                $_el_html .= " value='{$value}' />";
             }
 
             return $_el_html;
