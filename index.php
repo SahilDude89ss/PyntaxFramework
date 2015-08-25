@@ -36,6 +36,8 @@ $tableFactory = new Pyntax\Table\TableFactory;
 //        'last_name' => 'Sharma'
 //    )
 //)));
+
 echo $tableFactory->generateTable($clientBean);
 
-
+//$elementFactory = new Pyntax\Html\Element\ElementFactory();
+//echo $elementFactory->generateElementHtml('a' ,array('href' => 'http://www.google.com/', 'style' => array('top' => '100px', 'left' => '200px')));

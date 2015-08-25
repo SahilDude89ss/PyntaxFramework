@@ -17,4 +17,8 @@ interface BeanInterface {
     public function find($searchCriteria = false, $returnArray = false);
 
     public function getDisplayColumns();
+
+    public function getName();
+
+    public function getColumnDefinition();
 }

@@ -4,12 +4,13 @@ namespace Pyntax\Table;
 
 use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\BeanInterface;
+use Pyntax\Html\Element\ElementFactory;
 
 /**
  * Class TableFactoryAbstract
  * @package Pyntax\Table
  */
-abstract class TableFactoryAbstract implements TableFactoryInterface
+abstract class TableFactoryAbstract extends ElementFactory implements TableFactoryInterface
 {
     /**
      * @param BeanInterface $bean
@@ -101,38 +102,5 @@ abstract class TableFactoryAbstract implements TableFactoryInterface
     protected function generateTH($thData)
     {
         return $this->generateElement('th', $thData, true);
-    }
-
-    /**
-     * @param $elTag
-     * @param $elData
-     * @param $replaceNonStringCharacters
-     * @return string
-     */
-    protected function generateElement($elTag, $elData, $replaceNonStringCharacters = false)
-    {
-        $_th_data = $elData;
-        $_class = "";
-        $_id = "";
-
-        if (is_array($elData) && isset($elData['data'])) {
-            if (isset($thData['class']) && !empty($thData['class'])) {
-                $_class = $thData['class'];
-            }
-
-            if (isset($thData['id']) && !empty($thData['id'])) {
-                $_id = $thData['id'];
-            }
-        }
-
-        if (empty($_id)) {
-            $_id = md5(time()) . "_" . $elTag;
-        }
-
-        if ($replaceNonStringCharacters) {
-            $_th_data = strtoupper(str_replace("_", " ", $_th_data));
-        }
-
-        return "<{$elTag} class='{$_class}' id='{$_id}'>{$_th_data}</{$elTag}>";
     }
 }

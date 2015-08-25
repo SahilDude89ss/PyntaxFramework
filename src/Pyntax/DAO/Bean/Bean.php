@@ -300,4 +300,19 @@ class Bean implements BeanInterface
     protected function validateColumns() {
         return true;
     }
+
+    /**
+     * @return bool|false|String
+     */
+    public function getName() {
+        return $this->_table_name;
+    }
+
+    /**
+     * @return array
+     */
+    public function getColumnDefinition()
+    {
+        return $this->_column_definitions;
+    }
 }

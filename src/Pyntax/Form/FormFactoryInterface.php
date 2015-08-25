@@ -1,6 +1,7 @@
 <?php
 
 namespace Pyntax\Form;
+use Pyntax\DAO\Bean\BeanInterface;
 
 /**
  * Interface FormFactoryInterface
@@ -8,5 +9,12 @@ namespace Pyntax\Form;
  */
 interface FormFactoryInterface
 {
-    public function generateForm($returnString = false);
+    /**
+     * @param BeanInterface $bean
+     * @param bool|false $id
+     * @param bool|false $returnString
+     *
+     * @return mixed
+     */
+    public function generateForm(BeanInterface $bean, $id = false, $returnString = false);
 }
