@@ -152,7 +152,7 @@ class Bean implements BeanInterface
 
         foreach ($fieldsMetadata as $colDefinition) {
             if (isset($colDefinition['Field'])) {
-                $this->_column_definitions[] = new Column($colDefinition);
+                $this->_column_definitions[$colDefinition['Field']] = new Column($colDefinition);
                 $this->_columns[$colDefinition['Field']] = "";
             }
         }

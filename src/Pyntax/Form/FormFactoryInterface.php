@@ -11,10 +11,9 @@ interface FormFactoryInterface
 {
     /**
      * @param BeanInterface $bean
-     * @param bool|false $id
      * @param bool|false $returnString
      *
      * @return mixed
      */
-    public function generateForm(BeanInterface $bean, $id = false, $returnString = false);
+    public function generateForm(BeanInterface $bean, $returnString = false);
 }
