@@ -15,19 +15,19 @@ use Pyntax\Html\Element\Element;
 
 class PyntaxDAO
 {
-    static $factory = null;
+    static $BeanFactory = null;
 
     /**
      * @param $beanName
      * @return bool
      */
     public static function getBean($beanName) {
-        if(is_null(self::$factory)) {
+        if(is_null(self::$BeanFactory)) {
             self::loadFactory();
         }
 
-        if(self::$factory instanceof BeanFactory) {
-            return self::$factory->getBean($beanName);
+        if(self::$BeanFactory instanceof BeanFactory) {
+            return self::$BeanFactory->getBean($beanName);
         }
 
         return false;
@@ -65,9 +65,10 @@ class PyntaxDAO
         }
 
         if(!is_null($pdo)) {
-            self::$factory = new BeanFactory(new MySqlAdapter($pdo));
+            self::$BeanFactory = new BeanFactory(new MySqlAdapter($pdo));
             return true;
         }
+
 
         return false;
     }

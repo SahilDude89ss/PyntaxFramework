@@ -3,6 +3,7 @@
 namespace Pyntax\DAO\Adapter;
 
 use Aura\SqlQuery\QueryFactory;
+use Pyntax\Config\Config;
 
 /**
  * Class MySqlAdapter
@@ -82,24 +83,19 @@ class MySqlAdapter implements AdapterInterface
             //Always prepare the SQL statement first
             $query = $this->connection->prepare($sql);
 
-            if (preg_match('/\s*:(.+?)\s/', $sql))
-            {
-                if(is_array($bindingValues) && !empty($bindingValues))
-                {
-                    foreach($bindingValues as $key => $val)
-                    {
+            if (preg_match('/\s*:(.+?)\s/', $sql)) {
+                if (is_array($bindingValues) && !empty($bindingValues)) {
+                    foreach ($bindingValues as $key => $val) {
                         //Clean the bindingValues. Check if they start with :
-                        if(!preg_match('/:.*/', $key))
-                        {
-                            $bindingValues[":".$key] = $val;
+                        if (!preg_match('/:.*/', $key)) {
+                            $bindingValues[":" . $key] = $val;
                             unset($bindingValues[$key]);
                         }
                     }
                 }
 
                 //Add the binding variables to the query
-                if ($query->execute($bindingValues))
-                {
+                if ($query->execute($bindingValues)) {
                     return $this->getLastInsertID();
                 }
 
@@ -310,7 +306,7 @@ class MySqlAdapter implements AdapterInterface
      */
     public function Delete($table, $where = null)
     {
-        if(empty($table) || empty($where) && is_array($where)) {
+        if (empty($table) || empty($where) && is_array($where)) {
             return false;
         }
 
@@ -344,8 +340,8 @@ class MySqlAdapter implements AdapterInterface
         }
 
         //Before we set the columns, make sure we only use the column that re meant to be filled.
-        foreach($data as $key => $val) {
-            if(empty($val)) {
+        foreach ($data as $key => $val) {
+            if (empty($val)) {
                 unset($data[$key]);
             }
         }
@@ -354,8 +350,7 @@ class MySqlAdapter implements AdapterInterface
         $columns = array_keys($data);
 
         //If the columns are not empty, proceed with the save
-        if (!empty($columns))
-        {
+        if (!empty($columns)) {
             //Create a newInsert object
             $insert = $this->queryFactory->newInsert();
 
@@ -427,5 +422,30 @@ class MySqlAdapter implements AdapterInterface
     public function setCacheFacade($yesNo = false)
     {
         // TODO: Implement setCacheFacade() method.
+    }
+
+    /**
+     * @param $table
+     * @return bool|mixed
+     */
+    public function getForeignKeys($table)
+    {
+        $config = Config::readConfig('database');
+
+        if(isset($config['database'])) {
+            $database = $config['database'];
+
+            $SQL = "SELECT CONSTRAINT_NAME, TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_SCHEMA, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
+                  FROM information_schema.KEY_COLUMN_USAGE
+                  WHERE information_schema.KEY_COLUMN_USAGE.TABLE_NAME = '{$table}'
+                    AND information_schema.KEY_COLUMN_USAGE.TABLE_SCHEMA = '{$database}'
+                    AND (information_schema.KEY_COLUMN_USAGE.REFERENCED_TABLE_SCHEMA = '{$database}'
+                      AND information_schema.KEY_COLUMN_USAGE.REFERENCED_TABLE_NAME IS NOT NULL
+                      AND information_schema.KEY_COLUMN_USAGE.REFERENCED_COLUMN_NAME IS NOT NULL)";
+
+            return $this->exec($SQL);
+        }
+
+        return false;
     }
 }

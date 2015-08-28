@@ -84,6 +84,12 @@ interface AdapterInterface {
     public function getMetaData($tableName);
 
     /**
+     * @param $table
+     * @return mixed
+     */
+    public function getForeignKeys($table);
+
+    /**
      * Saves the data in the table with a new id;
      *
      * @param $table

@@ -3,6 +3,7 @@
 namespace Pyntax\DAO\Bean;
 
 use Aura\SqlQuery\Exception;
+use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\Column\Column;
 use Pyntax\DAO\Adapter\AdapterInterface;
 use Pyntax\DAO\Bean\Column\ColumnInterface;
@@ -48,6 +49,7 @@ class Bean implements BeanInterface
      */
     protected $_primary_key = false;
 
+
     /**
      * @param bool|false $tableName
      * @param AdapterInterface|null $adapter
@@ -63,6 +65,8 @@ class Bean implements BeanInterface
         $this->_table_name = $tableName;
 
         $this->loadMetaData();
+
+
     }
 
     /**
@@ -71,6 +75,12 @@ class Bean implements BeanInterface
      */
     private function processMetaData(array $metaData = null)
     {
+        $_orm_config = Config::readConfig('orm');
+
+        if(isset($_orm_config['load_related_beans']) && $_orm_config['load_related_beans'] == true) {
+            $foreignKeys = $this->_db_adapter->getForeignKeys($this->_table_name);
+        }
+
         if (is_null($metaData)) {
             return false;
         }
@@ -83,6 +93,10 @@ class Bean implements BeanInterface
         }
     }
 
+    /**
+     * @param array $indexesMetaData
+     * @return bool
+     */
     private function setIndexesDefinitions($indexesMetaData = array())
     {
         if (is_null($indexesMetaData)) {
@@ -207,6 +221,7 @@ class Bean implements BeanInterface
     }
 
     /**
+     * @ToDo: Load any related fields as beans.
      * This function is used to find data from the database.
      *
      * @param bool|false $searchCriteria
@@ -225,10 +240,6 @@ class Bean implements BeanInterface
             $result = $this->_db_adapter->Select($this->_table_name, $searchCriteria);
         } else if(empty($searchCriteria) || !$searchCriteria) {
             $result = $this->_db_adapter->Select($this->_table_name);
-        }
-
-        if($returnArray) {
-             return $result;
         }
 
         return $this->convertSearchResultIntoBean($result);

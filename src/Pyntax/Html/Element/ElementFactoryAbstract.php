@@ -21,6 +21,42 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
         'button'
     );
 
+
+//        //return "<{$elTag} class='{$_class}' id='{$_id}'>{$_element_data_value}</{$elTag}>";
+//        $loader = new \Twig_Loader_Array(array(
+//            'html_element_template' => "<{{elTag}} {% for attribute in attributes %}{{attribute.name}}='{{attribute.value}}'{% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}>{% else %}value='{{elDataValue}}' />{% endif %}"
+//        ));
+//
+//        $twig = new \Twig_Environment($loader);
+//        $inputText =  $twig->render('html_element_template', array(
+//            'elTag' => 'input',
+//            'attributes' => array(
+//                array(
+//                    'name' => 'type',
+//                    'value' => 'text'
+//                )
+//            ),
+//            'elTagClosable' => false,
+//            'elDataValue' => 'Sahil Sharma'
+//        ));
+//
+//        echo $twig->render('html_element_template', array(
+//            'elTag' => 'form',
+//            'attributes' => array(
+//                array(
+//                    'name' => 'type',
+//                    'value' => 'text'
+//                ),
+//                array(
+//                    'name' => 'method',
+//                    'value' => 'POST'
+//                ),
+//            ),
+//            'elTagClosable' => true,
+//            'elDataValue' => $inputText
+//        ));
+//        die;
+
     /**
      * @param $tagName
      * @param array $attributes
