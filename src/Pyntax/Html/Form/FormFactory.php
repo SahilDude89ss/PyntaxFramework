@@ -6,7 +6,7 @@
  * Time: 2:42 PM
  */
 
-namespace Pyntax\Form;
+namespace Pyntax\Html\Form;
 
 
 use Pyntax\DAO\Bean\BeanInterface;

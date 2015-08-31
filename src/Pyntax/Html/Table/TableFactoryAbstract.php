@@ -1,6 +1,6 @@
 <?php
 
-namespace Pyntax\Table;
+namespace Pyntax\Html\Table;
 
 use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\BeanInterface;

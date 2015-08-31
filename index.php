@@ -3,21 +3,21 @@ require_once('vendor/autoload.php');
 
 $clientBean = \Pyntax\PyntaxDAO::getBean('clients');
 
-if(!empty($_POST)) {
-    var_dump($_POST); die;
-}
+//if(!empty($_POST)) {
+//    var_dump($_POST); die;
+//}
 
-//$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
+$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
 
-//$clientBean->users_id = 4;
-//$clientBean->first_name = "Sahil";
-//$clientBean->last_name = "Sharma";
-//$clientBean->website = "pyntax.net";
-//$clientBean->save();
+$clientBean->users_id = 4;
+$clientBean->first_name = "Sahil";
+$clientBean->last_name = "Sharma";
+$clientBean->website = "pyntax.net";
+$clientBean->save();
 
-//$clientBean->website = "http://hello.world.com";
+$clientBean->website = "http://hello.world.com";
 
-//$clientBean->save();
+$clientBean->save();
 
 $r = $clientBean->find(array('AND' => array(
     'first_name' => 'Sahil',
@@ -73,5 +73,12 @@ var_dump($r); die;
 //    'type' => 'text',
 //), "Sahil Sharma", false);
 
-$formFactory = new \Pyntax\Form\FormFactory();
-echo $formFactory->generateForm($clientBean);
+//$formFactory = new \Pyntax\Form\FormFactory();
+//echo $formFactory->generateForm($clientBean);
+
+//$elementFactory = new \Pyntax\Html\Element\ElementFactory();
+//echo $elementFactory->generateElementHtml('h1', array(), "WELCOME");
+//echo "<pre>";
+//foreach($clientBean->getColumnDefinition() as $_column_definition) {
+//    var_dump($_column_definition->getHtmlElementType());
+//}

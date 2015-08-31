@@ -18,42 +18,6 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
         'form'
     );
 
-
-//        //return "<{$elTag} class='{$_class}' id='{$_id}'>{$_element_data_value}</{$elTag}>";
-//        $loader = new \Twig_Loader_Array(array(
-//            'html_element_template' => "<{{elTag}} {% for attribute in attributes %}{{attribute.name}}='{{attribute.value}}'{% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}>{% else %}value='{{elDataValue}}' />{% endif %}"
-//        ));
-//
-//        $twig = new \Twig_Environment($loader);
-//        $inputText =  $twig->render('html_element_template', array(
-//            'elTag' => 'input',
-//            'attributes' => array(
-//                array(
-//                    'name' => 'type',
-//                    'value' => 'text'
-//                )
-//            ),
-//            'elTagClosable' => false,
-//            'elDataValue' => 'Sahil Sharma'
-//        ));
-//
-//        echo $twig->render('html_element_template', array(
-//            'elTag' => 'form',
-//            'attributes' => array(
-//                array(
-//                    'name' => 'type',
-//                    'value' => 'text'
-//                ),
-//                array(
-//                    'name' => 'method',
-//                    'value' => 'POST'
-//                ),
-//            ),
-//            'elTagClosable' => true,
-//            'elDataValue' => $inputText
-//        ));
-//        die;
-
     /**
      * @param $tagName
      * @param array $attributes
@@ -111,6 +75,26 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
         }
 
         return null;
+    }
+
+    /**
+     * @param array $attributes
+     * @return array
+     */
+    protected function cleanUpAttributeValues(array $attributes = array()) {
+        $cleanedAttributes = array();
+
+        foreach($attributes as $key => $val) {
+            if(is_string($key)) {
+                if(is_string($val)) {
+                    $cleanedAttributes[$key] = $val;
+                } else if(is_array($val)) {
+                    $cleanedAttributes[$key] = $this->generateAttributeForArrayValue($val);
+                }
+            }
+        }
+
+        return $cleanedAttributes;
     }
 
     /**

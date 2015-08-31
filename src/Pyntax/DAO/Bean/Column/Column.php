@@ -138,5 +138,92 @@ class Column implements ColumnInterface
         return $this->name;
     }
 
+    /**
+     * data_type:
+     *
+     * BIT[(length)]
+     * | TINYINT[(length)] [UNSIGNED] [ZEROFILL]
+     * | SMALLINT[(length)] [UNSIGNED] [ZEROFILL]
+     * | MEDIUMINT[(length)] [UNSIGNED] [ZEROFILL]
+     * | INT[(length)] [UNSIGNED] [ZEROFILL]
+     * | INTEGER[(length)] [UNSIGNED] [ZEROFILL]
+     * | BIGINT[(length)] [UNSIGNED] [ZEROFILL]
+     * | REAL[(length,decimals)] [UNSIGNED] [ZEROFILL]
+     * | DOUBLE[(length,decimals)] [UNSIGNED] [ZEROFILL]
+     * | FLOAT[(length,decimals)] [UNSIGNED] [ZEROFILL]
+     * | DECIMAL[(length[,decimals])] [UNSIGNED] [ZEROFILL]
+     * | NUMERIC[(length[,decimals])] [UNSIGNED] [ZEROFILL]
+     * -----------------------------------------------------
+     * | DATE
+     * | TIME
+     * | TIMESTAMP
+     * | DATETIME
+     * | YEAR
+     * ----------------------------------------------------------
+     * | CHAR[(length)] [BINARY]
+     *      [CHARACTER SET charset_name] [COLLATE collation_name]
+     * | VARCHAR(length) [BINARY]
+     *      [CHARACTER SET charset_name] [COLLATE collation_name]
+     * -----------------------------------------------------
+     * | BINARY[(length)]
+     * | VARBINARY(length)
+     * | TINYBLOB
+     * | BLOB
+     * | MEDIUMBLOB
+     * | LONGBLOB
+     * ----------------------------------------------------------
+     * | TINYTEXT [BINARY]
+     *      [CHARACTER SET charset_name] [COLLATE collation_name]
+     * | TEXT [BINARY]
+     *      [CHARACTER SET charset_name] [COLLATE collation_name]
+     * | MEDIUMTEXT [BINARY]
+     *      [CHARACTER SET charset_name] [COLLATE collation_name]
+     * | LONGTEXT [BINARY]
+     *      [CHARACTER SET charset_name] [COLLATE collation_name]
+     * ----------------------------------------------------------
+     * | ENUM(value1,value2,value3,...)
+     *      [CHARACTER SET charset_name] [COLLATE collation_name]
+     * | SET(value1,value2,value3,...)
+     *      [CHARACTER SET charset_name] [COLLATE collation_name]
+     * | spatial_type
+     *
+     * @return array
+     */
+    public function getHtmlElementType() {
+        var_dump($this->definition['Type']);
+        if(preg_match('/.*(enum|set).*/', $this->definition['Type'])) {
+            $selectTag = array(
+                'elTag' => 'select',
+            );
 
+            $option_string = "";
+
+            if(preg_match('/.*enum.*/',$this->definition['Type'])) {
+                $option_string = str_replace("')","",str_replace("enum('","",$this->definition['Type']));
+            } else if(preg_match('/.*set.*/',$this->definition['Type'])) {
+                $option_string = str_replace("')","",str_replace("set('","",$this->definition['Type']));
+            }
+
+            if(!empty($option_string)) {
+                $optionArray = explode("','", $option_string);
+
+                if(is_array($optionArray)) {
+                    $selectTag['options'] = $optionArray;
+                }
+            }
+            return $selectTag;
+
+        } else if(preg_match('/.*(tinytext|textt|mediumtext|longtext).*/', $this->definition['Type'])) {
+            return array(
+                'elTag' => 'textarea'
+            );
+        } else {
+            return array(
+                'elTag' => 'input',
+                'attributes' => array(
+                    'type' => 'text'
+                )
+            );
+        }
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Pyntax\Form;
+namespace Pyntax\Html\Form;
 
 use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\Html\Element\ElementFactory;

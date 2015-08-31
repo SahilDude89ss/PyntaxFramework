@@ -6,7 +6,7 @@
  * Time: 7:43 PM
  */
 
-namespace Pyntax\Table;
+namespace Pyntax\Html\Table;
 
 
 use Pyntax\DAO\Bean\BeanInterface;
