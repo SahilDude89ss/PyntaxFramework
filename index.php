@@ -1,61 +1,43 @@
 <?php
 require_once('vendor/autoload.php');
+include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 
-$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
+//$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
 
 //if(!empty($_POST)) {
 //    var_dump($_POST); die;
 //}
 
-$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
-
-$clientBean->users_id = 4;
-$clientBean->first_name = "Sahil";
-$clientBean->last_name = "Sharma";
-$clientBean->website = "pyntax.net";
-$clientBean->save();
-
-$clientBean->website = "http://hello.world.com";
-
-$clientBean->save();
-
-$r = $clientBean->find(array('AND' => array(
-    'first_name' => 'Sahil',
-    'OR' => array(
-        'last_name' => 'Sharma'
-    )
-)), true);
-
-var_dump($r); die;
-
-//var_dump($clientBean->getDisplayColumns());
-
-//$anchorTag = \Pyntax\PyntaxDAO::generateHtmlElement('a', 'Sahil SHARMA');
-//echo $anchorTag->generateHtml();
-
-
-//$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
-
-//$tableFactory = new Pyntax\Table\TableFactory;
-////$tableFactory->generateTable($clientBean, array('AND' => array(
-////    'first_name' => 'Sahil',
-////    'OR' => array(
-////        'last_name' => 'Sharma'
-////    )
-////)));
+//$clientBean->users_id = 4;
+//$clientBean->first_name = "Sahil";
+//$clientBean->last_name = "Sharma";
+//$clientBean->website = "pyntax.net";
+//$clientBean->save();
 //
-//echo $tableFactory->generateTable($clientBean);
+//$clientBean->website = "http://hello.world.com";
 //
+//$clientBean->save();
+//
+//$r = $clientBean->find(array('AND' => array(
+//    'first_name' => 'Sahil',
+//    'OR' => array(
+//        'last_name' => 'Sharma'
+//    )
+//)), true);
+//
+//var_dump($r); die;
+
 
 //$clientBean = \Pyntax\PyntaxDAO::getBean('clients')->find(8);
 
-//$tableFactory = new Pyntax\Table\TableFactory;
+//$tableFactory = new \Pyntax\Html\Table\TableFactory();
 //$tableFactory->generateTable($clientBean, array('AND' => array(
 //    'first_name' => 'Sahil',
 //    'OR' => array(
 //        'last_name' => 'Sharma'
 //    )
 //)));
+
 
 //echo $tableFactory->generateTable($clientBean);
 

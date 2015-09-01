@@ -12,7 +12,7 @@ use Pyntax\DAO\Bean\Column\ColumnInterface;
  * Class Bean
  * @package Pyntax\DAO\Bean
  */
-class Bean implements BeanInterface
+class Bean extends Config implements BeanInterface
 {
     /**
      * @var array
@@ -65,8 +65,6 @@ class Bean implements BeanInterface
         $this->_table_name = $tableName;
 
         $this->loadMetaData();
-
-
     }
 
     /**
@@ -158,6 +156,9 @@ class Bean implements BeanInterface
         }
     }
 
+    /**
+     * @ToDo: Load meta data form Config
+     */
     private function loadMetaData()
     {
         $this->processMetaData($this->_db_adapter->getMetaData($this->_table_name));
@@ -242,15 +243,26 @@ class Bean implements BeanInterface
             $result = $this->_db_adapter->Select($this->_table_name);
         }
 
+        if($returnArray) {
+            return $result;
+        }
+
         return $this->convertSearchResultIntoBean($result);
     }
 
     /**
-     * @ToDo: Check if the config has a list of columns
      * @return array
      */
     public function getDisplayColumns()
     {
+        if(isset(Config::$_config['orm']['beans'][$this->_table_name]))
+        {
+            if(isset(Config::$_config['orm']['beans'][$this->_table_name]['visible_columns']))
+            {
+                return Config::$_config['orm']['beans'][$this->_table_name]['visible_columns'];
+            }
+        }
+
         $_display_columns = array();
 
         foreach($this->_column_definitions as $_column) {
@@ -260,6 +272,7 @@ class Bean implements BeanInterface
                 }
             }
         }
+
 
         return $_display_columns;
     }

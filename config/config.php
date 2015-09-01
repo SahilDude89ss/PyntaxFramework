@@ -8,12 +8,19 @@ Pyntax\Config\Config::writeConfig('database', array(
 
 Pyntax\Config\Config::writeConfig('orm', array(
     'load_related_beans' => true,
+    'beans' => array(
+        'clients' => array(
+            'visible_columns' => array(
+                'title', 'first_name', 'last_name', 'email'
+            )
+        )
+    )
 ));
 
 Pyntax\Config\Config::writeConfig('table_config', array(
     'table' => array(
-        'class' => 'table table-bordered',
-        'id' => 'tblSahilSharma'
+        'class' => 'table table-bordered table-hover',
+        'id' => 'example2'
     ),
     'dataTable' => false
 ));

@@ -34,12 +34,16 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
         $_table_config = Config::readConfig('table_config');
 
         $_class = "";
+        $_id = "";
 
         if(isset($_table_config['table']['class'])) {
             $_class = $_table_config['table']['class'];
         }
+        if(isset($_table_config['table']['id'])) {
+            $_id = $_table_config['table']['id'];
+        }
 
-        return "<table class='{$_class}'>{$table}</table>";
+        return "<table class='{$_class}' id='{$_id}'>{$table}</table>";
     }
 
     /**
