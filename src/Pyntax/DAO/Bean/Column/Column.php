@@ -190,7 +190,6 @@ class Column implements ColumnInterface
      * @return array
      */
     public function getHtmlElementType() {
-        var_dump($this->definition['Type']);
         if(preg_match('/.*(enum|set).*/', $this->definition['Type'])) {
             $selectTag = array(
                 'elTag' => 'select',

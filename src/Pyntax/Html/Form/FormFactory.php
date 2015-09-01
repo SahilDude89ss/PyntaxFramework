@@ -24,7 +24,7 @@ class FormFactory extends FormFactoryAbstract
     {
         $elementFactory = new ElementFactory();
 
-        $_columns_to_be_displayed = $bean->getDisplayColumns();
+        $_columns_to_be_displayed = $bean->getDisplayColumns('form');
 
         $_form_fields = "";
         foreach($_columns_to_be_displayed as $_column) {
@@ -44,5 +44,4 @@ class FormFactory extends FormFactoryAbstract
             'method' => 'post'
         ), $_form_fields, true);
     }
-
 }

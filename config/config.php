@@ -11,7 +11,9 @@ Pyntax\Config\Config::writeConfig('orm', array(
     'beans' => array(
         'clients' => array(
             'visible_columns' => array(
-                'title', 'first_name', 'last_name', 'email'
+                'list' => array(
+                    'title', 'first_name', 'last_name', 'email'
+                )
             )
         )
     )

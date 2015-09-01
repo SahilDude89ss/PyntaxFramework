@@ -251,15 +251,16 @@ class Bean extends Config implements BeanInterface
     }
 
     /**
+     * @param string $view
      * @return array
      */
-    public function getDisplayColumns()
+    public function getDisplayColumns($view = 'list')
     {
         if(isset(Config::$_config['orm']['beans'][$this->_table_name]))
         {
-            if(isset(Config::$_config['orm']['beans'][$this->_table_name]['visible_columns']))
+            if(isset(Config::$_config['orm']['beans'][$this->_table_name]['visible_columns'][$view]))
             {
-                return Config::$_config['orm']['beans'][$this->_table_name]['visible_columns'];
+                return Config::$_config['orm']['beans'][$this->_table_name]['visible_columns'][$view];
             }
         }
 

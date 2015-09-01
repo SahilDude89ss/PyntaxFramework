@@ -62,4 +62,11 @@ abstract class FormFactoryAbstract extends ElementFactory implements FormFactory
     {
         return isset(self::$_bean_meta_data[$_bean_name]) ? self::$_bean_meta_data[$_bean_name] : false;
     }
+
+    /**
+     * @param string $fieldName
+     */
+    protected function generateHtmlTemplateFieldContainer($fieldName = 'input') {
+
+    }
 }

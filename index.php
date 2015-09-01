@@ -1,8 +1,8 @@
 <?php
 require_once('vendor/autoload.php');
-include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
+//include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 
-//$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
+$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
 
 //if(!empty($_POST)) {
 //    var_dump($_POST); die;
@@ -55,7 +55,7 @@ include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 //    'type' => 'text',
 //), "Sahil Sharma", false);
 
-//$formFactory = new \Pyntax\Form\FormFactory();
+//$formFactory = new \Pyntax\Html\Form\FormFactory();
 //echo $formFactory->generateForm($clientBean);
 
 //$elementFactory = new \Pyntax\Html\Element\ElementFactory();
@@ -64,3 +64,11 @@ include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 //foreach($clientBean->getColumnDefinition() as $_column_definition) {
 //    var_dump($_column_definition->getHtmlElementType());
 //}
+
+$elementFactory = new \Pyntax\Html\Element\ElementFactory();
+
+if($clientBean instanceof \Pyntax\DAO\Bean\BeanInterface) {
+    foreach($clientBean->getColumnDefinition() as $_column) {
+        echo $elementFactory->generateElementByColumn($clientBean, $_column);
+    }
+}
