@@ -1,5 +1,5 @@
 #PyntaxFramework 
-##Everything you need for development
+Everything you need for development
 
 ## Installation
 ### Server Requirements
@@ -25,12 +25,12 @@ All of the configuration files for the Pyntax framework are stored in the config
 Edit confing/config.php to add database details.
 
 ```
-$pyntax_config['database'] = array(
+Pyntax\Config\Config::writeConfig('database', array(
     'server' => 'localhost',
     'user' => 'root',
     'password' => '',
-    'database' => 'Database Name',
-);
+    'database' => 'simplemanager_db_v3'
+));
 ```
 
 ### Usage 
