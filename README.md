@@ -1,8 +1,24 @@
-# Under Construction
-Pyntax Framework is an ORM under construction. It will have the following functionality.
-- Creating, Saving and Searching data in the database using beans.
-- Generating a Form based on the bean and columns defined in the database.
-- Generating a HTML based on the data returned after the search.
+#PyntaxFramework 
+##Everything you need for development
+
+## Installation
+### Server Requirements
+The Pyntax framework requires php version > 5.4.31.
+
+### Installing PyntaxFramework
+Pyntax utilizes Composer to manage is dependencies. So, before using PyntaxFramework, make sure you have Composer
+installed on your machine.
+
+```
+composer require pyntax/pyntax
+composer install
+```
+
+## Configuration
+
+### Basic Configuration
+All of the configuration files for the Pyntax framework are stored in the config folder. 
+
 
 ## Configure Database
 
@@ -17,6 +33,7 @@ $pyntax_config['database'] = array(
 );
 ```
 
+### Usage 
 ## Create a Bean
 
 In order to save or retrieve data from the database, we need to create a BEAN.
