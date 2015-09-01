@@ -20,28 +20,51 @@
 
     <section class="main-content">
       <h1>
-<a id="under-construction" class="anchor" href="#under-construction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Under Construction</h1>
+<a id="pyntaxframework" class="anchor" href="#pyntaxframework" aria-hidden="true"><span class="octicon octicon-link"></span></a>PyntaxFramework</h1>
 
-<p>Pyntax Framework is an ORM under construction. It will have the following functionality.</p>
+<p>Everything you need for development</p>
 
-<ul>
-<li>Creating, Saving and Searching data in the database using beans.</li>
-<li>Generating a Form based on the bean and columns defined in the database.</li>
-<li>Generating a HTML based on the data returned after the search.</li>
-</ul>
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a id="server-requirements" class="anchor" href="#server-requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Server Requirements</h3>
+
+<p>The Pyntax framework requires php version &gt; 5.4.31.</p>
+
+<h3>
+<a id="installing-pyntaxframework" class="anchor" href="#installing-pyntaxframework" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installing PyntaxFramework</h3>
+
+<p>Pyntax utilizes Composer to manage is dependencies. So, before using PyntaxFramework, make sure you have Composer
+installed on your machine.</p>
+
+<pre><code>composer require pyntax/pyntax
+composer install
+</code></pre>
+
+<h2>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<h3>
+<a id="basic-configuration" class="anchor" href="#basic-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Basic Configuration</h3>
+
+<p>All of the configuration files for the Pyntax framework are stored in the config folder. </p>
 
 <h2>
 <a id="configure-database" class="anchor" href="#configure-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configure Database</h2>
 
 <p>Edit confing/config.php to add database details.</p>
 
-<pre><code>$pyntax_config['database'] = array(
+<pre><code>Pyntax\Config\Config::writeConfig('database', array(
     'server' =&gt; 'localhost',
     'user' =&gt; 'root',
     'password' =&gt; '',
-    'database' =&gt; 'Database Name',
-);
+    'database' =&gt; 'simplemanager_db_v3'
+));
 </code></pre>
+
+<h3>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h3>
 
 <h2>
 <a id="create-a-bean" class="anchor" href="#create-a-bean" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create a Bean</h2>
