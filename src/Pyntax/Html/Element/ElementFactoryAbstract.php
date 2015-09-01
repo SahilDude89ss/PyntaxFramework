@@ -87,9 +87,15 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
         foreach($attributes as $key => $val) {
             if(is_string($key)) {
                 if(is_string($val)) {
-                    $cleanedAttributes[$key] = $val;
+                    $cleanedAttributes[] = array(
+                        'name' => $key,
+                        'value' => $val
+                    );
                 } else if(is_array($val)) {
-                    $cleanedAttributes[$key] = $this->generateAttributeForArrayValue($val);
+                    $cleanedAttributes[] = array(
+                        'name' => $key,
+                        'value' => $this->generateAttributeForArrayValue($val)
+                    );
                 }
             }
         }
