@@ -35,7 +35,7 @@ Pyntax\Config\Config::writeConfig('database', array(
 
 ### Usage 
 ## Bootloader
-The following code is required to added to the bootloader to make sure onload services are running for PyntaxDAO.
+The following code is need to be added to the bootloader of the application.
 
 ```
 \Pyntax\PyntaxDAO::run();
