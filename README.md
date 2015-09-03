@@ -34,6 +34,13 @@ Pyntax\Config\Config::writeConfig('database', array(
 ```
 
 ### Usage 
+## Bootloader
+The following code is required to added to the bootloader to make sure onload services are running for PyntaxDAO.
+
+```
+\Pyntax\PyntaxDAO::run();
+``` 
+
 ## Create a Bean
 
 In order to save or retrieve data from the database, we need to create a BEAN.
@@ -90,7 +97,29 @@ WHERE
 If the search results returns more than one bean, it will return an array with the associated bean or if the search
 returns only return one record it will return the object and also can be accessed from the base bean.
 
-## Generate a Table using TableFactory
+
+## Generate a Form  using a FormFactory and a Bean
+A Bean can be used to generate a form which can be used to save and update bean in the database.
+ 
+```
+/**
+ * This has to be added in the bootloader so the POST request can grabbed and the data can be saved to the database.
+ */
+\Pyntax\PyntaxDAO::run();
+
+//Load the bean
+$attachmentBean = \Pyntax\PyntaxDAO::getBean('attachments');
+
+//Generate the form
+$formFactory = new \Pyntax\Html\Form\FormFactory();
+echo $formFactory->generateForm($attachmentBean);
+
+```
+
+At the moment the form is bare bone Form with no CSS but that will come with future releases. The Form generator will 
+automatically remove the primary fields.
+
+## Generate a Table using TableFactory and a Bean
 A bean and a find query can be used to generate a table. PyntaxDAO, for now automatically finds the fields which are eligible for displaying. It removes
 all id fields and only keep string fields.
 
