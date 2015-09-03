@@ -103,7 +103,8 @@ A Bean can be used to generate a form which can be used to save and update bean 
  
 ```
 /**
- * This has to be added in the bootloader so the POST request can grabbed and the data can be saved to the database.
+ * This has to be added in the bootloader so the POST request can 
+ * grabbed and the data can be saved to the database.
  */
 \Pyntax\PyntaxDAO::run();
 
@@ -118,6 +119,20 @@ echo $formFactory->generateForm($attachmentBean);
 
 At the moment the form is bare bone Form with no CSS but that will come with future releases. The Form generator will 
 automatically remove the primary fields.
+
+The form will look as follows:
+
+```
+<form id='frm_attachments'method='post' > 
+    <input type='text'id='id_file_name'name='PyntaxDAO[attachments][file_name]'placeholder='file_name' value='' />
+    <input type='text'id='id_file_path'name='PyntaxDAO[attachments][file_path]'placeholder='file_path' value='' />
+    <input type='text'id='id_date_uploaded'name='PyntaxDAO[attachments][date_uploaded]'placeholder='date_uploaded' value='' />
+    <input type='text'id='id_file_type'name='PyntaxDAO[attachments][file_type]'placeholder='file_type' value='' />
+    <input type='hidden'name='PyntaxDAO[BeanName]' value='attachments' />
+    
+    <button type='Submit' > Save </button> 
+</form>
+```
 
 ## Generate a Table using TableFactory and a Bean
 A bean and a find query can be used to generate a table. PyntaxDAO, for now automatically finds the fields which are eligible for displaying. It removes
