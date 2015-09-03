@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+
+
 Pyntax\Config\Config::writeConfig('database', array(
     'server' => 'localhost',
     'user' => 'root',
@@ -51,15 +53,13 @@ Pyntax\Config\Config::writeConfig('table_config', array(
 ));
 
 Pyntax\Config\Config::writeConfig('form_config', array(
+    'capturePostAndSaveBean' => true,
     'Bean' => array(
         'clients' => array(
-            'user_id' => array(
-                'class' => 'selectQuery',
-                'id' => 'sltUniqueID',
-                'template' => array(
-                    "<select id='@_id_'>@_user_id_</select>"
-                )
-            )
         )
     )
+));
+
+Pyntax\Config\Config::writeConfig('template', array(
+    'html_element_template' => "<{{elTag}} {% for attribute in attributes %}{{attribute.name}}='{{attribute.value}}'{% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}>{% else %}value='{{elDataValue}}' />{% endif %}",
 ));

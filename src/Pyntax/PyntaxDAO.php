@@ -37,6 +37,31 @@ class PyntaxDAO
 {
     static $BeanFactory = null;
 
+    static $PostSaveBeanId = false;
+
+    public static function run() {
+        self::loadFactory();
+        self::capturePostAndSaveBean();
+    }
+
+    protected static function capturePostAndSaveBean()
+    {
+        $formConfig = Config::readConfig('form_config');
+
+        if(isset($formConfig['capturePostAndSaveBean']) && $formConfig['capturePostAndSaveBean'] ==  true) {
+            $beanName = isset($_POST['PyntaxDAO']['BeanName']) ? $_POST['PyntaxDAO']['BeanName'] : false;
+
+            if($beanName && isset($_POST['PyntaxDAO'][$beanName])) {
+                $bean = self::getBean($beanName);
+                foreach($_POST['PyntaxDAO'][$beanName] as $key => $val) {
+                    $bean->$key = $val;
+                }
+                $bean->users_id = 9;
+                self::$PostSaveBeanId = $bean->save();
+            }
+        }
+    }
+
     /**
      * @param $beanName
      * @return bool

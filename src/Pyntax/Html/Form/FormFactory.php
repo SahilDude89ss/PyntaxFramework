@@ -49,9 +49,15 @@ class FormFactory extends FormFactoryAbstract
             $_form_fields .= $elementFactory->generateElementHtml('input', array(
                 'type' => 'text',
                 'id' => 'id_'.$_column,
-                'name' => "PyntaxDAO[{$bean->getName()}][{$_column}]"
+                'name' => "PyntaxDAO[{$bean->getName()}][{$_column}]",
+                'placeholder' => $_column,
             ), $bean->$_column, false);
         }
+
+        $_form_fields .= $elementFactory->generateElementHtml('input', array(
+            'type' => 'hidden',
+            'name' => 'PyntaxDAO[BeanName]'
+        ), $bean->getName(), false);
 
         $_form_fields .= $elementFactory->generateElementHtml('button', array(
             'type' => 'Submit',

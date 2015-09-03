@@ -24,6 +24,7 @@
 
 namespace Pyntax\Html\Element;
 
+use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\Bean;
 use Pyntax\DAO\Bean\Column\Column;
 
@@ -47,11 +48,20 @@ class ElementFactory extends ElementFactoryAbstract
 
     protected function setupTwig()
     {
+        $_default_template = array(
+            'html_element_template' => "<{{elTag}} {% for attribute in attributes %}{{attribute.name}}='{{attribute.value}}'{% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}>{% else %}value='{{elDataValue}}' />{% endif %}",
+        );
+
+        $loadTemplatesFromConfig = Config::readConfig('template');
+        if(!empty($loadTemplatesFromConfig) && is_array($loadTemplatesFromConfig)) {
+            if(sizeof($loadTemplatesFromConfig) > 0) {
+                $loadTemplatesFromConfig = array_merge($_default_template, $loadTemplatesFromConfig);
+            }
+        }
+
         $this->_twig_environment = new \Twig_Environment(
             new \Twig_Loader_Array(
-                array(
-                    'html_element_template' => "<{{elTag}} {% for attribute in attributes %}{{attribute.name}}='{{attribute.value}}'{% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}>{% else %}value='{{elDataValue}}' />{% endif %}",
-                )
+                $loadTemplatesFromConfig
             )
         );
     }

@@ -362,4 +362,6 @@ class Bean extends Config implements BeanInterface
     {
         return $this->_column_definitions;
     }
+
+
 }
