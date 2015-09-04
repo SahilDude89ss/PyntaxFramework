@@ -46,6 +46,11 @@ class FormFactory extends FormFactoryAbstract
 
         $_form_fields = "";
         foreach($_columns_to_be_displayed as $_column) {
+            $_form_fields .= $elementFactory->generateElementHtml('label', array(
+                'for' => "PyntaxDAO[{$bean->getName()}][{$_column}]"
+            ), $_column, true);
+
+
             $_form_fields .= $elementFactory->generateElementHtml('input', array(
                 'type' => 'text',
                 'id' => 'id_'.$_column,

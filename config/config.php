@@ -28,7 +28,8 @@ Pyntax\Config\Config::writeConfig('database', array(
     'server' => 'localhost',
     'user' => 'root',
     'password' => '',
-    'database' => 'simplemanager_db_v3'
+//    'database' => 'simplemanager_db_v3'
+    'database' => 'TEST_AIIA_DB_IMPORT'
 ));
 
 Pyntax\Config\Config::writeConfig('orm', array(

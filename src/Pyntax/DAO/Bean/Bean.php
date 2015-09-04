@@ -363,5 +363,10 @@ class Bean extends Config implements BeanInterface
         return $this->_column_definitions;
     }
 
+    public function findQuery($queryString, $returnArray = false)
+    {
+        return $this->_db_adapter->exec($queryString);
+    }
+
 
 }
