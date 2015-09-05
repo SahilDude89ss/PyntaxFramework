@@ -67,6 +67,14 @@ composer install
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h3>
 
 <h2>
+<a id="bootloader" class="anchor" href="#bootloader" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bootloader</h2>
+
+<p>The following code is need to be added to the bootloader of the application.</p>
+
+<pre><code>\Pyntax\PyntaxDAO::run();
+</code></pre>
+
+<h2>
 <a id="create-a-bean" class="anchor" href="#create-a-bean" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create a Bean</h2>
 
 <p>In order to save or retrieve data from the database, we need to create a BEAN.</p>
@@ -124,7 +132,43 @@ WHERE
 returns only return one record it will return the object and also can be accessed from the base bean.</p>
 
 <h2>
-<a id="generate-a-table-using-tablefactory" class="anchor" href="#generate-a-table-using-tablefactory" aria-hidden="true"><span class="octicon octicon-link"></span></a>Generate a Table using TableFactory</h2>
+<a id="generate-a-form--using-a-formfactory-and-a-bean" class="anchor" href="#generate-a-form--using-a-formfactory-and-a-bean" aria-hidden="true"><span class="octicon octicon-link"></span></a>Generate a Form  using a FormFactory and a Bean</h2>
+
+<p>A Bean can be used to generate a form which can be used to save and update bean in the database.</p>
+
+<pre><code>/**
+ * This has to be added in the bootloader so the POST request can 
+ * grabbed and the data can be saved to the database.
+ */
+\Pyntax\PyntaxDAO::run();
+
+//Load the bean
+$attachmentBean = \Pyntax\PyntaxDAO::getBean('attachments');
+
+//Generate the form
+$formFactory = new \Pyntax\Html\Form\FormFactory();
+echo $formFactory-&gt;generateForm($attachmentBean);
+
+</code></pre>
+
+<p>At the moment the form is bare bone Form with no CSS but that will come with future releases. The Form generator will 
+automatically remove the primary fields.</p>
+
+<p>The form will look as follows:</p>
+
+<pre><code>&lt;form id='frm_attachments'method='post' &gt; 
+    &lt;input type='text'id='id_file_name'name='PyntaxDAO[attachments][file_name]'placeholder='file_name' value='' /&gt;
+    &lt;input type='text'id='id_file_path'name='PyntaxDAO[attachments][file_path]'placeholder='file_path' value='' /&gt;
+    &lt;input type='text'id='id_date_uploaded'name='PyntaxDAO[attachments][date_uploaded]'placeholder='date_uploaded' value='' /&gt;
+    &lt;input type='text'id='id_file_type'name='PyntaxDAO[attachments][file_type]'placeholder='file_type' value='' /&gt;
+    &lt;input type='hidden'name='PyntaxDAO[BeanName]' value='attachments' /&gt;
+
+    &lt;button type='Submit' &gt; Save &lt;/button&gt; 
+&lt;/form&gt;
+</code></pre>
+
+<h2>
+<a id="generate-a-table-using-tablefactory-and-a-bean" class="anchor" href="#generate-a-table-using-tablefactory-and-a-bean" aria-hidden="true"><span class="octicon octicon-link"></span></a>Generate a Table using TableFactory and a Bean</h2>
 
 <p>A bean and a find query can be used to generate a table. PyntaxDAO, for now automatically finds the fields which are eligible for displaying. It removes
 all id fields and only keep string fields.</p>
