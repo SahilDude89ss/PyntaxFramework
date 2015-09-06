@@ -36,11 +36,19 @@ abstract class ConfigAbstract implements ConfigInterface
      */
     public static $_config = array();
 
-    public function __construct()
-    {
+    /**
+     * @throws \Exception
+     */
+    public static function loadConfig() {
         if (file_exists('config/config.php')) {
             include_once "config/config.php";
+        } else {
+            throw new \Exception('config/config.php not found!');
         }
+    }
+
+    public function __construct() {
+        self::loadConfig();
     }
 
     /**

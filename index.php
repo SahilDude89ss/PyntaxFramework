@@ -1,9 +1,13 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+
+
 require_once('vendor/autoload.php');
 
 \Pyntax\PyntaxDAO::run();
-//include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 
+//include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 //$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
 
 //if(!empty($_POST)) {
@@ -68,7 +72,21 @@ require_once('vendor/autoload.php');
 //        echo $elementFactory->generateElementByColumn($clientBean, $_column);
 //    }
 //}
+//$clientBean = \Pyntax\PyntaxDAO::getBean('clients')->find(8);
+//$attachmentBean = \Pyntax\PyntaxDAO::getBean('attachments');
+//
+//$tableFactory = new \Pyntax\Html\Table\TableFactory();
+//echo $tableFactory->generateTable($attachmentBean);
+//
+//
+//$formFactory = new \Pyntax\Html\Form\FormFactory();
+//echo $formFactory->generateForm($attachmentBean);
 
-$attachmentBean = \Pyntax\PyntaxDAO::getBean('attachments');
+$bean = Pyntax\PyntaxDAO::getBean('employees');
+
+$tableFactory = new \Pyntax\Html\Table\TableFactory();
+echo $tableFactory->generateTable($bean);
+
+echo "<hr/>";
 $formFactory = new \Pyntax\Html\Form\FormFactory();
-echo $formFactory->generateForm($attachmentBean);
+echo $formFactory->generateForm($bean);
