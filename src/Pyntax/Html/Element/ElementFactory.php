@@ -57,6 +57,8 @@ class ElementFactory extends ElementFactoryAbstract
             if(sizeof($loadTemplatesFromConfig) > 0) {
                 $loadTemplatesFromConfig = array_merge($_default_template, $loadTemplatesFromConfig);
             }
+        } else {
+            $loadTemplatesFromConfig = $_default_template;
         }
 
         $this->_twig_environment = new \Twig_Environment(

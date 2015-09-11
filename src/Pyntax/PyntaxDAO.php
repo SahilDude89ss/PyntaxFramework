@@ -25,7 +25,8 @@
 namespace Pyntax;
 
 use Pyntax\Config\Config;
-use Pyntax\DAO\Adapter\MySqlAdapter;
+use Pyntax\DAO\Adapter\AdapterInterface;
+use Pyntax\DAO\Adapter\MySqlAdapter as DefaultMySqlAdapter;
 use Pyntax\DAO\Bean\BeanFactory;
 use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\Html\Element\Element;
@@ -37,17 +38,27 @@ use Pyntax\Html\Form\FormFactoryInterface;
  */
 class PyntaxDAO
 {
+    /**
+     * @var null
+     */
     static $BeanFactory = null;
 
     static $FormFactory = null;
 
+    /**
+     * @var bool
+     */
     static $PostSaveBeanId = false;
 
     public static function start() {
+        Config::loadConfig();
         self::loadFactory();
         self::capturePostAndSaveBean();
     }
 
+    /**
+     * @return bool
+     */
     protected static function capturePostAndSaveBean()
     {
         $formConfig = Config::readConfig('form');
@@ -62,23 +73,27 @@ class PyntaxDAO
                 }
                 $bean->users_id = 9;
                 self::$PostSaveBeanId = $bean->save();
+
+                return self::$PostSaveBeanId;
             }
         }
+
+        return false;
     }
 
     /**
      * @param $beanName
      * @return BeanInterface|boolean
      */
-    public static function getBean($beanName) {
-        if(is_null(self::$BeanFactory)) {
+    public static function getBean($beanName)
+    {
+        if (is_null(self::$BeanFactory)) {
             self::loadFactory();
         }
 
-        if(self::$BeanFactory instanceof BeanFactory) {
+        if (self::$BeanFactory instanceof BeanFactory) {
             return self::$BeanFactory->getBean($beanName);
         }
-
         return false;
     }
 
@@ -89,7 +104,8 @@ class PyntaxDAO
      *
      * @return Element
      */
-    public static function generateHtmlElement($elementName, $value, array $attributes = array()) {
+    public static function generateHtmlElement($elementName, $value, array $attributes = array())
+    {
         $el = new Element($elementName);
         $el->setValue($value);
 
@@ -116,24 +132,42 @@ class PyntaxDAO
 
     /**
      * @return bool
+     * @throws \Exception
      */
     private static function loadFactory()
     {
-        $config = new Config();
-        $db_config = $config->readConfig('database');
+        $db_config = Config::readConfig('database');
 
         $pdo = null;
 
-        if(!empty($db_config['server']) && !empty($db_config['database'])) {
+        if (!empty($db_config['server']) && !empty($db_config['database'])) {
             $user = (isset($db_config['user'])) ? $db_config['user'] : 'root';
             $password = (isset($db_config['password'])) ? $db_config['password'] : "";
 
-            $pdo = new \PDO('mysql:host='.$db_config['server'].';dbname='.$db_config['database'].';charset=utf8', $user, $password);
-        }
+            $pdo = new \PDO('mysql:host=' . $db_config['server'] . ';dbname=' . $db_config['database'] . ';charset=utf8', $user, $password);
 
-        if(!is_null($pdo)) {
-            self::$BeanFactory = new BeanFactory(new MySqlAdapter($pdo));
-            return true;
+            if (!is_null($pdo)) {
+                //load the MySqlAdapter from config.
+                $_core_config = Config::readConfig('core');
+
+                if (isset($_core_config['MySQLAdapter'])) {
+                    $mySqlAdapter = null;
+
+                    try {
+                        $mySqlAdapter = new $_core_config['MySQLAdapter']($pdo);
+                    } catch (\Exception $e) {
+                        throw $e;
+                    }
+
+                    if ($mySqlAdapter instanceof AdapterInterface) {
+                        //Do nothing
+                        self::$BeanFactory = new BeanFactory($mySqlAdapter);
+                    } else {
+                        self::$BeanFactory = new BeanFactory(new DefaultMySqlAdapter($pdo));
+                    }
+                }
+                return true;
+            }
         }
 
 
