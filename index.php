@@ -1,7 +1,8 @@
 <?php
 require_once('vendor/autoload.php');
 
-\Pyntax\PyntaxDAO::run();
+\Pyntax\PyntaxDAO::start();
+
 //include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 
 //$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
@@ -69,6 +70,5 @@ require_once('vendor/autoload.php');
 //    }
 //}
 
-$attachmentBean = \Pyntax\PyntaxDAO::getBean('attachments');
-$formFactory = new \Pyntax\Html\Form\FormFactory();
-echo $formFactory->generateForm($attachmentBean);
+$attachmentBean = \Pyntax\PyntaxDAO::getBean('clients');
+echo \Pyntax\PyntaxDAO::generateForm($attachmentBean);

@@ -53,7 +53,7 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
         $table = $this->generateTableHeader($bean->getDisplayColumns());
         $table .= $this->generateTableBody($searchResults, $bean->getDisplayColumns());
 
-        $_table_config = Config::readConfig('table_config');
+        $_table_config = Config::readConfig('table');
 
         $attributes = isset($_table_config['table']) && is_array($_table_config['table']) ? $_table_config['table'] : array();
 

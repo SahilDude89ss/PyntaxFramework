@@ -22,14 +22,11 @@
  * SOFTWARE.
  */
 
-
-
 Pyntax\Config\Config::writeConfig('database', array(
     'server' => 'localhost',
     'user' => 'root',
     'password' => '',
-//    'database' => 'simplemanager_db_v3'
-    'database' => 'TEST_AIIA_DB_IMPORT'
+    'database' => 'simplemanager_db_v3'
 ));
 
 Pyntax\Config\Config::writeConfig('orm', array(
@@ -41,11 +38,11 @@ Pyntax\Config\Config::writeConfig('orm', array(
                     'title', 'first_name', 'last_name', 'email'
                 )
             )
-        )
-    )
+        ),
+    ),
 ));
 
-Pyntax\Config\Config::writeConfig('table_config', array(
+Pyntax\Config\Config::writeConfig('table', array(
     'table' => array(
         'class' => 'table table-bordered table-hover',
         'id' => 'example2'
@@ -53,11 +50,20 @@ Pyntax\Config\Config::writeConfig('table_config', array(
     'dataTable' => false
 ));
 
-Pyntax\Config\Config::writeConfig('form_config', array(
+Pyntax\Config\Config::writeConfig('form', array(
     'capturePostAndSaveBean' => true,
     'Bean' => array(
         'clients' => array(
         )
+    ),
+    'form_element_in_container_template' => array(
+        'templateName' => 'html_element_template',
+        'data' => array(
+            'tagName' => 'div',
+            'attributes' => array(
+                'class' => 'form-group'
+            )
+        ),
     )
 ));
 

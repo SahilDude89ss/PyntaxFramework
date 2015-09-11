@@ -23,6 +23,7 @@
  */
 
 namespace Pyntax\Html\Form;
+use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\Html\Element\ElementFactory;
 
@@ -44,19 +45,35 @@ class FormFactory extends FormFactoryAbstract
 
         $_columns_to_be_displayed = $bean->getDisplayColumns('form');
 
+        $_form_config = Config::readConfig('form');
+
         $_form_fields = "";
+
         foreach($_columns_to_be_displayed as $_column) {
-            $_form_fields .= $elementFactory->generateElementHtml('label', array(
+            $_field_html = $elementFactory->generateElementHtml('label', array(
                 'for' => "PyntaxDAO[{$bean->getName()}][{$_column}]"
             ), $_column, true);
 
 
-            $_form_fields .= $elementFactory->generateElementHtml('input', array(
+            $_field_html .= $elementFactory->generateElementHtml('input', array(
                 'type' => 'text',
                 'id' => 'id_'.$_column,
                 'name' => "PyntaxDAO[{$bean->getName()}][{$_column}]",
                 'placeholder' => $_column,
             ), $bean->$_column, false);
+
+            if(isset($_form_config['form_element_in_container_template']['templateName'])
+                && isset($_form_config['form_element_in_container_template']['data']['tagName'])
+                && is_array($_form_config['form_element_in_container_template']['data']['attributes']))
+            {
+                $_fields_with_label = $elementFactory->generateElementHtml($_form_config['form_element_in_container_template']['data']['tagName'],
+                    is_array($_form_config['form_element_in_container_template']['data']['attributes']) ? $_form_config['form_element_in_container_template']['data']['attributes'] : array(),
+                $_field_html, true, $_form_config['form_element_in_container_template']['templateName']);
+
+                $_field_html = $_fields_with_label;
+            }
+
+            $_form_fields .= $_field_html;
         }
 
         $_form_fields .= $elementFactory->generateElementHtml('input', array(
@@ -68,9 +85,15 @@ class FormFactory extends FormFactoryAbstract
             'type' => 'Submit',
         ), 'Save');
 
-        echo $elementFactory->generateElementHtml('form', array(
+        $_element_html = $elementFactory->generateElementHtml('form', array(
             'id' => 'frm_'.$bean->getName(),
             'method' => 'post'
         ), $_form_fields, true);
+
+        if($returnString) {
+            return $_element_html;
+        } else {
+            echo $_element_html;
+        }
     }
 }

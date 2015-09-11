@@ -27,7 +27,9 @@ namespace Pyntax;
 use Pyntax\Config\Config;
 use Pyntax\DAO\Adapter\MySqlAdapter;
 use Pyntax\DAO\Bean\BeanFactory;
+use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\Html\Element\Element;
+use Pyntax\Html\Form\FormFactoryInterface;
 
 /**
  * Class PyntaxDAO
@@ -37,16 +39,18 @@ class PyntaxDAO
 {
     static $BeanFactory = null;
 
+    static $FormFactory = null;
+
     static $PostSaveBeanId = false;
 
-    public static function run() {
+    public static function start() {
         self::loadFactory();
         self::capturePostAndSaveBean();
     }
 
     protected static function capturePostAndSaveBean()
     {
-        $formConfig = Config::readConfig('form_config');
+        $formConfig = Config::readConfig('form');
 
         if(isset($formConfig['capturePostAndSaveBean']) && $formConfig['capturePostAndSaveBean'] ==  true) {
             $beanName = isset($_POST['PyntaxDAO']['BeanName']) ? $_POST['PyntaxDAO']['BeanName'] : false;
@@ -64,7 +68,7 @@ class PyntaxDAO
 
     /**
      * @param $beanName
-     * @return bool
+     * @return BeanInterface|boolean
      */
     public static function getBean($beanName) {
         if(is_null(self::$BeanFactory)) {
@@ -90,6 +94,24 @@ class PyntaxDAO
         $el->setValue($value);
 
         return $el;
+    }
+
+    public static function generateForm(BeanInterface $bean) {
+        if(is_null(self::$FormFactory)) {
+            self::loadFormFactory();
+        }
+
+        if(self::$FormFactory instanceof FormFactoryInterface) {
+            return self::$FormFactory->generateForm($bean);
+        }
+
+        return false;
+    }
+
+    private static function loadFormFactory() {
+        if(is_null(self::$FormFactory)) {
+            self::$FormFactory = new \Pyntax\Html\Form\FormFactory();
+        }
     }
 
     /**

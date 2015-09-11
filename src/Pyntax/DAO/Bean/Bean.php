@@ -296,7 +296,6 @@ class Bean extends Config implements BeanInterface
             }
         }
 
-
         return $_display_columns;
     }
 
