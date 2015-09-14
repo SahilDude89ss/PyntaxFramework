@@ -41,8 +41,6 @@ class FormFactory extends FormFactoryAbstract
      */
     public function generateForm(BeanInterface $bean, $returnString = false)
     {
-        $elementFactory = new ElementFactory();
-
         $_columns_to_be_displayed = $bean->getDisplayColumns('form');
 
         $_form_config = Config::readConfig('form');
@@ -50,12 +48,12 @@ class FormFactory extends FormFactoryAbstract
         $_form_fields = "";
 
         foreach($_columns_to_be_displayed as $_column) {
-            $_field_html = $elementFactory->generateElementHtml('label', array(
+            $_field_html = $this->generateElementHtml('label', array(
                 'for' => "PyntaxDAO[{$bean->getName()}][{$_column}]"
             ), $_column, true);
 
 
-            $_field_html .= $elementFactory->generateElementHtml('input', array(
+            $_field_html .= $this->generateElementHtml('input', array(
                 'type' => 'text',
                 'id' => 'id_'.$_column,
                 'name' => "PyntaxDAO[{$bean->getName()}][{$_column}]",
@@ -66,7 +64,7 @@ class FormFactory extends FormFactoryAbstract
                 && isset($_form_config['form_element_in_container_template']['data']['tagName'])
                 && is_array($_form_config['form_element_in_container_template']['data']['attributes']))
             {
-                $_fields_with_label = $elementFactory->generateElementHtml($_form_config['form_element_in_container_template']['data']['tagName'],
+                $_fields_with_label = $this->generateElementHtml($_form_config['form_element_in_container_template']['data']['tagName'],
                     is_array($_form_config['form_element_in_container_template']['data']['attributes']) ? $_form_config['form_element_in_container_template']['data']['attributes'] : array(),
                 $_field_html, true, $_form_config['form_element_in_container_template']['templateName']);
 
@@ -76,16 +74,16 @@ class FormFactory extends FormFactoryAbstract
             $_form_fields .= $_field_html;
         }
 
-        $_form_fields .= $elementFactory->generateElementHtml('input', array(
+        $_form_fields .= $this->generateElementHtml('input', array(
             'type' => 'hidden',
             'name' => 'PyntaxDAO[BeanName]'
         ), $bean->getName(), false);
 
-        $_form_fields .= $elementFactory->generateElementHtml('button', array(
+        $_form_fields .= $this->generateElementHtml('button', array(
             'type' => 'Submit',
         ), 'Save');
 
-        $_element_html = $elementFactory->generateElementHtml('form', array(
+        $_element_html = $this->generateElementHtml('form', array(
             'id' => 'frm_'.$bean->getName(),
             'method' => 'post'
         ), $_form_fields, true);
