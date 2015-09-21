@@ -23,7 +23,7 @@
  */
 
 namespace Pyntax\Html\Form;
-
+use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\Html\Element\ElementFactory;
 

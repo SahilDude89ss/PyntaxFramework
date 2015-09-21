@@ -23,7 +23,6 @@
  */
 
 namespace Pyntax\Html\Table;
-
 use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\Html\Element\ElementFactory;
@@ -57,7 +56,7 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
 
         $attributes = isset($_table_config['table']) && is_array($_table_config['table']) ? $_table_config['table'] : array();
 
-        return $this->generateElementHtml('table',$attributes, $table);
+        return $this->generateElementHtml('table', $attributes, $table);
     }
 
     /**
@@ -66,17 +65,17 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
      */
     public function generateTableHeader($tableColumns = array())
     {
-        $_table_header = "\n<thead>\n\t<tr>";
+        $_table_header_data = "";
 
         if (!empty($tableColumns)) {
             foreach ($tableColumns as $tableColumn) {
-                $_table_header .= $this->generateTH($tableColumn);
+                $_table_header_data .= $this->generateTH($tableColumn);
             }
         }
 
-        $_table_header .= "\t\n</tr>\n</thead>";
+        $_table_header = $this->generateTR($_table_header_data);
 
-        return $_table_header;
+        return $this->generateElementHtml('thead', array(), $_table_header, true);
     }
 
     /**
@@ -87,38 +86,49 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
      */
     public function generateTableBody(array $tableData = array(), $visibleColumns = array())
     {
-        $_table_body = "<tbody>";
+        $_table_body = "";
 
         if (!empty($tableData)) {
             foreach ($tableData as $_row) {
-                $_table_body .= "<tr>";
+                $_tr_data = "";
                 foreach ($visibleColumns as $key => $_column) {
-                    $_table_body .= $this->generateTD($_row[$_column]);
+                    $_tr_data .= $this->generateTD($_row[$_column]);
                 }
-                $_table_body .= "</tr>";
+                $_table_body .= $this->generateTR($_tr_data);
             }
         }
 
-        $_table_body .= "</tbody>";
+        return $this->generateElementHtml('tbody', array(), $_table_body, true);
+    }
 
-        return $_table_body;
+    /**
+     * @param $rowData
+     * @param array $rowAttributes
+     * @return bool|string
+     */
+    protected function generateTR($rowData, $rowAttributes = array()) {
+        return $this->generateElementHtml('tr', $rowAttributes, $rowData, true);
     }
 
     /**
      * @param $tdData
-     * @return string
+     * @param array $attributes
+     * @return bool|string
      */
-    protected function generateTD($tdData)
+    protected function generateTD($tdData, $attributes = array())
     {
-        return $this->generateElement('td', $tdData);
+        return $this->generateElementHtml('td', $attributes, $tdData, true);
     }
 
     /**
      * @param $thData
-     * @return string
+     * @param array $attributes
+     *
+     * @return bool|string
      */
-    protected function generateTH($thData)
+    protected function generateTH($thData, $attributes = array())
     {
-        return $this->generateElement('th', $thData, true);
+        $thData = strtoupper(str_replace("_", " ", $thData));
+        return $this->generateElementHtml('th', $attributes, $thData, true);
     }
 }

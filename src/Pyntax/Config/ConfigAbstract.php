@@ -52,6 +52,17 @@ abstract class ConfigAbstract implements ConfigInterface
     }
 
     /**
+     * @param array $array
+     */
+    public static function writeConfigArray(array $array = array()) {
+        if(!empty($array)) {
+            foreach($array as $key => $val) {
+                self::writeConfig($key, $val);
+            }
+        }
+    }
+
+    /**
      * @param $key
      * @param $val
      */

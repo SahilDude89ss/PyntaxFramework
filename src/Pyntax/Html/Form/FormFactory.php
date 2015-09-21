@@ -25,7 +25,6 @@
 namespace Pyntax\Html\Form;
 use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\BeanInterface;
-use Pyntax\Html\Element\ElementFactory;
 
 /**
  * Class FormFactory
@@ -42,12 +41,11 @@ class FormFactory extends FormFactoryAbstract
     public function generateForm(BeanInterface $bean, $returnString = false)
     {
         $_columns_to_be_displayed = $bean->getDisplayColumns('form');
-
         $_form_config = Config::readConfig('form');
-
         $_form_fields = "";
 
-        foreach($_columns_to_be_displayed as $_column) {
+        foreach($_columns_to_be_displayed as $_column)
+        {
             $_field_html = $this->generateElementHtml('label', array(
                 'for' => "PyntaxDAO[{$bean->getName()}][{$_column}]"
             ), $_column, true);

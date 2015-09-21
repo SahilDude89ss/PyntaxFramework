@@ -5,7 +5,7 @@ ini_set('display_errors', true);
 require_once('vendor/autoload.php');
 \Pyntax\PyntaxDAO::start();
 
-//include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
+include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 
 //include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 //$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
@@ -34,45 +34,29 @@ require_once('vendor/autoload.php');
 //var_dump($r); die;
 
 
-//$clientBean = \Pyntax\PyntaxDAO::getBean('clients')->find(8);
-
+//$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
 //$tableFactory = new \Pyntax\Html\Table\TableFactory();
-//$tableFactory->generateTable($clientBean, array('AND' => array(
-//    'first_name' => 'Sahil',
-//    'OR' => array(
-//        'last_name' => 'Sharma'
-//    )
-//)));
-
-
+////$tableFactory->generateTable($clientBean, array('AND' => array(
+////    'first_name' => 'Sahil',
+////    'OR' => array(
+////        'last_name' => 'Sharma'
+////    )
+////)));
+//
+//
 //echo $tableFactory->generateTable($clientBean);
 
 
-//$elementFactory = new Pyntax\Html\Element\ElementFactory();
-//echo $elementFactory->generateElementHtml('a' , array(
-//    'href' => 'http://www.google.com/',
-//    'style' => array(
-//        'padding-top' => '100px',
-//        'padding-left' => '200px'
-//    )
-//), "Go To google");
-
-//echo $elementFactory->generateElementHtml('input', array(
-//    'type' => 'text',
-//), "Sahil Sharma", false);
-
-//$formFactory = new \Pyntax\Html\Form\FormFactory();
-//echo $formFactory->generateForm($clientBean);
 
 
-//$elementFactory = new \Pyntax\Html\Element\ElementFactory();
+//$attachmentBean = \Pyntax\PyntaxDAO::getBean('attachments');
 //
-//if($clientBean instanceof \Pyntax\DAO\Bean\BeanInterface) {
-//    foreach($clientBean->getColumnDefinition() as $_column) {
-//        echo $elementFactory->generateElementByColumn($clientBean, $_column);
+//$elementFactory = new \Pyntax\Html\Element\ElementFactory();
+//if($attachmentBean instanceof \Pyntax\DAO\Bean\BeanInterface) {
+//    foreach($attachmentBean->getColumnDefinition() as $_column) {
+//        echo $elementFactory->generateElementByColumn($attachmentBean, $_column);
 //    }
 //}
 
-$attachmentBean = \Pyntax\PyntaxDAO::getBean('attachments');
-$formFactory = new \Pyntax\Html\Form\FormFactory();
-echo $formFactory->generateForm($attachmentBean);
+//$formFactory = new \Pyntax\Html\Form\FormFactory();
+//echo $formFactory->generateForm($attachmentBean);
