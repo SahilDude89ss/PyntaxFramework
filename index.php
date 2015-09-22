@@ -48,7 +48,7 @@ require_once('vendor/autoload.php');
 
 
 
-$attachmentBean = \Pyntax\PyntaxDAO::getBean('users');
+$attachmentBean = \Pyntax\PyntaxDAO::getBean('attachments');
 //
 //$elementFactory = new \Pyntax\Html\Element\ElementFactory();
 //if($attachmentBean instanceof \Pyntax\DAO\Bean\BeanInterface) {

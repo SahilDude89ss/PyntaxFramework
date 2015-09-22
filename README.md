@@ -117,125 +117,89 @@ echo $formFactory->generateForm($attachmentBean);
 
 ```
 
-At the moment the form is bare bone Form with no CSS but that will come with future releases. The Form generator will 
-automatically remove the primary fields.
+### Config for Forms
+```
+Pyntax\Config\Config::writeConfig('form', array(
+    'capturePostAndSaveBean' => true,
+    'convertColumnNamesIntoLabel' => true,
+    'showLabels' => true,
+    'label_container' => array(
+        'tagName' => 'div',
+        'attributes' => array(
+            'class' => 'col-sm-2 control-label'
+        )
+    ),
+    'element_container' => array(
+        'tagName' => 'div',
+        'attributes' => array(
+            'class' => 'col-sm-10'
+        )
+    ),
+    'from_container_template' => array(
+        'data' => array(
+            'tagName' => 'div',
+            'attributes' => array(
+                'class' => 'box box-primary'
+            )
+        )
+    ),
+    'form_column' => array(
+        'nbr_of_columns' => 2,
+        'column_element_template' => array(
+            'tagName' =>' div',
+            'attributes' => array(
+                'class' => 'row'
+            )
+        ),
+        'container_element_template' => array(
+            'tagName' =>'div',
+            'attributes' => array(
+                'class' => 'col-md-6'
+            )
+        ),
+
+    ),
+    'form_element_container_template' => array(
+        'templateName' => 'html_element_template',
+        'data' => array(
+            'tagName' => 'div',
+            'attributes' => array(
+                'class' => 'form-group'
+            )
+        ),
+    )
+));
+```
+
+The Form generator will automatically remove the primary fields. The above config array is used to set all the HTML 
+properties of the form.
 
 The form will look as follows:
 
 ```
-<div class="box box-primary">
-   <form id="frm_users" method="post" class="form-horizontal">
-      <div class="col-md-6">
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][title]"> Title </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_title" name="PyntaxDAO[users][title]" placeholder="title" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][first_name]"> First Name </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_first_name" name="PyntaxDAO[users][first_name]" placeholder="first_name" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][last_name]"> Last Name </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_last_name" name="PyntaxDAO[users][last_name]" placeholder="last_name" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][abn]"> Abn </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_abn" name="PyntaxDAO[users][abn]" placeholder="abn" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][company_name]"> Company Name </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_company_name" name="PyntaxDAO[users][company_name]" placeholder="company_name" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][address]"> Address </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_address" name="PyntaxDAO[users][address]" placeholder="address" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][suburb]"> Suburb </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_suburb" name="PyntaxDAO[users][suburb]" placeholder="suburb" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][state]"> State </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_state" name="PyntaxDAO[users][state]" placeholder="state" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][country]"> Country </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_country" name="PyntaxDAO[users][country]" placeholder="country" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][postcode]"> Postcode </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_postcode" name="PyntaxDAO[users][postcode]" placeholder="postcode" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][phone_work]"> Phone Work </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_phone_work" name="PyntaxDAO[users][phone_work]" placeholder="phone_work" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][phone_after_hours]"> Phone After Hours </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_phone_after_hours" name="PyntaxDAO[users][phone_after_hours]" placeholder="phone_after_hours" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][fax_number]"> Fax Number </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_fax_number" name="PyntaxDAO[users][fax_number]" placeholder="fax_number" class="form-control" value=""> </div>
-         </div>
+<form id="frm_attachments" method="post" class="form-horizontal">
+   <div class="col-md-6">
+      <div class="form-group">
+         <div class="col-sm-2 control-label"> <label for="PyntaxDAO[attachments][file_name]"> File Name </label> </div>
+         <div class="col-sm-10"> <input type="text" id="id_file_name" name="PyntaxDAO[attachments][file_name]" placeholder="file_name" class="form-control" value=""> </div>
       </div>
-      <div class="col-md-6">
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][mobile_number]"> Mobile Number </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_mobile_number" name="PyntaxDAO[users][mobile_number]" placeholder="mobile_number" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][email]"> Email </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_email" name="PyntaxDAO[users][email]" placeholder="email" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][website]"> Website </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_website" name="PyntaxDAO[users][website]" placeholder="website" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][bank_account_name]"> Bank Account Name </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_bank_account_name" name="PyntaxDAO[users][bank_account_name]" placeholder="bank_account_name" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][bank_name]"> Bank Name </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_bank_name" name="PyntaxDAO[users][bank_name]" placeholder="bank_name" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][bank_bsb]"> Bank Bsb </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_bank_bsb" name="PyntaxDAO[users][bank_bsb]" placeholder="bank_bsb" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][bank_account_number]"> Bank Account Number </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_bank_account_number" name="PyntaxDAO[users][bank_account_number]" placeholder="bank_account_number" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][username]"> Username </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_username" name="PyntaxDAO[users][username]" placeholder="username" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][password]"> Password </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_password" name="PyntaxDAO[users][password]" placeholder="password" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][password_reset_token]"> Password Reset Token </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_password_reset_token" name="PyntaxDAO[users][password_reset_token]" placeholder="password_reset_token" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][password_last_reset]"> Password Last Reset </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_password_last_reset" name="PyntaxDAO[users][password_last_reset]" placeholder="password_last_reset" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][account_created]"> Account Created </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_account_created" name="PyntaxDAO[users][account_created]" placeholder="account_created" class="form-control" value=""> </div>
-         </div>
-         <div class="form-group">
-            <div class="col-sm-2 control-label"> <label for="PyntaxDAO[users][account_expiry]"> Account Expiry </label> </div>
-            <div class="col-sm-10"> <input type="text" id="id_account_expiry" name="PyntaxDAO[users][account_expiry]" placeholder="account_expiry" class="form-control" value=""> </div>
-         </div>
+      <div class="form-group">
+         <div class="col-sm-2 control-label"> <label for="PyntaxDAO[attachments][file_path]"> File Path </label> </div>
+         <div class="col-sm-10"> <input type="text" id="id_file_path" name="PyntaxDAO[attachments][file_path]" placeholder="file_path" class="form-control" value=""> </div>
       </div>
-      <input type="hidden" name="PyntaxDAO[BeanName]" value="users"><button type="Submit"> Save </button> 
-   </form>
-</div>
+   </div>
+   <div class="col-md-6">
+      <div class="form-group">
+         <div class="col-sm-2 control-label"> <label for="PyntaxDAO[attachments][date_uploaded]"> Date Uploaded </label> </div>
+         <div class="col-sm-10"> <input type="text" id="id_date_uploaded" name="PyntaxDAO[attachments][date_uploaded]" placeholder="date_uploaded" class="form-control" value=""> </div>
+      </div>
+      <div class="form-group">
+         <div class="col-sm-2 control-label"> <label for="PyntaxDAO[attachments][file_type]"> File Type </label> </div>
+         <div class="col-sm-10"> <input type="text" id="id_file_type" name="PyntaxDAO[attachments][file_type]" placeholder="file_type" class="form-control" value=""> </div>
+      </div>
+   </div>
+   <input type="hidden" name="PyntaxDAO[BeanName]" value="attachments"><button type="Submit"> Save </button> 
+</form>
 ```
 
 ## Generate a Table using TableFactory and a Bean
