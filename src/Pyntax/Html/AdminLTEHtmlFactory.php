@@ -23,61 +23,24 @@
  */
 
 namespace Pyntax\Html;
+
+use Pyntax\Html\Element\Element;
 use Pyntax\Html\Element\ElementFactory;
-use Pyntax\Html\Form\FormFactory;
-use Pyntax\Html\Table\TableFactory;
 
 /**
- * Class HtmlFactoryAbstract
+ * Class AdminLTEHtmlFactory
  * @package Pyntax\Html
  */
-abstract class HtmlFactoryAbstract implements HtmlFactoryInterface
+class AdminLTEHtmlFactory extends HtmlFactory
 {
-    /**
-     * @var null
-     */
-    protected $_form_factory = null;
+    public function createBoxHtml($headerHtml = "", $bodyHtml = "", $footerHtml = "", $attributes = array()) {
+        if($this->_element_factory instanceof ElementFactory) {
+            $_header_html = $this->_element_factory->generateElement('div', isset($attributes['header']) && is_array($attributes['header']) ? array_merge(array('class' => 'box-header'), $attributes) : array('class' => 'box-header'), $headerHtml);
+            $_body_html = $this->_element_factory->generateElement('div', isset($attributes['body']) && is_array($attributes['body']) ? array_merge(array('class' => 'box-body'), $attributes) : array('class' => 'box-body'), $bodyHtml);
+            $_footer_html = $this->_element_factory->generateElement('div', isset($attributes['footer']) && is_array($attributes['footer']) ? array_merge(array('class' => 'box-footer'), $attributes) : array('class' => 'box-footer'), $footerHtml);
 
-    /**
-     * @var null
-     */
-    protected $_table_factory = null;
-
-    /**
-     * @var null
-     */
-    protected $_element_factory = null;
-
-    /**
-     * @return bool
-     */
-    protected function setUpFormFactory() {
-        if(!$this->_form_factory) {
-            $this->_form_factory = new FormFactory();
+            return $this->_element_factory->generateElement('div', array('box box-primary'), $_header_html.$_body_html.$_footer_html);
         }
 
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function setUpTableFactory() {
-        if(!$this->_table_factory) {
-            $this->_table_factory = new TableFactory();
-        }
-
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function setupElementFactory() {
-        if(!$this->_element_factory) {
-            $this->_element_factory = new ElementFactory();
-        }
-
-        return true;
     }
 }

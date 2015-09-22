@@ -30,5 +30,5 @@ namespace Pyntax\Html\Element;
  */
 interface ElementFactoryInterface
 {
-    public function generateElement($elTag, $elData, $replaceNonStringCharacters = false);
+    public function generateElement($tagName, array $attributes = array(), $value = "", $isClosable = true, $templateToBeRendered = 'html_element_template');
 }

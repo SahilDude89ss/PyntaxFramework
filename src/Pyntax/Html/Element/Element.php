@@ -97,12 +97,19 @@ class Element
         $this->attributes[] = $attribute;
     }
 
+    /**
+     * @param array $attributes
+     */
     public function addAttributes(array $attributes = array()) {
         foreach($attributes as $attribute => $value) {
             $this->addAttribute($attributes, $value);
         }
     }
 
+    /**
+     * @param bool|false $returnString
+     * @return string
+     */
     public function generateHtml($returnString = false)
     {
         $elementString = "<" . $this->getTagName() . " ";

@@ -366,6 +366,4 @@ class Bean extends Config implements BeanInterface
     {
         return $this->_db_adapter->exec($queryString);
     }
-
-
 }

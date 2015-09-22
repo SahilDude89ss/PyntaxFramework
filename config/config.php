@@ -53,14 +53,48 @@ Pyntax\Config\Config::writeConfig('table', array(
     ),
     'dataTable' => false
 ));
-
+//
 Pyntax\Config\Config::writeConfig('form', array(
     'capturePostAndSaveBean' => true,
-    'Bean' => array(
-        'clients' => array(
+    'convertColumnNamesIntoLabel' => true,
+    'showLabels' => true,
+    'label_container' => array(
+        'tagName' => 'div',
+        'attributes' => array(
+            'class' => 'col-sm-2 control-label'
         )
     ),
-    'form_element_in_container_template' => array(
+    'element_container' => array(
+        'tagName' => 'div',
+        'attributes' => array(
+            'class' => 'col-sm-10'
+        )
+    ),
+//    'from_container_template' => array(
+//        'data' => array(
+//            'tagName' => 'div',
+//            'attributes' => array(
+//                'class' => 'box box-primary'
+//            )
+//        )
+//    ),
+    'form_column' => array(
+        'nbr_of_columns' => 2,
+        'column_element_template' => array(
+            'tagName' =>' div',
+            'attributes' => array(
+                'class' => 'row'
+            )
+        ),
+        'container_element_template' => array(
+            'tagName' =>'div',
+            'attributes' => array(
+                'class' => 'col-md-6'
+            )
+        ),
+
+    ),
+    'form_element_container_template' => array(
         'templateName' => 'html_element_template',
         'data' => array(
             'tagName' => 'div',

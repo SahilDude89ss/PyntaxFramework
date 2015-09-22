@@ -56,7 +56,7 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
 
         $attributes = isset($_table_config['table']) && is_array($_table_config['table']) ? $_table_config['table'] : array();
 
-        return $this->generateElementHtml('table', $attributes, $table);
+        return $this->generateElement('table', $attributes, $table, true);
     }
 
     /**
@@ -75,7 +75,7 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
 
         $_table_header = $this->generateTR($_table_header_data);
 
-        return $this->generateElementHtml('thead', array(), $_table_header, true);
+        return $this->generateElement('thead', array(), $_table_header, true);
     }
 
     /**
@@ -98,7 +98,7 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
             }
         }
 
-        return $this->generateElementHtml('tbody', array(), $_table_body, true);
+        return $this->generateElement('tbody', array(), $_table_body, true);
     }
 
     /**
@@ -107,7 +107,7 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
      * @return bool|string
      */
     protected function generateTR($rowData, $rowAttributes = array()) {
-        return $this->generateElementHtml('tr', $rowAttributes, $rowData, true);
+        return $this->generateElement('tr', $rowAttributes, $rowData, true);
     }
 
     /**
@@ -117,7 +117,7 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
      */
     protected function generateTD($tdData, $attributes = array())
     {
-        return $this->generateElementHtml('td', $attributes, $tdData, true);
+        return $this->generateElement('td', $attributes, $tdData, true);
     }
 
     /**
@@ -129,6 +129,6 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
     protected function generateTH($thData, $attributes = array())
     {
         $thData = strtoupper(str_replace("_", " ", $thData));
-        return $this->generateElementHtml('th', $attributes, $thData, true);
+        return $this->generateElement('th', $attributes, $thData, true);
     }
 }

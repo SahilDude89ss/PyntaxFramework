@@ -24,6 +24,7 @@
 namespace Pyntax\Html;
 
 use Pyntax\DAO\Bean\BeanInterface;
+use Pyntax\Html\Element\ElementFactory;
 use Pyntax\Html\Form\FormFactoryInterface;
 use Pyntax\Html\Table\TableFactoryInterface;
 
@@ -33,6 +34,15 @@ use Pyntax\Html\Table\TableFactoryInterface;
  */
 class HtmlFactory extends HtmlFactoryAbstract
 {
+
+    /**
+     * Setting up all the factories
+     */
+    public function __construct() {
+        $this->setUpFormFactory();
+        $this->setUpTableFactory();
+        $this->setupElementFactory();
+    }
 
     /**
      * @param BeanInterface $bean
@@ -52,8 +62,25 @@ class HtmlFactory extends HtmlFactoryAbstract
      * @return bool|mixed
      */
     public function createForm(BeanInterface $bean) {
-        if($this->_html_factory instanceof FormFactoryInterface) {
-            return $this->_html_factory->generateForm($bean, true);
+        if($this->_form_factory instanceof FormFactoryInterface) {
+            return $this->_form_factory->generateForm($bean, true);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $tagName
+     * @param array $attributes
+     * @param string $value
+     * @param bool|true $isClosable
+     * @param string $templateToBeRendered
+     *
+     * @return bool|string
+     */
+    public function createElement($tagName, array $attributes = array(), $value = "", $isClosable = true, $templateToBeRendered = 'html_element_template') {
+        if($this->_element_factory instanceof ElementFactory) {
+            return $this->_element_factory->generateElementHtml($tagName, $attributes, $value, $isClosable, $templateToBeRendered);
         }
 
         return false;

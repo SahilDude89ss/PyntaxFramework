@@ -5,8 +5,7 @@ ini_set('display_errors', true);
 require_once('vendor/autoload.php');
 \Pyntax\PyntaxDAO::start();
 
-include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
-
+//include_once("third-party/AdminLTE-2.3.0/pages/forms/PyntaxDAO-General.php"); die;
 //include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 //$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
 
@@ -49,7 +48,7 @@ include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 
 
 
-//$attachmentBean = \Pyntax\PyntaxDAO::getBean('attachments');
+$attachmentBean = \Pyntax\PyntaxDAO::getBean('users');
 //
 //$elementFactory = new \Pyntax\Html\Element\ElementFactory();
 //if($attachmentBean instanceof \Pyntax\DAO\Bean\BeanInterface) {
@@ -58,5 +57,6 @@ include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 //    }
 //}
 
-//$formFactory = new \Pyntax\Html\Form\FormFactory();
-//echo $formFactory->generateForm($attachmentBean);
+$htmlFactory = new \Pyntax\Html\HtmlFactory();
+echo $htmlFactory->createForm($attachmentBean);
+echo $htmlFactory->createTable($attachmentBean);

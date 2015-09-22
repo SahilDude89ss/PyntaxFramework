@@ -33,10 +33,16 @@ use Pyntax\Html\Element\ElementFactory;
  */
 abstract class FormFactoryAbstract extends ElementFactory implements FormFactoryInterface
 {
+    protected $_form_config = array();
+
     /**
      * @var array
      */
     static protected $_bean_meta_data = array();
+
+    public function loadFormConfig() {
+        $this->_form_config = Config::readConfig('form');
+    }
 
     /**
      * @param BeanInterface $bean
@@ -64,18 +70,6 @@ abstract class FormFactoryAbstract extends ElementFactory implements FormFactory
         return array();
     }
 
-    public function generateFormHtml($_bean_name = "") {
-        $_fields_html_array = array();
-
-        $_fields_to_be_displayed =  $this->getDisplayColumns($_bean_name);
-
-        if(!empty($_fields_to_be_displayed)) {
-            foreach($_fields_to_be_displayed as $_field) {
-
-            }
-        }
-    }
-
     /**
      * @param null $_bean_name
      * @return bool
@@ -91,4 +85,6 @@ abstract class FormFactoryAbstract extends ElementFactory implements FormFactory
     protected function generateHtmlTemplateFieldContainer($fieldName = 'input') {
 
     }
+
+
 }

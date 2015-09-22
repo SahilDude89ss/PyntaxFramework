@@ -53,6 +53,7 @@ class ElementFactory extends ElementFactoryAbstract
         );
 
         $loadTemplatesFromConfig = Config::readConfig('template');
+
         if(!empty($loadTemplatesFromConfig) && is_array($loadTemplatesFromConfig)) {
             if(sizeof($loadTemplatesFromConfig) > 0) {
                 $loadTemplatesFromConfig = array_merge($_default_template, $loadTemplatesFromConfig);
@@ -77,13 +78,13 @@ class ElementFactory extends ElementFactoryAbstract
      *
      * @return bool|string
      */
-    public function generateElementHtml($tagName, array $attributes = array(), $value = "", $isClosable = true, $templateToBeRendered = 'html_element_template')
+    public function generateElement($tagName, array $attributes = array(), $value = "", $isClosable = true, $templateToBeRendered = 'html_element_template')
     {
         $cleanAttributes = $this->cleanUpAttributeValues($attributes);
 
         if ($this->_twig_environment instanceof \Twig_Environment) {
             return $this->_twig_environment->render($templateToBeRendered, array(
-                'elTag' => $tagName,
+                'elTag' => trim($tagName),
                 'attributes' => $cleanAttributes,
                 'elTagClosable' => $isClosable,
                 'elDataValue' => $value
@@ -105,6 +106,7 @@ class ElementFactory extends ElementFactoryAbstract
         if(isset($_column_display_attributes['elTag']) && isset($_column_display_attributes['attributes'])) {
             $_column = $columnDefinition->getName();
             $_attributes = is_array($_column_display_attributes['attributes']) ? $_column_display_attributes['attributes'] : array();
+
             return $this->generateElementHtml($_column_display_attributes['elTag'] , array_merge(array(
                 'type' => 'text',
                 'id' => $bean->getName().'_'.$columnDefinition->getName(),
