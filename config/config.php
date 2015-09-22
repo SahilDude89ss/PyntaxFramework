@@ -70,14 +70,14 @@ Pyntax\Config\Config::writeConfig('form', array(
             'class' => 'col-sm-10'
         )
     ),
-//    'from_container_template' => array(
-//        'data' => array(
-//            'tagName' => 'div',
-//            'attributes' => array(
-//                'class' => 'box box-primary'
-//            )
-//        )
-//    ),
+    'from_container_template' => array(
+        'data' => array(
+            'tagName' => 'div',
+            'attributes' => array(
+                'class' => 'box box-primary'
+            )
+        )
+    ),
     'form_column' => array(
         'nbr_of_columns' => 2,
         'column_element_template' => array(
