@@ -25,8 +25,8 @@
 namespace Pyntax\Html\Element;
 
 use Pyntax\Config\Config;
-use Pyntax\DAO\Bean\Bean;
-use Pyntax\DAO\Bean\Column\Column;
+use Pyntax\DAO\Bean\BeanInterface;
+use Pyntax\DAO\Bean\Column\ColumnInterface;
 
 /**
  * Class ElementFactory
@@ -39,11 +39,20 @@ class ElementFactory extends ElementFactoryAbstract
      */
     protected $_twig_environment = false;
 
+    protected $_module_config_key = false;
+
     public function __construct()
     {
         if (!$this->_twig_environment) {
             $this->setupTwig();
         }
+    }
+
+    /**
+     * @param $key
+     */
+    public function setModuleConfigKey($key) {
+        $this->_module_config_key = $key;
     }
 
     protected function setupTwig()
@@ -67,6 +76,59 @@ class ElementFactory extends ElementFactoryAbstract
                 $loadTemplatesFromConfig
             )
         );
+    }
+
+    /**
+     * @param array $options
+     * @param array $attributes
+     * @param string $selectedValue
+     * @param string $templateToBeRendered
+     *
+     * @return bool|string
+     */
+    public function generateSelectElement(array $options = array(), array $attributes = array(), $selectedValue = "", $templateToBeRendered = 'html_element_template')
+    {
+        $_options_html = "";
+
+        foreach($options as $_option => $_val)
+        {
+            $_attributes = array("value" => $_val);
+
+            if($_val == $selectedValue) {
+                $_attributes['selected'] = "true";
+            }
+
+            $_options_html .= $this->generateElement(
+                'option',
+                $_attributes,
+                $_val
+            );
+        }
+
+        return $this->generateElement('select', $attributes, $_options_html, true, $templateToBeRendered);
+    }
+
+    /**
+     * @param array $config
+     * @return bool|string
+     */
+    public function generateElementWithArrayConfig(array $config = array())
+    {
+        if(empty($config)) {
+            return "";
+        }
+
+        $_html_tag_name = isset($config['tagName']) ? $config['tagName'] : false;
+        $_attributes = isset($config['attributes']) && is_array($config['attributes']) ? $config['attributes'] : false;
+        $_html_tag_value = isset($config['value']) ? $config['value'] : false;
+        $_html_is_closable = isset($config['isClosable']) ? $config['isClosable'] : true;
+        $_element_to_be_rendered = isset($config['elementTwigTemplate']) ? $config['elementTwigTemplate'] : 'html_element_template';
+
+        if(!empty($_html_tag_name)) {
+            return $this->generateElement($_html_tag_name, $_attributes, $_html_tag_value, $_html_is_closable,$_element_to_be_rendered);
+        }
+
+        return "";
     }
 
     /**
@@ -95,23 +157,33 @@ class ElementFactory extends ElementFactoryAbstract
     }
 
     /**
-     * @param Bean $bean
-     * @param Column $columnDefinition
-     *
-     * @return bool|string
+     * @param BeanInterface $bean
+     * @param ColumnInterface $columnDefinition
+     * @return mixed
      */
-    public function generateElementByColumn(Bean $bean, Column $columnDefinition) {
+    public function generateElementByColumn(BeanInterface $bean, ColumnInterface $columnDefinition) {
         $_column_display_attributes = $columnDefinition->getHtmlElementType();
 
-        if(isset($_column_display_attributes['elTag']) && isset($_column_display_attributes['attributes'])) {
+        if(isset($_column_display_attributes['elTag']))
+        {
             $_column = $columnDefinition->getName();
-            $_attributes = is_array($_column_display_attributes['attributes']) ? $_column_display_attributes['attributes'] : array();
+            $_attributes = (isset($_column_display_attributes['attributes']) && is_array($_column_display_attributes['attributes'])) ? $_column_display_attributes['attributes'] : array();
 
-            return $this->generateElementHtml($_column_display_attributes['elTag'] , array_merge(array(
-                'type' => 'text',
+            if($_column_display_attributes['elTag'] == 'select') {
+                $_attributes = array_merge(array(
+                    'id' => $bean->getName().'_'.$columnDefinition->getName(),
+                    'name' => "PyntaxDAO[{$bean->getName()}][{$_column}]",
+                    'class' => 'form-control'
+                ), $_attributes);
+
+                return $this->generateSelectElement($_column_display_attributes['options'], $_attributes , $bean->$_column);
+            }
+
+            return $this->generateElement($_column_display_attributes['elTag'] , array_merge(array(
                 'id' => $bean->getName().'_'.$columnDefinition->getName(),
-                'name' => "PyntaxDAO[{$bean->getName()}][{$_column}]"
-            ), $_attributes), $bean->$_column, false);
+                'name' => "PyntaxDAO[{$bean->getName()}][{$_column}]",
+                'class' => 'form-control'
+            ), $_attributes), $bean->$_column, !($_column_display_attributes['elTag'] == "input"));
         }
     }
 }

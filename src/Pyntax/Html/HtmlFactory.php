@@ -34,7 +34,6 @@ use Pyntax\Html\Table\TableFactoryInterface;
  */
 class HtmlFactory extends HtmlFactoryAbstract
 {
-
     /**
      * Setting up all the factories
      */
@@ -80,9 +79,10 @@ class HtmlFactory extends HtmlFactoryAbstract
      */
     public function createElement($tagName, array $attributes = array(), $value = "", $isClosable = true, $templateToBeRendered = 'html_element_template') {
         if($this->_element_factory instanceof ElementFactory) {
-            return $this->_element_factory->generateElementHtml($tagName, $attributes, $value, $isClosable, $templateToBeRendered);
+            return $this->_element_factory->generateElement($tagName, $attributes, $value, $isClosable, $templateToBeRendered);
         }
 
         return false;
     }
+
 }

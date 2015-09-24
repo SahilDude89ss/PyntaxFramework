@@ -40,19 +40,13 @@ class TableFactory extends TableFactoryAbstract
      */
     public function generateTable(BeanInterface $bean, $findCondition = "", $returnString = false)
     {
-        $tableHtml = "";
-
         $result = $bean->find($findCondition, true);
 
-        if (!empty($result)) {
-            $tableHtml = $this->generateTableHtml($bean, $result);
-        }
-
         if ($returnString) {
-            return $tableHtml;
+            return $this->generateTableHtml($bean, $result);
         }
 
-        echo $tableHtml;
+        echo $this->generateTableHtml($bean, $result);
     }
 
 }

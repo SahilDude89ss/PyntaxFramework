@@ -23,6 +23,7 @@
  */
 
 namespace Pyntax\Html\Form;
+
 use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\Html\Element\ElementFactory;
@@ -80,11 +81,16 @@ abstract class FormFactoryAbstract extends ElementFactory implements FormFactory
     }
 
     /**
-     * @param string $fieldName
+     * @param $columnName
+     * @return string
      */
-    protected function generateHtmlTemplateFieldContainer($fieldName = 'input') {
+    public function convertColumnNameIntoLabel($columnName)
+    {
+        if (isset($this->_form_config['convertColumnNamesIntoLabel']) && $this->_form_config['convertColumnNamesIntoLabel'] == true) {
+            $_new_labels = str_replace(array("_", "-"), " ", $columnName);
+            return (ucwords($_new_labels));
+        }
 
+        return $columnName;
     }
-
-
 }

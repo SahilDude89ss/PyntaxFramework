@@ -26,6 +26,7 @@ namespace Pyntax\Html\Form;
 
 use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\BeanInterface;
+use Pyntax\DAO\Bean\Column\ColumnInterface;
 
 /**
  * Class FormFactory
@@ -33,13 +34,31 @@ use Pyntax\DAO\Bean\BeanInterface;
  */
 class FormFactory extends FormFactoryAbstract
 {
+    protected $_form_template_key = 'formTemplate';
+
     public function __construct()
     {
         parent::__construct();
         $this->loadFormConfig();
+        $this->setModuleConfigKey('form');
     }
 
     /**
+     * @ToDo: Add calculated fields
+     * @ToDo: Add callbacks on beforeSave and afterSave
+     *
+     * This function will load all the columns to be displayed for a Bean. These columns can be defined in
+     * form.config.php with the following settings. The settings should be added to
+     *
+     * 'beans' => array(
+     *  '<Table_Name>' => array( <=
+     *      'visible_columns' => array(
+     *          'orm' => array(
+     *              <List_Of_all_the_Columns_as_an_Array>
+     *          )
+     *      )
+     *  )
+     *
      * @param BeanInterface $bean
      * @param bool|false $returnString
      *
@@ -47,10 +66,12 @@ class FormFactory extends FormFactoryAbstract
      */
     public function generateForm(BeanInterface $bean, $returnString = false)
     {
+        //Get all the colums that can be displayed for a the current bean
         $_columns_to_be_displayed = $bean->getDisplayColumns('form');
 
         $_form_fields = "";
 
+        //Check if the form is supposed to tbe borken into columns
         if (isset($this->_form_config['form_column'])) {
             $_form_column_config = $this->_form_config['form_column'];
 
@@ -62,20 +83,62 @@ class FormFactory extends FormFactoryAbstract
             }
         }
 
+        //If the form were not broken into columns.
         if (empty($_form_fields)) {
             $_form_fields = $this->generateFormColumn($_columns_to_be_displayed, $bean);
         }
 
-        $_form_fields .= $this->generateElement('input', array('type' => 'hidden', 'name' => 'PyntaxDAO[BeanName]'), $bean->getName(), false);
-        $_form_fields .= $this->generateElement('button', array('type' => 'Submit',), 'Save');
+        //Only add the hidden field if the Saving the Bean is turned on in Config
+        if($this->getConfigForElement($this->_form_config, 'capturePostAndSaveBean',$bean->getName(), 'beans')) {
+            $_form_fields .= $this->generateElement('input', array('type' => 'hidden', 'name' => 'PyntaxDAO[BeanName]'), $bean->getName(), false);
+        }
 
-        $_element_html = $this->generateElement('form', array('id' => 'frm_' . $bean->getName(), 'method' => 'post', 'class' => 'form-horizontal'), $_form_fields, true);
+        //Generate the save button
+        $_form_fields .= $this->generateSubmitButton($bean);
 
+        //Load the config for the form template and generate the form
+        if(isset($this->_form_config[$this->_form_template_key]))
+        {
+            //Load the form config, with overrides for the Bean
+            $_tmp_form_config = $this->getConfigForElement($this->_form_config, $this->_form_template_key, $bean->getName(), 'beans');
+
+            //If the id is not set in the attribute then set the ID for the Bean::getName()
+            if(!isset($_tmp_form_config['attributes']['id'])) {
+                $_tmp_form_config['attributes']['id'] = 'frm_' . $bean->getName();
+            }
+
+            //Add the fields that were generated as the content of the forms.
+            $_tmp_form_config['value']  = $_form_fields;
+
+            //Generate the HTML for the form
+            $_element_html = $this->generateElementWithArrayConfig($_tmp_form_config);
+        } else {
+            // A Default fall back if the config goes missing.
+            $_element_html = $this->generateElement('form', array('id' => 'frm_' . $bean->getName(), 'method' => 'post', 'class' => 'form-horizontal'), $_form_fields, true);
+        }
+
+        //Return the HTML as string
         if ($returnString) {
             return $this->generateFormContainer($_element_html);
-        } else {
-            echo $this->generateFormContainer($_element_html);
         }
+
+        //Print the HTML out
+        echo $this->generateFormContainer($_element_html);
+    }
+
+    /**
+     * @param BeanInterface $bean
+     * @return bool|string
+     */
+    public function generateSubmitButton(BeanInterface $bean)
+    {
+        $_submit_button_config = $this->getConfigForElement($this->_form_config, 'submitButton', $bean->getName(), 'beans');
+
+        if (is_array($_submit_button_config)) {
+            return $this->generateElementWithArrayConfig($_submit_button_config);
+        }
+
+        return $this->generateElement('button', array('type' => 'Submit',), 'Save ' . $bean->getName());
     }
 
     /**
@@ -90,56 +153,55 @@ class FormFactory extends FormFactoryAbstract
     {
         $_form_fields = "";
 
-        foreach ($_columns_to_be_displayed as $_column) {
-            $_field_html = "";
+        foreach ($_columns_to_be_displayed as $_column)
+        {
+            if ($_column instanceof ColumnInterface)
+            {
+                $_field_html = "";
 
-            if (isset($this->_form_config['showLabels']) && $this->_form_config['showLabels'] == true) {
-                $_field_html = $this->generateElement('label', array(
-                    'for' => "PyntaxDAO[{$bean->getName()}][{$_column}]"
-                ), $this->convertColumnNameIntoLabel($_column), true);
+                $_show_label = $this->getConfigForElement($this->_form_config, 'showLabels', $bean, 'beans');
 
-                if (isset($this->_form_config['label_container']) && isset($this->_form_config['label_container']['tagName'])) {
-                    $_label_element_container = $this->generateElement($this->_form_config['label_container']['tagName'],
-                        isset($this->_form_config['label_container']['attributes']) && is_array($this->_form_config['label_container']['attributes']) ? $this->_form_config['label_container']['attributes'] : array(),
-                        $_field_html
+                if ($_show_label)
+                {
+                    $_field_html = $this->generateElement('label', array(
+                        'for' => "PyntaxDAO[{$bean->getName()}][{$_column->getName()}]"
+                    ), $this->convertColumnNameIntoLabel($_column->getName()), true);
+
+                    if (isset($this->_form_config['label_container']) && isset($this->_form_config['label_container']['tagName'])) {
+                        $_label_element_container = $this->generateElement($this->_form_config['label_container']['tagName'],
+                            isset($this->_form_config['label_container']['attributes']) && is_array($this->_form_config['label_container']['attributes']) ? $this->_form_config['label_container']['attributes'] : array(),
+                            $_field_html
+                        );
+
+                        $_field_html = $_label_element_container;
+                    }
+                }
+
+                if (isset($this->_form_config['element_container']) && isset($this->_form_config['element_container']['tagName'])) {
+
+                    $_element_html = $this->generateElementByColumn($bean, $_column);
+
+                    $_form_element_container = $this->generateElement($this->_form_config['element_container']['tagName'],
+                        isset($this->_form_config['element_container']['attributes']) && is_array($this->_form_config['element_container']['attributes']) ? $this->_form_config['element_container']['attributes'] : array(),
+                        $_element_html
                     );
 
-                    $_field_html = $_label_element_container;
+                    $_field_html .= $_form_element_container;
+                } else {
+                    $_field_html .= $this->generateElementByColumn($bean, $_column);
                 }
+
+
+                $_form_element_container_config = isset($this->_form_config['form_element_container_template']) ? $this->_form_config['form_element_container_template'] : array();
+
+                if (isset($_form_element_container_config['templateName']) && isset($_form_element_container_config['data']['tagName'])) {
+                    $_field_html = $this->generateElement($_form_element_container_config['data']['tagName'],
+                        is_array($_form_element_container_config['data']['attributes']) ? $_form_element_container_config['data']['attributes'] : array(),
+                        $_field_html, true, $_form_element_container_config['templateName']);
+                }
+
+                $_form_fields .= $_field_html;
             }
-
-            if (isset($this->_form_config['element_container']) && isset($this->_form_config['element_container']['tagName'])) {
-                $_form_element_container = $this->generateElement($this->_form_config['element_container']['tagName'],
-                    isset($this->_form_config['element_container']['attributes']) && is_array($this->_form_config['element_container']['attributes']) ? $this->_form_config['element_container']['attributes'] : array(),
-                    $this->generateElement('input', array(
-                        'type' => 'text',
-                        'id' => 'id_' . $_column,
-                        'name' => "PyntaxDAO[{$bean->getName()}][{$_column}]",
-                        'placeholder' => $_column,
-                        'class' => 'form-control'
-                    ), $bean->$_column, false)
-                );
-
-                $_field_html .= $_form_element_container;
-            } else {
-                $_field_html .= $this->generateElement('input', array(
-                    'type' => 'text',
-                    'id' => 'id_' . $_column,
-                    'name' => "PyntaxDAO[{$bean->getName()}][{$_column}]",
-                    'placeholder' => $_column,
-                ), $bean->$_column, false);
-            }
-
-
-            $_form_element_container_config = isset($this->_form_config['form_element_container_template']) ? $this->_form_config['form_element_container_template'] : array();
-
-            if (isset($_form_element_container_config['templateName']) && isset($_form_element_container_config['data']['tagName'])) {
-                $_field_html = $this->generateElement($_form_element_container_config['data']['tagName'],
-                    is_array($_form_element_container_config['data']['attributes']) ? $_form_element_container_config['data']['attributes'] : array(),
-                    $_field_html, true, $_form_element_container_config['templateName']);
-            }
-
-            $_form_fields .= $_field_html;
         }
 
 
@@ -170,17 +232,5 @@ class FormFactory extends FormFactoryAbstract
         return $elData;
     }
 
-    /**
-     * @param $columnName
-     * @return string
-     */
-    public function convertColumnNameIntoLabel($columnName)
-    {
-        if (isset($this->_form_config['convertColumnNamesIntoLabel']) && $this->_form_config['convertColumnNamesIntoLabel'] == true) {
-            $_new_labels = str_replace(array("_", "-"), " ", $columnName);
-            return (ucwords($_new_labels));
-        }
 
-        return $columnName;
-    }
 }

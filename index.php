@@ -47,16 +47,51 @@ require_once('vendor/autoload.php');
 
 
 
-
 $attachmentBean = \Pyntax\PyntaxDAO::getBean('attachments');
-//
-//$elementFactory = new \Pyntax\Html\Element\ElementFactory();
-//if($attachmentBean instanceof \Pyntax\DAO\Bean\BeanInterface) {
-//    foreach($attachmentBean->getColumnDefinition() as $_column) {
-//        echo $elementFactory->generateElementByColumn($attachmentBean, $_column);
-//    }
-//}
 
 $htmlFactory = new \Pyntax\Html\HtmlFactory();
-echo $htmlFactory->createForm($attachmentBean);
-echo $htmlFactory->createTable($attachmentBean);
+//$htmlFactory->scanDirForFiles("./third-party/AdminLTE-2.3.0/dist/css",\Pyntax\Html\HtmlFactory::FileTypeOption_CSS);
+//$htmlFactory->scanDirForFiles("./third-party/AdminLTE-2.3.0/dist/js",\Pyntax\Html\HtmlFactory::FileTypeOption_JS);
+
+$htmlFactory->addFile(array(
+    '/third-party/AdminLTE-2.3.0/bootstrap/css/bootstrap.min.css',
+    'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css',
+    'https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css',
+    '/third-party/AdminLTE-2.3.0/dist/css/AdminLTE.min.css',
+    '/third-party/AdminLTE-2.3.0/dist/css/skins/_all-skins.min.css',
+
+    '/pyntaxjs/lib/pickadatejs/lib/themes/default.css',
+    '/pyntaxjs/lib/pickadatejs/lib/themes/default.date.css',
+    '/pyntaxjs/lib/pickadatejs/lib/themes/default.time.css'
+
+
+), \Pyntax\Html\HtmlFactory::FileTypeOption_CSS, \Pyntax\Html\HtmlFactory::FilePlacementOption_Header);
+
+$htmlFactory->addFile(array(
+    '/pyntaxjs/lib/jquery/jquery.min.js',
+
+//    '/pyntaxjs/lib/backbone/backbone.min.js',
+//    '/pyntaxjs/lib/backbone/underscore.min.js',
+//    '/pyntaxjs/lib/handlebars/handlebars.js',
+
+    '/pyntaxjs/lib/pickadatejs/lib/legacy.js',
+    '/pyntaxjs/lib/pickadatejs/lib/picker.js',
+    '/pyntaxjs/lib/pickadatejs/lib/picker.date.js',
+    '/pyntaxjs/lib/pickadatejs/lib/picker.time.js',
+
+    '/pyntaxjs/src/app.js',
+    '/pyntaxjs/src/core/form/form.js'
+
+), \Pyntax\Html\HtmlFactory::FileTypeOption_JS, \Pyntax\Html\HtmlFactory::FilePlacementOption_Header);
+
+?>
+
+<html>
+<head>
+    <?php $htmlFactory->printCSSFiles(\Pyntax\Html\HtmlFactory::FilePlacementOption_Header); $htmlFactory->printJSFiles(\Pyntax\Html\HtmlFactory::FilePlacementOption_Header); ?>
+</head>
+<body>
+    <?php echo $htmlFactory->createForm($attachmentBean); ?>
+<!--    --><?php //echo $htmlFactory->createTable($attachmentBean); ?>
+</body>
+</html>

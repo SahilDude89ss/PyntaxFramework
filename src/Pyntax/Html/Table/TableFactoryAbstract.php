@@ -23,6 +23,7 @@
  */
 
 namespace Pyntax\Html\Table;
+
 use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\Html\Element\ElementFactory;
@@ -92,10 +93,12 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
             foreach ($tableData as $_row) {
                 $_tr_data = "";
                 foreach ($visibleColumns as $key => $_column) {
-                    $_tr_data .= $this->generateTD($_row[$_column]);
+                    $_tr_data .= $this->generateTD($_row[$_column->getName()]);
                 }
                 $_table_body .= $this->generateTR($_tr_data);
             }
+        } else {
+            $_table_body = $this->generateElement('tr', array(), $this->generateElement('td', array('style' => 'text-align: center', 'colspan' => "".sizeof($visibleColumns)), "<em>No records found</em>", true) , true);
         }
 
         return $this->generateElement('tbody', array(), $_table_body, true);
@@ -128,7 +131,7 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
      */
     protected function generateTH($thData, $attributes = array())
     {
-        $thData = strtoupper(str_replace("_", " ", $thData));
+        $thData = strtoupper(str_replace("_", " ", $thData->getName()));
         return $this->generateElement('th', $attributes, $thData, true);
     }
 }

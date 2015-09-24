@@ -36,10 +36,10 @@ Pyntax\Config\Config::writeConfig('database', array(
 Pyntax\Config\Config::writeConfig('orm', array(
     'load_related_beans' => true,
     'beans' => array(
-        'clients' => array(
+        'attachments' => array(
             'visible_columns' => array(
-                'list' => array(
-                    'title', 'first_name', 'last_name', 'email'
+                'orm' => array(
+                    'file_path'
                 )
             )
         ),
@@ -53,57 +53,7 @@ Pyntax\Config\Config::writeConfig('table', array(
     ),
     'dataTable' => false
 ));
-//
-Pyntax\Config\Config::writeConfig('form', array(
-    'capturePostAndSaveBean' => true,
-    'convertColumnNamesIntoLabel' => true,
-    'showLabels' => true,
-    'label_container' => array(
-        'tagName' => 'div',
-        'attributes' => array(
-            'class' => 'col-sm-2 control-label'
-        )
-    ),
-    'element_container' => array(
-        'tagName' => 'div',
-        'attributes' => array(
-            'class' => 'col-sm-10'
-        )
-    ),
-    'from_container_template' => array(
-        'data' => array(
-            'tagName' => 'div',
-            'attributes' => array(
-                'class' => 'box box-primary'
-            )
-        )
-    ),
-    'form_column' => array(
-        'nbr_of_columns' => 2,
-        'column_element_template' => array(
-            'tagName' =>' div',
-            'attributes' => array(
-                'class' => 'row'
-            )
-        ),
-        'container_element_template' => array(
-            'tagName' =>'div',
-            'attributes' => array(
-                'class' => 'col-md-6'
-            )
-        ),
 
-    ),
-    'form_element_container_template' => array(
-        'templateName' => 'html_element_template',
-        'data' => array(
-            'tagName' => 'div',
-            'attributes' => array(
-                'class' => 'form-group'
-            )
-        ),
-    )
-));
 
 Pyntax\Config\Config::writeConfig('template', array(
     'html_element_template' => "<{{elTag}} {% for attribute in attributes %}{{attribute.name}}='{{attribute.value}}'{% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}>{% else %}value='{{elDataValue}}' />{% endif %}",

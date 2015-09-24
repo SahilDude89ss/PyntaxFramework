@@ -30,6 +30,7 @@ use Pyntax\DAO\Adapter\MySqlAdapter as DefaultMySqlAdapter;
 use Pyntax\DAO\Bean\BeanFactory;
 use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\Html\Element\Element;
+use Pyntax\Html\Form\FormFactory;
 use Pyntax\Html\Form\FormFactoryInterface;
 
 /**
@@ -43,6 +44,9 @@ class PyntaxDAO
      */
     static $BeanFactory = null;
 
+    /**
+     * @var null
+     */
     static $FormFactory = null;
 
     /**
@@ -112,6 +116,10 @@ class PyntaxDAO
         return $el;
     }
 
+    /**
+     * @param BeanInterface $bean
+     * @return bool
+     */
     public static function generateForm(BeanInterface $bean) {
         if(is_null(self::$FormFactory)) {
             self::loadFormFactory();
@@ -126,7 +134,7 @@ class PyntaxDAO
 
     private static function loadFormFactory() {
         if(is_null(self::$FormFactory)) {
-            self::$FormFactory = new \Pyntax\Html\Form\FormFactory();
+            self::$FormFactory = new FormFactory();
         }
     }
 

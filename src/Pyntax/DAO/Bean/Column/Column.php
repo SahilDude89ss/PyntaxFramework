@@ -234,11 +234,22 @@ class Column implements ColumnInterface
             }
             return $selectTag;
 
-        } else if(preg_match('/.*(tinytext|textt|mediumtext|longtext).*/', $this->definition['Type'])) {
+        } else if(preg_match('/.*(tinytext|text|mediumtext|longtext).*/', $this->definition['Type'])) {
             return array(
                 'elTag' => 'textarea'
             );
-        } else {
+        }
+        else if(preg_match('/.*(date|datetime).*/', $this->definition['Type'])) {
+            return array(
+                'elTag' => 'input',
+                'attributes' => array(
+                    'type' => 'text',
+                    'data-type' => 'date'
+                )
+            );
+        }
+        else
+        {
             return array(
                 'elTag' => 'input',
                 'attributes' => array(

@@ -23,6 +23,7 @@
  */
 
 namespace Pyntax\Html;
+
 use Pyntax\Html\Element\ElementFactory;
 use Pyntax\Html\Form\FormFactory;
 use Pyntax\Html\Table\TableFactory;
@@ -33,6 +34,26 @@ use Pyntax\Html\Table\TableFactory;
  */
 abstract class HtmlFactoryAbstract implements HtmlFactoryInterface
 {
+    const FilePlacementOption_Header = 'header';
+    const FilePlacementOption_Footer = 'footer';
+
+    const FileTypeOption_CSS = 'css';
+    const FileTypeOption_JS = 'js';
+
+    /**
+     * @var array
+     */
+    protected $_files = array(
+        'header' => array(
+            'css' => array(),
+            'js' => array()
+        ),
+        'footer' => array(
+            'css' => array(),
+            'js' => array()
+        )
+    );
+
     /**
      * @var null
      */
@@ -79,5 +100,131 @@ abstract class HtmlFactoryAbstract implements HtmlFactoryInterface
         }
 
         return true;
+    }
+
+
+    /**
+     * @param $path
+     */
+    public function addJsFileToFooter($path) {
+        $this->addFooterFile($path, self::FilePlacementOption_Footer);
+    }
+
+    /**
+     * @param $path
+     */
+    public function addJsFileToHeader($path) {
+        $this->addHeaderFile($path, self::FilePlacementOption_Header);
+    }
+
+    /**
+     * @param $path
+     */
+    public function addCssFileToFooter($path) {
+        $this->addFooterFile($path, self::FileTypeOption_CSS);
+    }
+
+    /**
+     * @param $path
+     */
+    public function addCssFileToHeader($path) {
+        $this->addHeaderFile($path, self::FileTypeOption_CSS);
+    }
+
+    /**
+     * @param $path
+     * @param string $type
+     */
+    public function addHeaderFile($path, $type = self::FileTypeOption_JS) {
+        $this->addFile($path, $type, self::FilePlacementOption_Header);
+    }
+
+    /**
+     * @param $path
+     * @param string $type
+     */
+    public function addFooterFile($path, $type = self::FileTypeOption_JS) {
+        $this->addFile($path, $type, self::FilePlacementOption_Footer);
+    }
+
+    /**
+     * @param $path
+     * @param string $type
+     * @param string $printPlace
+     */
+    public function addFile($path, $type = self::FileTypeOption_JS, $printPlace = self::FilePlacementOption_Header) {
+        if(is_array($path)) {
+            foreach($path as $_file) {
+                $this->addFile($_file, $type, $printPlace);
+            }
+        } else if(is_string($path)) {
+            $this->_files[$printPlace][$type][] = $path;
+        }
+    }
+
+    /**
+     * @param $path
+     * @param string $type
+     * @param string $printPlace
+     */
+    public function removeFile($path, $type = self::FileTypeOption_JS, $printPlace = self::FilePlacementOption_Header) {
+        if(is_array($path)) {
+            foreach($path as $_file) {
+                $this->removeFile($_file, $type, $printPlace);
+            }
+        } else if(is_string($path)) {
+            unset($this->_files[$printPlace][$type][$path]);
+        }
+    }
+
+    /**
+     * @param string $printPlace
+     */
+    public function printJSFiles($printPlace = self::FilePlacementOption_Header)
+    {
+        foreach($this->_files[$printPlace][self::FileTypeOption_JS] as $_file) {
+            echo $this->_element_factory->generateElement('script', array(
+                'type' => 'text/javascript',
+                'src' => $_file
+            ), "")."\n";
+        }
+    }
+
+    /**
+     * @param string $printPlace
+     */
+    public function printCSSFiles($printPlace = self::FilePlacementOption_Header)
+    {
+        foreach($this->_files[$printPlace][self::FileTypeOption_CSS] as $_file) {
+            echo $this->_element_factory->generateElement('link', array(
+                'rel' => 'stylesheet',
+                'href' => $_file
+            ), "")."\n";
+        }
+    }
+
+    /**
+     * @param $dirPath
+     * @param string $type
+     * @param string $printPlace
+     *
+     * @return array
+     */
+    public function scanDirForFiles($dirPath, $type = self::FileTypeOption_JS, $printPlace = self::FilePlacementOption_Header)
+    {
+        if(is_dir($dirPath))
+        {
+            foreach(scandir($dirPath) as $_file)
+            {
+                if(is_dir($dirPath.DIRECTORY_SEPARATOR.$_file) && ($_file != "." && $_file != "..")) {
+                    $this->scanDirForFiles($dirPath.DIRECTORY_SEPARATOR.$_file, $type, $printPlace);
+                } else {
+                    if($_file != "." && $_file != "..") {
+                        $this->addFile($dirPath.DIRECTORY_SEPARATOR.$_file, $type, $printPlace);
+                    }
+                }
+
+            }
+        }
     }
 }

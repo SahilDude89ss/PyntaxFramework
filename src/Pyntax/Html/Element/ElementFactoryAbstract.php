@@ -89,7 +89,7 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
                 } else if(is_array($val)) {
                     $cleanedAttributes[] = array(
                         'name' => $key,
-                        'value' => $this->generateAttributeForArrayValue($val)
+                        'value' => $this->generateAttributeForArrayValue($val, $key)
                     );
                 }
             }
@@ -100,11 +100,13 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
 
     /**
      * @param array $attributeValueArray
-     * @return null|string
+     * @param string $propertyName
+     *
+     * @return string
      */
-    protected function generateAttributeForArrayValue(array $attributeValueArray = array())
+    protected function generateAttributeForArrayValue(array $attributeValueArray = array(), $propertyName = '')
     {
-        if (!empty($attributeValueArray)) {
+        if (!empty($attributeValueArray) && $propertyName == 'style') {
             $attribute_string = array();
 
             foreach($attributeValueArray as $_name => $_value) {
@@ -118,7 +120,7 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
             return implode(";", $attribute_string);
         }
 
-        return null;
+        return implode(" ", $attributeValueArray);
     }
 
     /**
@@ -130,5 +132,25 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
         return in_array($tagName, $this->_valid_html_elements);
     }
 
+    /**
+     * @param array $config
+     * @param $elementName
+     * @param $beanName
+     * @param string $customKeyName
+     *
+     * @return array
+     */
+    public function getConfigForElement(array $config, $elementName, $beanName, $customKeyName = 'beans') {
+        if(!isset($config[$elementName])) {
+            return false;
+        }
 
+        $_custom_config = isset($config[$customKeyName][$beanName][$elementName]) ? $config[$customKeyName][$beanName][$elementName] : false;
+
+        if(is_array($_custom_config)) {
+            return array_merge($config[$elementName], $_custom_config);
+        }
+
+        return $config[$elementName];
+    }
 }

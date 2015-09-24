@@ -288,10 +288,13 @@ class Bean extends Config implements BeanInterface
 
         $_display_columns = array();
 
-        foreach($this->_column_definitions as $_column) {
-            if($_column instanceof ColumnInterface) {
-                if($_column->isColumnVisible()) {
-                    $_display_columns[] = $_column->getName();
+        foreach($this->_column_definitions as $_column)
+        {
+            if($_column instanceof ColumnInterface)
+            {
+                if($_column->isColumnVisible())
+                {
+                    $_display_columns[] = $_column;
                 }
             }
         }
