@@ -119,11 +119,11 @@ class FormFactory extends FormFactoryAbstract
 
         //Return the HTML as string
         if ($returnString) {
-            return $this->generateFormContainer($_element_html);
+            return $_element_html;
         }
 
         //Print the HTML out
-        echo $this->generateFormContainer($_element_html);
+        echo $_element_html;
     }
 
     /**
@@ -159,7 +159,7 @@ class FormFactory extends FormFactoryAbstract
             {
                 $_field_html = "";
 
-                $_show_label = $this->getConfigForElement($this->_form_config, 'showLabels', $bean, 'beans');
+                $_show_label = $this->getConfigForElement($this->_form_config, 'showLabels', $bean->getName(), 'beans');
 
                 if ($_show_label)
                 {
@@ -213,24 +213,5 @@ class FormFactory extends FormFactoryAbstract
 
         return $_form_fields;
     }
-
-    /**
-     * @param $elData
-     * @param array $attributes
-     * @return bool|string
-     */
-    public function generateFormContainer($elData, $attributes = array())
-    {
-        $_form_container_template = isset($this->_form_config['from_container_template']) ? $this->_form_config['from_container_template'] : array();
-
-        if (!empty($elData) && isset($_form_container_template['data']['tagName'])) {
-            return $this->generateElement($_form_container_template['data']['tagName'],
-                (isset($_form_container_template['data']['attributes']) && is_array($_form_container_template['data']['attributes'])) ? array_merge($_form_container_template['data']['attributes'], $attributes) : array()
-                , $elData, true);
-        }
-
-        return $elData;
-    }
-
 
 }
