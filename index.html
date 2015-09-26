@@ -151,19 +151,88 @@ echo $formFactory-&gt;generateForm($attachmentBean);
 
 </code></pre>
 
-<p>At the moment the form is bare bone Form with no CSS but that will come with future releases. The Form generator will 
-automatically remove the primary fields.</p>
+<h3>
+<a id="config-for-forms" class="anchor" href="#config-for-forms" aria-hidden="true"><span class="octicon octicon-link"></span></a>Config for Forms</h3>
+
+<pre><code>Pyntax\Config\Config::writeConfig('form', array(
+    'capturePostAndSaveBean' =&gt; true,
+    'convertColumnNamesIntoLabel' =&gt; true,
+    'showLabels' =&gt; true,
+    'label_container' =&gt; array(
+        'tagName' =&gt; 'div',
+        'attributes' =&gt; array(
+            'class' =&gt; 'col-sm-2 control-label'
+        )
+    ),
+    'element_container' =&gt; array(
+        'tagName' =&gt; 'div',
+        'attributes' =&gt; array(
+            'class' =&gt; 'col-sm-10'
+        )
+    ),
+    'from_container_template' =&gt; array(
+        'data' =&gt; array(
+            'tagName' =&gt; 'div',
+            'attributes' =&gt; array(
+                'class' =&gt; 'box box-primary'
+            )
+        )
+    ),
+    'form_column' =&gt; array(
+        'nbr_of_columns' =&gt; 2,
+        'column_element_template' =&gt; array(
+            'tagName' =&gt;' div',
+            'attributes' =&gt; array(
+                'class' =&gt; 'row'
+            )
+        ),
+        'container_element_template' =&gt; array(
+            'tagName' =&gt;'div',
+            'attributes' =&gt; array(
+                'class' =&gt; 'col-md-6'
+            )
+        ),
+
+    ),
+    'form_element_container_template' =&gt; array(
+        'templateName' =&gt; 'html_element_template',
+        'data' =&gt; array(
+            'tagName' =&gt; 'div',
+            'attributes' =&gt; array(
+                'class' =&gt; 'form-group'
+            )
+        ),
+    )
+));
+</code></pre>
+
+<p>The Form generator will automatically remove the primary fields. The above config array is used to set all the HTML 
+properties of the form.</p>
 
 <p>The form will look as follows:</p>
 
-<pre><code>&lt;form id='frm_attachments'method='post' &gt; 
-    &lt;input type='text'id='id_file_name'name='PyntaxDAO[attachments][file_name]'placeholder='file_name' value='' /&gt;
-    &lt;input type='text'id='id_file_path'name='PyntaxDAO[attachments][file_path]'placeholder='file_path' value='' /&gt;
-    &lt;input type='text'id='id_date_uploaded'name='PyntaxDAO[attachments][date_uploaded]'placeholder='date_uploaded' value='' /&gt;
-    &lt;input type='text'id='id_file_type'name='PyntaxDAO[attachments][file_type]'placeholder='file_type' value='' /&gt;
-    &lt;input type='hidden'name='PyntaxDAO[BeanName]' value='attachments' /&gt;
-
-    &lt;button type='Submit' &gt; Save &lt;/button&gt; 
+<pre><code>&lt;form id="frm_attachments" method="post" class="form-horizontal"&gt;
+   &lt;div class="col-md-6"&gt;
+      &lt;div class="form-group"&gt;
+         &lt;div class="col-sm-2 control-label"&gt; &lt;label for="PyntaxDAO[attachments][file_name]"&gt; File Name &lt;/label&gt; &lt;/div&gt;
+         &lt;div class="col-sm-10"&gt; &lt;input type="text" id="id_file_name" name="PyntaxDAO[attachments][file_name]" placeholder="file_name" class="form-control" value=""&gt; &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="form-group"&gt;
+         &lt;div class="col-sm-2 control-label"&gt; &lt;label for="PyntaxDAO[attachments][file_path]"&gt; File Path &lt;/label&gt; &lt;/div&gt;
+         &lt;div class="col-sm-10"&gt; &lt;input type="text" id="id_file_path" name="PyntaxDAO[attachments][file_path]" placeholder="file_path" class="form-control" value=""&gt; &lt;/div&gt;
+      &lt;/div&gt;
+   &lt;/div&gt;
+   &lt;div class="col-md-6"&gt;
+      &lt;div class="form-group"&gt;
+         &lt;div class="col-sm-2 control-label"&gt; &lt;label for="PyntaxDAO[attachments][date_uploaded]"&gt; Date Uploaded &lt;/label&gt; &lt;/div&gt;
+         &lt;div class="col-sm-10"&gt; &lt;input type="text" id="id_date_uploaded" name="PyntaxDAO[attachments][date_uploaded]" placeholder="date_uploaded" class="form-control" value=""&gt; &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="form-group"&gt;
+         &lt;div class="col-sm-2 control-label"&gt; &lt;label for="PyntaxDAO[attachments][file_type]"&gt; File Type &lt;/label&gt; &lt;/div&gt;
+         &lt;div class="col-sm-10"&gt; &lt;input type="text" id="id_file_type" name="PyntaxDAO[attachments][file_type]" placeholder="file_type" class="form-control" value=""&gt; &lt;/div&gt;
+      &lt;/div&gt;
+   &lt;/div&gt;
+   &lt;input type="hidden" name="PyntaxDAO[BeanName]" value="attachments"&gt;&lt;button type="Submit"&gt; Save &lt;/button&gt; 
 &lt;/form&gt;
 </code></pre>
 
