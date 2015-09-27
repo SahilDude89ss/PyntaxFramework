@@ -86,13 +86,10 @@ class FormFactory extends FormFactoryAbstract
             $_form_column_config = $this->_form_config['form_column'];
             $nbr_of_columns = $_form_column_config['nbr_of_columns'];
 
-            if ($nbr_of_columns > $_columns_to_be_displayed) {
+            $_fields_in_a_column = array_chunk($_columns_to_be_displayed, count($_columns_to_be_displayed) / $nbr_of_columns);
 
-                $_fields_in_a_column = array_chunk($_columns_to_be_displayed, count($_columns_to_be_displayed) / $nbr_of_columns);
-
-                foreach ($_fields_in_a_column as $_fields) {
-                    $_form_fields .= $this->generateFormColumn($_fields, $bean);
-                }
+            foreach ($_fields_in_a_column as $_fields) {
+                $_form_fields .= $this->generateFormColumn($_fields, $bean);
             }
         }
 
