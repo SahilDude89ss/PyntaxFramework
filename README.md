@@ -117,6 +117,7 @@ echo \Pyntax\PyntaxDAO::generateForm($attachmentBean);
 ```
 
 ### Config for Forms
+```
 Pyntax\Config\Config::writeConfig('form', array(
     /**
      * @property: capturePostAndSaveBean
