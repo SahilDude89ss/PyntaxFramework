@@ -150,13 +150,4 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
 
         return implode(" ", $attributeValueArray);
     }
-
-    /**
-     * @param $tagName
-     * @return bool
-     */
-    protected function validateElement($tagName)
-    {
-        return in_array($tagName, $this->_valid_html_elements);
-    }
 }

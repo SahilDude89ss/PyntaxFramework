@@ -7,6 +7,24 @@ Pyntax\Config\Config::writeConfig('form', array(
     'capturePostAndSaveBean' => true,
 
     /**
+     * @property: callback_before_capturePostAndSaveBean
+     * This callback function can be used to inject more data like the users_id of the User who is logged in.
+     */
+    'callback_before_capturePostAndSaveBean' => function(array $data) {
+        $data['users_id'] = 9;
+        return $data;
+    },
+
+    /**
+     * @property: callback_after_capturePostAndSaveBean
+     */
+    'callback_after_capturePostAndSaveBean' => function(\Pyntax\DAO\Bean\BeanInterface $bean, $id) {
+        /**
+         * @ToDo: If any things has to be done after save.
+         */
+    },
+
+    /**
      * @property: showLabels
      * This is a  flag used to display the labels when a form is rendered
      */
@@ -24,7 +42,7 @@ Pyntax\Config\Config::writeConfig('form', array(
      * This defines the template for Submit button that will be rendered in a form.
      * A Custom button can be defined in the beans key in the config array.
      *
-     * - <TABLE_NAME> will be replacted with the table name in the Bean
+     * - <TABLE_NAME> will be replicated with the table name in the Bean
      */
     'submitButton' => array(
         'tagName' => 'button',
@@ -105,14 +123,5 @@ Pyntax\Config\Config::writeConfig('form', array(
                 'class' => 'form-group'
             )
         ),
-    ),
-    'directories_to_be_scanned' => array(
-        'loadFilesAutomatically' => true,
-        'css' => array(
-            './third-party/AdminLTE-2.3.0/dist/css'
-        ),
-        'js' => array(
-            './third-party/AdminLTE-2.3.0/dist/js'
-        )
     )
 ));

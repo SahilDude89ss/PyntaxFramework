@@ -29,7 +29,6 @@ use Pyntax\DAO\Adapter\AdapterInterface;
 use Pyntax\DAO\Adapter\MySqlAdapter as DefaultMySqlAdapter;
 use Pyntax\DAO\Bean\BeanFactory;
 use Pyntax\DAO\Bean\BeanInterface;
-use Pyntax\Html\Element\Element;
 use Pyntax\Html\Form\FormFactory;
 use Pyntax\Html\Form\FormFactoryInterface;
 
@@ -57,32 +56,6 @@ class PyntaxDAO
     public static function start() {
         Config::loadConfig();
         self::loadFactory();
-        self::capturePostAndSaveBean();
-    }
-
-    /**
-     * @return bool
-     */
-    protected static function capturePostAndSaveBean()
-    {
-        $formConfig = Config::readConfig('form');
-
-        if(isset($formConfig['capturePostAndSaveBean']) && $formConfig['capturePostAndSaveBean'] ==  true) {
-            $beanName = isset($_POST['PyntaxDAO']['BeanName']) ? $_POST['PyntaxDAO']['BeanName'] : false;
-
-            if($beanName && isset($_POST['PyntaxDAO'][$beanName])) {
-                $bean = self::getBean($beanName);
-                foreach($_POST['PyntaxDAO'][$beanName] as $key => $val) {
-                    $bean->$key = $val;
-                }
-                $bean->users_id = 9;
-                self::$PostSaveBeanId = $bean->save();
-
-                return self::$PostSaveBeanId;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -99,21 +72,6 @@ class PyntaxDAO
             return self::$BeanFactory->getBean($beanName);
         }
         return false;
-    }
-
-    /**
-     * @param $elementName
-     * @param $value
-     * @param array $attributes
-     *
-     * @return Element
-     */
-    public static function generateHtmlElement($elementName, $value, array $attributes = array())
-    {
-        $el = new Element($elementName);
-        $el->setValue($value);
-
-        return $el;
     }
 
     /**

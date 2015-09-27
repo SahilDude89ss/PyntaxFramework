@@ -27,6 +27,7 @@ namespace Pyntax\Html\Form;
 use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\DAO\Bean\Column\ColumnInterface;
+use Pyntax\PyntaxDAO;
 
 /**
  * Class FormFactory
@@ -34,6 +35,9 @@ use Pyntax\DAO\Bean\Column\ColumnInterface;
  */
 class FormFactory extends FormFactoryAbstract
 {
+    /**
+     * @var string
+     */
     protected $_form_template_key = 'formTemplate';
 
     public function __construct()
@@ -41,6 +45,11 @@ class FormFactory extends FormFactoryAbstract
         parent::__construct();
         $this->loadFormConfig();
         $this->setModuleConfigKey('form');
+
+        /**
+         * If the setting are on to save the bean the save the data.
+         */
+        $this->saveBean();
     }
 
     /**
@@ -89,7 +98,7 @@ class FormFactory extends FormFactoryAbstract
         }
 
         //Only add the hidden field if the Saving the Bean is turned on in Config
-        if($this->getConfigForElement($this->_form_config, 'capturePostAndSaveBean',$bean->getName(), 'beans')) {
+        if ($this->getConfigForElement($this->_form_config, 'capturePostAndSaveBean', $bean->getName(), 'beans')) {
             $_form_fields .= $this->generateElement('input', array('type' => 'hidden', 'name' => 'PyntaxDAO[BeanName]'), $bean->getName(), false);
         }
 
@@ -97,18 +106,17 @@ class FormFactory extends FormFactoryAbstract
         $_form_fields .= $this->generateSubmitButton($bean);
 
         //Load the config for the form template and generate the form
-        if(isset($this->_form_config[$this->_form_template_key]))
-        {
+        if (isset($this->_form_config[$this->_form_template_key])) {
             //Load the form config, with overrides for the Bean
             $_tmp_form_config = $this->getConfigForElement($this->_form_config, $this->_form_template_key, $bean->getName(), 'beans');
 
             //If the id is not set in the attribute then set the ID for the Bean::getName()
-            if(!isset($_tmp_form_config['attributes']['id'])) {
+            if (!isset($_tmp_form_config['attributes']['id'])) {
                 $_tmp_form_config['attributes']['id'] = 'frm_' . $bean->getName();
             }
 
             //Add the fields that were generated as the content of the forms.
-            $_tmp_form_config['value']  = $_form_fields;
+            $_tmp_form_config['value'] = $_form_fields;
 
             //Generate the HTML for the form
             $_element_html = $this->generateElementWithArrayConfig($_tmp_form_config);
@@ -153,16 +161,13 @@ class FormFactory extends FormFactoryAbstract
     {
         $_form_fields = "";
 
-        foreach ($_columns_to_be_displayed as $_column)
-        {
-            if ($_column instanceof ColumnInterface)
-            {
+        foreach ($_columns_to_be_displayed as $_column) {
+            if ($_column instanceof ColumnInterface) {
                 $_field_html = "";
 
                 $_show_label = $this->getConfigForElement($this->_form_config, 'showLabels', $bean->getName(), 'beans');
 
-                if ($_show_label)
-                {
+                if ($_show_label) {
                     $_field_html = $this->generateElement('label', array(
                         'for' => "PyntaxDAO[{$bean->getName()}][{$_column->getName()}]"
                     ), $this->convertColumnNameIntoLabel($_column->getName()), true);
@@ -214,4 +219,33 @@ class FormFactory extends FormFactoryAbstract
         return $_form_fields;
     }
 
+    public function saveBean()
+    {
+        if (isset($this->_form_config['capturePostAndSaveBean']) && $this->_form_config['capturePostAndSaveBean'] == true) {
+            $beanName = isset($_POST['PyntaxDAO']['BeanName']) ? $_POST['PyntaxDAO']['BeanName'] : false;
+
+            if ($beanName && isset($_POST['PyntaxDAO'][$beanName])) {
+
+                $_data = $_POST['PyntaxDAO'][$beanName];
+
+                $beforeSaveCallBack = $this->getConfigForElement($this->_form_config, 'callback_before_capturePostAndSaveBean', $beanName, 'beans');
+                if (is_callable($beforeSaveCallBack)) {
+                    $_data = $beforeSaveCallBack($_POST['PyntaxDAO'][$beanName]);
+                }
+
+                $bean = PyntaxDAO::getBean($beanName);
+                foreach ($_data as $key => $val) {
+                    $bean->$key = $val;
+                }
+
+                $id = $bean->save();
+
+                $afterSaveCallback = $this->getConfigForElement($this->_form_config, 'callback_after_capturePostAndSaveBean', $beanName, 'beans');
+
+                if(is_callable($afterSaveCallback)) {
+                    $afterSaveCallback($bean, $id);
+                }
+            }
+        }
+    }
 }
