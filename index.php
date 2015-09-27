@@ -46,7 +46,7 @@ require_once('vendor/autoload.php');
 //echo $tableFactory->generateTable($clientBean);
 
 
-$bean = \Pyntax\PyntaxDAO::getBean('user_type');
+$bean = \Pyntax\PyntaxDAO::getBean('notes');
 
 $htmlFactory = new \Pyntax\Html\HtmlFactory();
 //$htmlFactory->scanDirForFiles("./third-party/AdminLTE-2.3.0/dist/css",\Pyntax\Html\HtmlFactory::FileTypeOption_CSS);
@@ -93,7 +93,7 @@ $htmlFactory->addFile(array(
 <body>
 <h1>Example  <span style="font-size: 18px">- <?php echo ucfirst($bean->getName()) ?></span></h1>
 <?php //echo $htmlFactory->createForm($bean); ?>
-<?php echo \Pyntax\PyntaxDAO::generateForm($bean); ?>
+<?php //echo \Pyntax\PyntaxDAO::generateForm($bean); ?>
 <?php echo $htmlFactory->createTable($bean); ?>
 </body>
 </html>

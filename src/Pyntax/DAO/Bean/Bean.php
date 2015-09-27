@@ -75,9 +75,8 @@ class Bean extends Config implements BeanInterface
     /**
      * @param bool|false $tableName
      * @param AdapterInterface|null $adapter
-     * @param array $metaData
      */
-    public function __construct($tableName = false, AdapterInterface $adapter = null, array $metaData = array())
+    public function __construct($tableName = false, AdapterInterface $adapter = null)
     {
         if (!$tableName || is_null($adapter)) {
             return false;
