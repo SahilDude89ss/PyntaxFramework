@@ -48,11 +48,6 @@ class PyntaxDAO
      */
     static $FormFactory = null;
 
-    /**
-     * @var bool
-     */
-    static $PostSaveBeanId = false;
-
     public static function start() {
         Config::loadConfig();
         self::loadFactory();

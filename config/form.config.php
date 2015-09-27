@@ -11,8 +11,7 @@ Pyntax\Config\Config::writeConfig('form', array(
      * This callback function can be used to inject more data like the users_id of the User who is logged in.
      */
     'callback_before_capturePostAndSaveBean' => function(array $data) {
-        $data['users_id'] = 9;
-        return $data;
+
     },
 
     /**

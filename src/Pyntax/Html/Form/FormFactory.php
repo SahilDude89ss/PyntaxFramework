@@ -82,13 +82,17 @@ class FormFactory extends FormFactoryAbstract
 
         //Check if the form is supposed to tbe borken into columns
         if (isset($this->_form_config['form_column'])) {
+
             $_form_column_config = $this->_form_config['form_column'];
-
             $nbr_of_columns = $_form_column_config['nbr_of_columns'];
-            $_fields_in_a_column = array_chunk($_columns_to_be_displayed, count($_columns_to_be_displayed) / $nbr_of_columns);
 
-            foreach ($_fields_in_a_column as $_fields) {
-                $_form_fields .= $this->generateFormColumn($_fields, $bean);
+            if ($nbr_of_columns > $_columns_to_be_displayed) {
+
+                $_fields_in_a_column = array_chunk($_columns_to_be_displayed, count($_columns_to_be_displayed) / $nbr_of_columns);
+
+                foreach ($_fields_in_a_column as $_fields) {
+                    $_form_fields .= $this->generateFormColumn($_fields, $bean);
+                }
             }
         }
 
@@ -233,6 +237,10 @@ class FormFactory extends FormFactoryAbstract
                     $_data = $beforeSaveCallBack($_POST['PyntaxDAO'][$beanName]);
                 }
 
+                if(empty($_data)) {
+                    $_data =  $_POST['PyntaxDAO'][$beanName];
+                }
+
                 $bean = PyntaxDAO::getBean($beanName);
                 foreach ($_data as $key => $val) {
                     $bean->$key = $val;
@@ -242,7 +250,7 @@ class FormFactory extends FormFactoryAbstract
 
                 $afterSaveCallback = $this->getConfigForElement($this->_form_config, 'callback_after_capturePostAndSaveBean', $beanName, 'beans');
 
-                if(is_callable($afterSaveCallback)) {
+                if (is_callable($afterSaveCallback)) {
                     $afterSaveCallback($bean, $id);
                 }
             }
