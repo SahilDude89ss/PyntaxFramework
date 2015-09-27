@@ -115,8 +115,8 @@ class ElementFactory extends ElementFactoryAbstract
         }
 
         $_html_tag_name = isset($config['tagName']) ? $config['tagName'] : false;
-        $_attributes = isset($config['attributes']) && is_array($config['attributes']) ? $config['attributes'] : false;
-        $_html_tag_value = isset($config['value']) ? $config['value'] : false;
+        $_attributes = isset($config['attributes']) && is_array($config['attributes']) ? $config['attributes'] : array();
+        $_html_tag_value = isset($config['value']) ? $config['value'] : "";
         $_html_is_closable = isset($config['isClosable']) ? $config['isClosable'] : true;
         $_element_to_be_rendered = isset($config['elementTwigTemplate']) ? $config['elementTwigTemplate'] : 'html_element_template';
 

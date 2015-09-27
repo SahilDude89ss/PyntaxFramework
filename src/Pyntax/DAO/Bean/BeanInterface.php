@@ -30,15 +30,37 @@ namespace Pyntax\DAO\Bean;
  */
 interface BeanInterface {
 
+    /**
+     * @return mixed
+     */
     public function save();
 
+    /**
+     * @return mixed
+     */
     public function delete();
 
+    /**
+     * @param bool|false $searchCriteria
+     * @param bool|false $returnArray
+     * @return mixed
+     */
     public function find($searchCriteria = false, $returnArray = false);
 
+    /**
+     * @param $returnType
+     *
+     * @return mixed
+     */
     public function getDisplayColumns($returnType);
 
+    /**
+     * @return mixed
+     */
     public function getName();
 
+    /**
+     * @return mixed
+     */
     public function getColumnDefinition();
 }

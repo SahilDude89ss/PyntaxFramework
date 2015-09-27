@@ -40,11 +40,9 @@ class BeanFactory implements BeanFactoryInterface {
      * @param AdapterInterface $dbAdapter
      */
     public function __construct(AdapterInterface $dbAdapter = null) {
-        if(is_null($dbAdapter)) {
-            return false;
+        if(!is_null($dbAdapter)) {
+            $this->_db_adapter = $dbAdapter;
         }
-
-        $this->_db_adapter = $dbAdapter;
     }
 
     /**
