@@ -94,11 +94,11 @@ class Bean extends Config implements BeanInterface
      */
     private function processMetaData(array $metaData = null)
     {
-        $_orm_config = Config::readConfig('orm');
-
-        if(isset($_orm_config['load_related_beans']) && $_orm_config['load_related_beans'] == true) {
-            $foreignKeys = $this->_db_adapter->getForeignKeys($this->_table_name);
-        }
+//        $_orm_config = Config::readConfig('orm');
+//
+////        if(isset($_orm_config['load_related_beans']) && $_orm_config['load_related_beans'] == true) {
+////            $foreignKeys = $this->_db_adapter->getForeignKeys($this->_table_name);
+////        }
 
         if (is_null($metaData)) {
             return false;
@@ -310,8 +310,7 @@ class Bean extends Config implements BeanInterface
 
     /**
      * @param array $resultArray
-     * @return $this
-     * @throws Exception
+     * @return $this|array|bool
      */
     protected function convertSearchResultIntoBean(array $resultArray)
     {
@@ -364,7 +363,7 @@ class Bean extends Config implements BeanInterface
         return $this->_column_definitions;
     }
 
-    public function findQuery($queryString, $returnArray = false)
+    public function findQuery($queryString)
     {
         return $this->_db_adapter->exec($queryString);
     }
