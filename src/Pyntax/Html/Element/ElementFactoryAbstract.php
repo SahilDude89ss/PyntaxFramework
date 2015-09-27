@@ -31,6 +31,11 @@ namespace Pyntax\Html\Element;
 abstract class ElementFactoryAbstract implements ElementFactoryInterface
 {
     /**
+     * @var bool
+     */
+    protected $_twig_environment = false;
+
+    /**
      * @var array
      */
     protected $_valid_html_elements = array(
@@ -41,10 +46,33 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
     );
 
     /**
+     * @param array $config
+     * @param $elementName
+     * @param $beanName
+     * @param string $customKeyName
+     *
+     * @return array
+     */
+    public function getConfigForElement(array $config, $elementName, $beanName, $customKeyName = 'beans')
+    {
+        if(!isset($config[$elementName])) {
+            return false;
+        }
+
+        $_custom_config = isset($config[$customKeyName][$beanName][$elementName]) ? $config[$customKeyName][$beanName][$elementName] : false;
+
+        if(is_array($_custom_config)) {
+            return array_merge($config[$elementName], $_custom_config);
+        }
+
+        return $config[$elementName];
+    }
+
+    /**
      * @param $attributes
      * @return mixed
      */
-    protected function generateAttributeHtml($attributes)
+    public function generateAttributeHtml($attributes)
     {
         if (is_string($attributes)) {
             return $attributes;
@@ -130,27 +158,5 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
     protected function validateElement($tagName)
     {
         return in_array($tagName, $this->_valid_html_elements);
-    }
-
-    /**
-     * @param array $config
-     * @param $elementName
-     * @param $beanName
-     * @param string $customKeyName
-     *
-     * @return array
-     */
-    public function getConfigForElement(array $config, $elementName, $beanName, $customKeyName = 'beans') {
-        if(!isset($config[$elementName])) {
-            return false;
-        }
-
-        $_custom_config = isset($config[$customKeyName][$beanName][$elementName]) ? $config[$customKeyName][$beanName][$elementName] : false;
-
-        if(is_array($_custom_config)) {
-            return array_merge($config[$elementName], $_custom_config);
-        }
-
-        return $config[$elementName];
     }
 }

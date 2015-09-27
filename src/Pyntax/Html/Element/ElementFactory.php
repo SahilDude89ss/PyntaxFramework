@@ -34,10 +34,6 @@ use Pyntax\DAO\Bean\Column\ColumnInterface;
  */
 class ElementFactory extends ElementFactoryAbstract
 {
-    /**
-     * @var bool
-     */
-    protected $_twig_environment = false;
 
     protected $_module_config_key = false;
 
@@ -185,5 +181,8 @@ class ElementFactory extends ElementFactoryAbstract
                 'class' => 'form-control'
             ), $_attributes), $bean->$_column, !($_column_display_attributes['elTag'] == "input"));
         }
+
+
+        return "";
     }
 }

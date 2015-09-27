@@ -8,5 +8,7 @@
 //}(Pyntax.App));
 
 $(document).ready(function(){
-    $('input[data-type="date"]').pickadate();
+    $('input[data-type="date"]').pickadate({
+        formatSubmit: 'yyyy-mm-dd'
+    });
 });

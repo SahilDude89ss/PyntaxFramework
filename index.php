@@ -46,8 +46,7 @@ require_once('vendor/autoload.php');
 //echo $tableFactory->generateTable($clientBean);
 
 
-
-$attachmentBean = \Pyntax\PyntaxDAO::getBean('attachments');
+$bean = \Pyntax\PyntaxDAO::getBean('notes');
 
 $htmlFactory = new \Pyntax\Html\HtmlFactory();
 //$htmlFactory->scanDirForFiles("./third-party/AdminLTE-2.3.0/dist/css",\Pyntax\Html\HtmlFactory::FileTypeOption_CSS);
@@ -88,10 +87,12 @@ $htmlFactory->addFile(array(
 
 <html>
 <head>
-    <?php $htmlFactory->printCSSFiles(\Pyntax\Html\HtmlFactory::FilePlacementOption_Header); $htmlFactory->printJSFiles(\Pyntax\Html\HtmlFactory::FilePlacementOption_Header); ?>
+    <?php $htmlFactory->printCSSFiles(\Pyntax\Html\HtmlFactory::FilePlacementOption_Header);
+    $htmlFactory->printJSFiles(\Pyntax\Html\HtmlFactory::FilePlacementOption_Header); ?>
 </head>
 <body>
-    <?php echo $htmlFactory->createForm($attachmentBean); ?>
-<!--    --><?php //echo $htmlFactory->createTable($attachmentBean); ?>
+<h1>Example  <span style="font-size: 18px">- <?php echo ucfirst($bean->getName()) ?></span></h1>
+<?php echo $htmlFactory->createForm($bean); ?>
+<?php echo $htmlFactory->createTable($bean); ?>
 </body>
 </html>

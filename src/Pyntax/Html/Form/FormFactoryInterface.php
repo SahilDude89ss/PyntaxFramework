@@ -38,4 +38,36 @@ interface FormFactoryInterface
      * @return mixed
      */
     public function generateForm(BeanInterface $bean, $returnString = false);
+
+    /**
+     * @param BeanInterface $bean
+     *
+     * @return mixed
+     */
+    public function generateSubmitButton(BeanInterface $bean);
+
+    /**
+     * @param array $_columns_to_be_displayed
+     * @param BeanInterface $bean
+     *
+     * @return mixed
+     */
+    public function generateFormColumn(array $_columns_to_be_displayed, BeanInterface $bean);
+
+    /**
+     * @param array $config
+     * @param $elementName
+     * @param $beanName
+     * @param string $customKeyName
+     *
+     * @return mixed
+     */
+    public function getConfigForElement(array $config, $elementName, $beanName, $customKeyName = 'beans');
+
+    /**
+     * @param array $config
+     *
+     * @return mixed
+     */
+    public function generateElementWithArrayConfig(array $config = array());
 }

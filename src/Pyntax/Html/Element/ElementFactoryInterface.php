@@ -30,5 +30,20 @@ namespace Pyntax\Html\Element;
  */
 interface ElementFactoryInterface
 {
+    /**
+     * @param $tagName
+     * @param array $attributes
+     * @param string $value
+     * @param bool|true $isClosable
+     * @param string $templateToBeRendered
+     *
+     * @return mixed
+     */
     public function generateElement($tagName, array $attributes = array(), $value = "", $isClosable = true, $templateToBeRendered = 'html_element_template');
+
+    /**
+     * @param $attributes
+     * @return mixed
+     */
+    public function generateAttributeHtml($attributes);
 }

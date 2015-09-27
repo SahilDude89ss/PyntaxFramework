@@ -47,4 +47,6 @@ interface ColumnInterface {
     public function isColumnVisible();
 
     public function getName();
+
+    public function getHtmlElementType();
 }
