@@ -148,7 +148,7 @@ class Column implements ColumnInterface
     public function isColumnVisible()
     {
         $keyValue = $this->getValueFromDefinition('Key');
-        if($keyValue == "MUL" || $keyValue == "PRI") {
+        if($keyValue == "PRI") { //$keyValue == "MUL" ||
             return false;
         }
 

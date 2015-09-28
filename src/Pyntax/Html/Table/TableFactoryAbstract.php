@@ -35,6 +35,11 @@ use Pyntax\Html\Element\ElementFactory;
 abstract class TableFactoryAbstract extends ElementFactory implements TableFactoryInterface
 {
     /**
+     * @var array
+     */
+    protected $_table_config = array();
+
+    /**
      * @param BeanInterface $bean
      * @param string $findCondition
      * @param bool|false $returnString
@@ -50,8 +55,8 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
      */
     public function generateTableHtml(BeanInterface $bean, $searchResults = array())
     {
-        $table = $this->generateTableHeader($bean->getDisplayColumns());
-        $table .= $this->generateTableBody($searchResults, $bean->getDisplayColumns());
+        $table = $this->generateTableHeader($bean->getDisplayColumns('table'));
+        $table .= $this->generateTableBody($searchResults, $bean->getDisplayColumns('table'));
 
         $_table_config = Config::readConfig('table');
 
@@ -133,5 +138,9 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
     {
         $thData = strtoupper(str_replace("_", " ", $thData->getName()));
         return $this->generateElement('th', $attributes, $thData, true);
+    }
+
+    protected function loadConfig() {
+        $this->_table_config = Config::readConfig('table');
     }
 }

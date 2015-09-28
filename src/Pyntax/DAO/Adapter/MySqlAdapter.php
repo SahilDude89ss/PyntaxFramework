@@ -192,7 +192,7 @@ class MySqlAdapter implements AdapterInterface
      *
      * @return mixed
      */
-    public function Select($table, $where = null, $groupBy = null, $orderBy = null, $limit = 0)
+    public function Select($table, $where = null, $limit = 0 , $groupBy = null, $orderBy = null)
     {
         $select = $this->queryFactory->newSelect();
         $select->cols(array('*'))
@@ -226,7 +226,7 @@ class MySqlAdapter implements AdapterInterface
      *
      * @return bool|string
      */
-    protected function convertWhereToString(array $whereArray = array(), $concatenationOperator = " AND ")
+    protected function convertWhereToString(array $whereArray = array(), $concatenationOperator = " AND ", $assignmentOperator = "=")
     {
         if (empty($whereArray)) {
             return false;
@@ -236,10 +236,13 @@ class MySqlAdapter implements AdapterInterface
 
         //Check if the the keys is AND or OR, if yes then use that as the concat operator
         foreach ($whereArray as $key => $val) {
-            if ((strtoupper($key) == 'OR' || strtoupper($key) == 'AND') && is_array($val) && !empty($val)) {
-                $returnWhereStringToken = array_merge($returnWhereStringToken, array($this->convertWhereToString($val, " " . trim($key) . " ")));
+            $_key = strtoupper($key);
+
+            if ((in_array($_key, array("OR","AND","LIKE"))) && is_array($val) && !empty($val)) {
+                $_assignmentOperator = ($_key == "LIKE") ? $_key : $assignmentOperator;
+                $returnWhereStringToken = array_merge($returnWhereStringToken, array($this->convertWhereToString($val, " " . trim($key) . " ", $_assignmentOperator)));
             } else {
-                $returnWhereStringToken[] = "$key = '$val'";
+                $returnWhereStringToken[] = "$key {$assignmentOperator} '$val'";
             }
         }
 

@@ -63,6 +63,8 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
 
         if(is_array($_custom_config)) {
             return array_merge($config[$elementName], $_custom_config);
+        } else if(!empty($_custom_config)) {
+            return $_custom_config;
         }
 
         return $config[$elementName];

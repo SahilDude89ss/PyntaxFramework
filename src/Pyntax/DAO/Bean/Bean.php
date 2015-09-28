@@ -259,7 +259,9 @@ class Bean extends Config implements BeanInterface
             $primaryKeyValueForSearch = intval($searchCriteria);
             $result = $this->_db_adapter->getOneResult($this->_table_name, array($this->_primary_key => $primaryKeyValueForSearch));
         } else if (is_array($searchCriteria) && !empty($searchCriteria)) {
-            $result = $this->_db_adapter->Select($this->_table_name, $searchCriteria);
+            $limit = isset($searchCriteria['limit']) ? $searchCriteria['limit'] : 0;
+            unset($searchCriteria['limit']);
+            $result = $this->_db_adapter->Select($this->_table_name, $searchCriteria, $limit);
         } else if(empty($searchCriteria) || !$searchCriteria) {
             $result = $this->_db_adapter->Select($this->_table_name);
         }
@@ -277,28 +279,39 @@ class Bean extends Config implements BeanInterface
      */
     public function getDisplayColumns($view = 'list')
     {
+        $_display_columns = array();
+
         if(isset(Config::$_config['orm']['beans'][$this->_table_name]))
         {
             if(isset(Config::$_config['orm']['beans'][$this->_table_name]['visible_columns'][$view]))
             {
-                return Config::$_config['orm']['beans'][$this->_table_name]['visible_columns'][$view];
+                $_display_columns = Config::$_config['orm']['beans'][$this->_table_name]['visible_columns'][$view];
             }
         }
 
-        $_display_columns = array();
+        if(empty($_display_columns)) {
+            $_display_columns = $this->_column_definitions;
+        }
 
-        foreach($this->_column_definitions as $_column)
+        $_columns_displayed = array();
+
+        foreach($_display_columns as $_column_name)
         {
-            if($_column instanceof ColumnInterface)
+            if(isset($this->_column_definitions[$_column_name]))
             {
-                if($_column->isColumnVisible())
+                $_column = $this->_column_definitions[$_column_name];
+
+                if($_column instanceof ColumnInterface)
                 {
-                    $_display_columns[] = $_column;
+                    if($_column->isColumnVisible())
+                    {
+                        $_columns_displayed[] = $_column;
+                    }
                 }
             }
         }
 
-        return $_display_columns;
+        return $_columns_displayed;
     }
 
     /**

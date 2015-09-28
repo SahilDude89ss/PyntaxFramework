@@ -32,6 +32,11 @@ use Pyntax\DAO\Bean\BeanInterface;
  */
 class TableFactory extends TableFactoryAbstract
 {
+    public function __construct() {
+        parent::__construct();
+        $this->loadConfig();
+    }
+
     /**
      * @param BeanInterface $bean
      * @param string $findCondition
@@ -40,6 +45,16 @@ class TableFactory extends TableFactoryAbstract
      */
     public function generateTable(BeanInterface $bean, $findCondition = "", $returnString = false)
     {
+
+        if((is_array($findCondition) && !isset($findCondition['limit'])) || empty($findCondition)) {
+            $recordLimitOnOnePage = $this->getConfigForElement($this->_table_config, 'recordLimitOnOnePage', $bean->getName(), 'beans');
+            if (empty($recordLimitOnOnePage)) {
+                $recordLimitOnOnePage = 10;
+            }
+
+            $findCondition['limit'] = $recordLimitOnOnePage;
+        }
+
         $result = $bean->find($findCondition, true);
 
         if ($returnString) {

@@ -30,7 +30,7 @@ Pyntax\Config\Config::writeConfig('database', array(
     'server' => 'localhost',
     'user' => 'root',
     'password' => '',
-    'database' => 'simplemanager_db_v3'
+    'database' => 'sugarcrm_aiiauat'
 ));
 
 Pyntax\Config\Config::writeConfig('orm', array(
@@ -43,17 +43,15 @@ Pyntax\Config\Config::writeConfig('orm', array(
                 )
             )
         ),
+        'accounts' => array(
+            'visible_columns' => array(
+                'table' => array(
+                    'name', 'account_type', 'industry'
+                )
+            )
+        )
     ),
 ));
-
-Pyntax\Config\Config::writeConfig('table', array(
-    'table' => array(
-        'class' => 'table table-bordered table-hover',
-        'id' => 'example2'
-    ),
-    'dataTable' => false
-));
-
 
 Pyntax\Config\Config::writeConfig('template', array(
     'html_element_template' => "<{{elTag}} {% for attribute in attributes %}{{attribute.name}}='{{attribute.value}}'{% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}>{% else %}value='{{elDataValue}}' />{% endif %}",
