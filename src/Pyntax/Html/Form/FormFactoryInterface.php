@@ -60,7 +60,7 @@ interface FormFactoryInterface
      * @param $beanName
      * @param string $customKeyName
      *
-     * @return mixed
+     * @return bool|mixed
      */
     public function getConfigForElement(array $config, $elementName, $beanName, $customKeyName = 'beans');
 

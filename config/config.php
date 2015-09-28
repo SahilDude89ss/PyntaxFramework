@@ -46,7 +46,7 @@ Pyntax\Config\Config::writeConfig('orm', array(
         'accounts' => array(
             'visible_columns' => array(
                 'table' => array(
-                    'name', 'account_type', 'industry'
+                    'name', 'billing_address_city', 'billing_address_country','phone_office','date_entered',
                 )
             )
         )

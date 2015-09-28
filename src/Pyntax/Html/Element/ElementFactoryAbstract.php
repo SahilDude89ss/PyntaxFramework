@@ -51,7 +51,7 @@ abstract class ElementFactoryAbstract implements ElementFactoryInterface
      * @param $beanName
      * @param string $customKeyName
      *
-     * @return array
+     * @return array|bool|mixed
      */
     public function getConfigForElement(array $config, $elementName, $beanName, $customKeyName = 'beans')
     {

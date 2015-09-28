@@ -41,7 +41,7 @@ interface BeanInterface {
     public function delete();
 
     /**
-     * @param bool|false $searchCriteria
+     * @param bool|false|array $searchCriteria
      * @param bool|false $returnArray
      * @return mixed
      */
