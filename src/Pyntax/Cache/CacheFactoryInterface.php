@@ -22,37 +22,17 @@
  * SOFTWARE.
  */
 
-Pyntax\Config\Config::writeConfig('core',array(
-    'MySQLAdapter' => 'Pyntax\DAO\Adapter\MySqlAdapter'
-));
+namespace Pyntax\Cache;
 
-Pyntax\Config\Config::writeConfig('database', array(
-    'server' => 'localhost',
-    'user' => 'root',
-    'password' => '',
-    'database' => 'sugarcrm_aiiauat'
-));
+interface CacheFactoryInterface
+{
+    public function loadCacheManager();
 
-Pyntax\Config\Config::writeConfig('orm', array(
-    'load_related_beans' => true,
-    'beans' => array(
-        'attachments' => array(
-            'visible_columns' => array(
-                'orm' => array(
-                    'file_path'
-                )
-            )
-        ),
-        'accounts' => array(
-            'visible_columns' => array(
-                'table' => array(
-                    'name', 'billing_address_city', 'billing_address_country','phone_office','date_created',
-                )
-            )
-        )
-    ),
-));
+    public function read($fileName);
 
-Pyntax\Config\Config::writeConfig('template', array(
-    'html_element_template' => "<{{elTag}} {% for attribute in attributes %}{{attribute.name}}='{{attribute.value}}'{% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}>{% else %}value='{{elDataValue}}' />{% endif %}",
-));
+    public function write($fileName, $content, $expiry = false);
+
+    public function loadConfig();
+
+    public function getFileName($fileName);
+}

@@ -45,8 +45,10 @@ require_once('vendor/autoload.php');
 //
 //echo $tableFactory->generateTable($clientBean);
 
+$startTime = microtime();
 
-$bean = \Pyntax\PyntaxDAO::getBean('accounts');
+
+$bean = \Pyntax\PyntaxDAO::getBean('notes');
 $htmlFactory = \Pyntax\PyntaxDAO::loadHtmlFactory();
 
 ?>
@@ -59,7 +61,9 @@ $htmlFactory = \Pyntax\PyntaxDAO::loadHtmlFactory();
 <body>
 <h1>Example  <span style="font-size: 18px">- <?php echo ucfirst($bean->getName()) ?></span></h1>
 <?php //echo $htmlFactory->createForm($bean); ?>
-<?php //echo \Pyntax\PyntaxDAO::generateForm($bean); ?>
-<?php echo $htmlFactory->createTable($bean); ?>
+<?php echo \Pyntax\PyntaxDAO::generateForm($bean); ?>
+<?php //echo $htmlFactory->createTable($bean); ?>
+
+<h3><?php  echo microtime() - $startTime ?></h3>
 </body>
 </html>

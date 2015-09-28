@@ -22,37 +22,21 @@
  * SOFTWARE.
  */
 
-Pyntax\Config\Config::writeConfig('core',array(
-    'MySQLAdapter' => 'Pyntax\DAO\Adapter\MySqlAdapter'
-));
+namespace Pyntax\Config;
 
-Pyntax\Config\Config::writeConfig('database', array(
-    'server' => 'localhost',
-    'user' => 'root',
-    'password' => '',
-    'database' => 'sugarcrm_aiiauat'
-));
-
-Pyntax\Config\Config::writeConfig('orm', array(
-    'load_related_beans' => true,
-    'beans' => array(
-        'attachments' => array(
-            'visible_columns' => array(
-                'orm' => array(
-                    'file_path'
-                )
-            )
-        ),
-        'accounts' => array(
-            'visible_columns' => array(
-                'table' => array(
-                    'name', 'billing_address_city', 'billing_address_country','phone_office','date_created',
-                )
-            )
-        )
-    ),
-));
-
-Pyntax\Config\Config::writeConfig('template', array(
-    'html_element_template' => "<{{elTag}} {% for attribute in attributes %}{{attribute.name}}='{{attribute.value}}'{% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}>{% else %}value='{{elDataValue}}' />{% endif %}",
-));
+/**
+ * Interface ConfigAwareInterface
+ * @package Pyntax\Config
+ */
+interface ConfigAwareInterface
+{
+    /**
+     * @param array $config
+     * @param $elementName
+     * @param $beanName
+     * @param string $customKeyName
+     *
+     * @return mixed
+     */
+    public function getConfigForElement(array $config, $elementName, $beanName, $customKeyName = 'beans');
+}

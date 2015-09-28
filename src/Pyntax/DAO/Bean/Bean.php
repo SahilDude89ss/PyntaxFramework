@@ -25,6 +25,7 @@
 namespace Pyntax\DAO\Bean;
 
 use Aura\SqlQuery\Exception;
+use Pyntax\Cache\CacheFactory;
 use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\Column\Column;
 use Pyntax\DAO\Adapter\AdapterInterface;
@@ -71,6 +72,10 @@ class Bean extends Config implements BeanInterface
      */
     protected $_primary_key = false;
 
+    /**
+     * @var bool
+     */
+    protected $_cache_factory = false;
 
     /**
      * @param bool|false $tableName
@@ -82,10 +87,13 @@ class Bean extends Config implements BeanInterface
             return false;
         }
 
+        $this->_cache_factory = new CacheFactory();
+
         $this->_db_adapter = $adapter;
         $this->_table_name = $tableName;
 
         $this->loadMetaData();
+
     }
 
     /**
@@ -182,7 +190,32 @@ class Bean extends Config implements BeanInterface
      */
     private function loadMetaData()
     {
-        $this->processMetaData($this->_db_adapter->getMetaData($this->_table_name));
+        $_meta_data = $this->loadMetaDataFromCache($this->_table_name);
+
+        if(empty($_meta_data))
+        {
+            $_meta_data = $this->_db_adapter->getMetaData($this->_table_name);
+            $this->_cache_factory->write($this->_table_name, $_meta_data);
+        }
+
+        $this->processMetaData($_meta_data);
+    }
+
+    /**
+     * @param $beanName
+     * @return bool|mixed
+     */
+    private function loadMetaDataFromCache($beanName)
+    {
+        if(!empty($this->_cache_factory)) {
+            $_meta_data_form_cache = $this->_cache_factory->read($beanName);
+
+            if(!empty($_meta_data_form_cache)) {
+                return unserialize($_meta_data_form_cache);
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -290,7 +323,7 @@ class Bean extends Config implements BeanInterface
         }
 
         if(empty($_display_columns)) {
-            $_display_columns = $this->_column_definitions;
+            $_display_columns = array_keys($this->_columns);
         }
 
         $_columns_displayed = array();
