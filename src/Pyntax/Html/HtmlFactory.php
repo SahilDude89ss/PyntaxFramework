@@ -42,6 +42,7 @@ class HtmlFactory extends HtmlFactoryAbstract
         $this->setUpFormFactory();
         $this->setUpTableFactory();
         $this->setupElementFactory();
+        $this->loadConfig();
     }
 
     /**

@@ -42,7 +42,8 @@ abstract class FormFactoryAbstract extends ElementFactory implements FormFactory
     static protected $_bean_meta_data = array();
 
     public function loadFormConfig() {
-        $this->_form_config = !empty(Config::readConfig('form')) ? Config::readConfig('form') : array();
+        $_config = Config::readConfig('form');
+        $this->_form_config = !empty($_config) ? $_config : array();
     }
 
     /**

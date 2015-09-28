@@ -21,7 +21,6 @@ All of the configuration files for the Pyntax framework are stored in the config
 
 
 ## Configure Database
-
 Edit confing/config.php to add database details.
 
 ```
@@ -38,11 +37,10 @@ Pyntax\Config\Config::writeConfig('database', array(
 The following code is need to be added to the bootloader of the application.
 
 ```
-\Pyntax\PyntaxDAO::run();
+\Pyntax\PyntaxDAO::start();
 ``` 
 
 ## Create a Bean
-
 In order to save or retrieve data from the database, we need to create a BEAN.
 
 ```
@@ -70,7 +68,6 @@ $bean->find(1);
 This will load the data for record with primary key id 1 into the same bean.
 
 ### Finding a Bean with AND and OR
-
 A Bean can be used to search for data using an Array. The following is an example of using AND and OR at the same time.
 
 ```
@@ -98,7 +95,7 @@ If the search results returns more than one bean, it will return an array with t
 returns only return one record it will return the object and also can be accessed from the base bean.
 
 
-## Generate a Form  using a FormFactory and a Bean
+## Generate a Form using a FormFactory and a Bean
 A Bean can be used to generate a form which can be used to save and update bean in the database.
  
 ```
@@ -245,9 +242,7 @@ Pyntax\Config\Config::writeConfig('form', array(
 ));
 ```
 
-The Form generator will automatically remove the primary fields. The above config array is used to set all the HTML 
-properties of the form.
-
+The Form generator will automatically remove the primary fields. The above config array is used to set all the HTML properties of the form.
 The form will look as follows:
 
 ```

@@ -24,6 +24,7 @@
 
 namespace Pyntax\Html;
 
+use Pyntax\Config\Config;
 use Pyntax\Html\Element\ElementFactory;
 use Pyntax\Html\Form\FormFactory;
 use Pyntax\Html\Table\TableFactory;
@@ -39,6 +40,11 @@ abstract class HtmlFactoryAbstract implements HtmlFactoryInterface
 
     const FileTypeOption_CSS = 'css';
     const FileTypeOption_JS = 'js';
+
+    /**
+     * @var array
+     */
+    protected $_html_config = array();
 
     /**
      * @var array
@@ -68,6 +74,11 @@ abstract class HtmlFactoryAbstract implements HtmlFactoryInterface
      * @var null
      */
     protected $_element_factory = null;
+
+    protected function loadConfig() {
+        $_config = Config::readConfig('html');
+        $this->_html_config = is_array($_config) ? $_config : array();
+    }
 
     /**
      * @return bool
@@ -182,6 +193,7 @@ abstract class HtmlFactoryAbstract implements HtmlFactoryInterface
      */
     public function printJSFiles($printPlace = self::FilePlacementOption_Header)
     {
+        $this->loadFilesFromConfig($printPlace);
         foreach($this->_files[$printPlace][self::FileTypeOption_JS] as $_file) {
             echo $this->_element_factory->generateElement('script', array(
                 'type' => 'text/javascript',
@@ -195,11 +207,24 @@ abstract class HtmlFactoryAbstract implements HtmlFactoryInterface
      */
     public function printCSSFiles($printPlace = self::FilePlacementOption_Header)
     {
+        $this->loadFilesFromConfig(self::FileTypeOption_CSS, $printPlace);
         foreach($this->_files[$printPlace][self::FileTypeOption_CSS] as $_file) {
             echo $this->_element_factory->generateElement('link', array(
                 'rel' => 'stylesheet',
                 'href' => $_file
             ), "")."\n";
+        }
+    }
+
+    /**
+     * @param string $fileType
+     * @param string $printPlace
+     */
+    public function loadFilesFromConfig($fileType = self::FileTypeOption_CSS ,$printPlace = self::FilePlacementOption_Header) {
+        if(isset($this->_html_config[$fileType][$printPlace])) {
+            if(isset($this->_files[$printPlace][$fileType])) {
+                $this->_files[$printPlace][$fileType] = array_merge($this->_files[$printPlace][$fileType], $this->_html_config[$fileType][$printPlace]);
+            }
         }
     }
 

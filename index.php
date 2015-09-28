@@ -48,7 +48,7 @@ require_once('vendor/autoload.php');
 
 $bean = \Pyntax\PyntaxDAO::getBean('notes');
 
-$htmlFactory = new \Pyntax\Html\HtmlFactory();
+$htmlFactory = \Pyntax\PyntaxDAO::loadHtmlFactory();
 //$htmlFactory->scanDirForFiles("./third-party/AdminLTE-2.3.0/dist/css",\Pyntax\Html\HtmlFactory::FileTypeOption_CSS);
 //$htmlFactory->scanDirForFiles("./third-party/AdminLTE-2.3.0/dist/js",\Pyntax\Html\HtmlFactory::FileTypeOption_JS);
 
