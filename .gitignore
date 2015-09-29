@@ -1,6 +1,5 @@
 /.idea
 /vendor
 /.DS_Store
-/composer.lock
 !/tmp/cache
 /tmp/cache/*
