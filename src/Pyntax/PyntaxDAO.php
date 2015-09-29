@@ -61,7 +61,7 @@ class PyntaxDAO
 
     /**
      * @param $beanName
-     * @return BeanInterface|boolean
+     * @return bool | BeanInterface
      */
     public static function getBean($beanName)
     {
@@ -71,6 +71,7 @@ class PyntaxDAO
 
         if (self::$BeanFactory instanceof BeanFactory) {
             return self::$BeanFactory->getBean($beanName);
+
         }
         return false;
     }
