@@ -63,4 +63,9 @@ interface BeanInterface {
      * @return mixed
      */
     public function getColumnDefinition();
+
+    /**
+     * @return mixed|array|/PyntaxDAO/Bean/Column/ColumnInterface
+     */
+    public function getForeignKeys();
 }

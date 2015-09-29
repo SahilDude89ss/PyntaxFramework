@@ -145,7 +145,8 @@ class MySqlAdapter implements AdapterInterface
     {
         return array(
             'Fields' => $this->ShowColumns($tableName),
-            'Indexes' => $this->ShowIndexes($tableName)
+            'Indexes' => $this->ShowIndexes($tableName),
+            'ForeignKeys' => $this->getForeignKeys($tableName)
         );
     }
 

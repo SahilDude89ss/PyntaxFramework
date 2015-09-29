@@ -35,7 +35,7 @@ use Pyntax\DAO\Bean\Column\ColumnInterface;
  * Class Bean
  * @package Pyntax\DAO\Bean
  */
-class Bean extends Config implements BeanInterface
+class Bean implements BeanInterface
 {
     /**
      * @var array
@@ -73,6 +73,11 @@ class Bean extends Config implements BeanInterface
     protected $_primary_key = false;
 
     /**
+     * @var array
+     */
+    protected $_foreign_keys = array();
+
+    /**
      * @var bool
      */
     protected $_cache_factory = false;
@@ -102,12 +107,6 @@ class Bean extends Config implements BeanInterface
      */
     private function processMetaData(array $metaData = null)
     {
-//        $_orm_config = Config::readConfig('orm');
-//
-////        if(isset($_orm_config['load_related_beans']) && $_orm_config['load_related_beans'] == true) {
-////            $foreignKeys = $this->_db_adapter->getForeignKeys($this->_table_name);
-////        }
-
         if (is_null($metaData)) {
             return false;
         }
@@ -117,6 +116,10 @@ class Bean extends Config implements BeanInterface
 
         if (isset($metaData['Indexes'])) {
             $this->setIndexesDefinitions($metaData['Indexes']);
+        }
+
+        if(isset($metaData['ForeignKeys'])) {
+            $this->_foreign_keys = $metaData['ForeignKeys'];
         }
     }
 
@@ -412,5 +415,9 @@ class Bean extends Config implements BeanInterface
     public function findQuery($queryString)
     {
         return $this->_db_adapter->exec($queryString);
+    }
+
+    public function getForeignKeys() {
+        return $this->_foreign_keys;
     }
 }
