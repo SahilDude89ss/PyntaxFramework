@@ -15,7 +15,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
@@ -31,26 +31,6 @@ Pyntax\Config\Config::writeConfig('database', array(
     'user' => 'root',
     'password' => '',
     'database' => 'sugarcrm_aiiauat'
-));
-
-Pyntax\Config\Config::writeConfig('orm', array(
-    'load_related_beans' => true,
-    'beans' => array(
-        'attachments' => array(
-            'visible_columns' => array(
-                'orm' => array(
-                    'file_path'
-                )
-            )
-        ),
-        'accounts' => array(
-            'visible_columns' => array(
-                'table' => array(
-                    'name', 'billing_address_city', 'billing_address_country','phone_office','date_created',
-                )
-            )
-        )
-    ),
 ));
 
 Pyntax\Config\Config::writeConfig('template', array(
