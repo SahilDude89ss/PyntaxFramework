@@ -43,7 +43,12 @@ class CacheFactory extends CacheFactoryAbstract
         $cacheAdapter = $this->getConfigForElement($this->_cache_config, 'adapter' , false, 'beans');
         $_cache_directory = $this->getConfigForElement($this->_cache_config, 'cacheDir' , false, 'beans');
         $cacheDirectory = !empty($_cache_directory) ? $_cache_directory  : "tmp/cache";
-        $this->_cache_manager = StorageFactory::adapterFactory($cacheAdapter, array('cacheDir' => $cacheDirectory));
+
+        if(is_writeable($_cache_directory)) {
+            $this->_cache_manager = StorageFactory::adapterFactory($cacheAdapter, array('cacheDir' => $cacheDirectory));
+        } else {
+            throw new \Exception("Cache Manager: {$_cache_directory} is not writable");
+        }
     }
 
     public function loadConfig() {
@@ -56,9 +61,11 @@ class CacheFactory extends CacheFactoryAbstract
      */
     public function read($fileName)
     {
-        $_file_name = $this->getFileName($fileName);
-        if($this->_cache_manager->hasItem($_file_name)) {
-            return $this->_cache_manager->getItem($_file_name);
+        if($this->_cache_manager) {
+            $_file_name = $this->getFileName($fileName);
+            if($this->_cache_manager->hasItem($_file_name)) {
+                return $this->_cache_manager->getItem($_file_name);
+            }
         }
 
         return false;
@@ -73,7 +80,11 @@ class CacheFactory extends CacheFactoryAbstract
      */
     public function write($fileName, $content, $expiry = false)
     {
-        $_file_name = $this->getFileName($fileName);
-        return $this->_cache_manager->setItem($_file_name, serialize($content));
+        if($this->_cache_manager) {
+            $_file_name = $this->getFileName($fileName);
+            return $this->_cache_manager->setItem($_file_name, serialize($content));
+        }
+
+        return false;
     }
 }
