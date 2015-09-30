@@ -191,4 +191,17 @@ class Bean extends BeanAbstract
     public function getForeignKeys() {
         return $this->_foreign_keys;
     }
+
+    /**
+     * The __toString method allows a class to decide how it will react when it is converted to a string.
+     *
+     * @return string
+     * @link http://php.net/manual/en/language.oop5.magic.php#language.oop5.magic.tostring
+     */
+    function __toString()
+    {
+        return $this->{$this->_primary_key};
+    }
+
+
 }

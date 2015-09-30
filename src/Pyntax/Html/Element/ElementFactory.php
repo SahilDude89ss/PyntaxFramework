@@ -179,7 +179,7 @@ class ElementFactory extends ElementFactoryAbstract
                 'id' => $bean->getName().'_'.$columnDefinition->getName(),
                 'name' => "PyntaxDAO[{$bean->getName()}][{$_column}]",
                 'class' => 'form-control'
-            ), $_attributes), $bean->$_column, !($_column_display_attributes['elTag'] == "input"));
+            ), $_attributes), $bean->{$_column}, !($_column_display_attributes['elTag'] == "input"));
         }
 
 

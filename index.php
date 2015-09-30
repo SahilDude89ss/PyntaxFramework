@@ -48,6 +48,9 @@ require_once('vendor/autoload.php');
 $startTime = microtime();
 
 $bean = \Pyntax\PyntaxDAO::getBean('clients');
+$bean->find(2);
+//var_dump($bean->users_id); die;
+//die;
 $htmlFactory = \Pyntax\PyntaxDAO::loadHtmlFactory();
 ?>
 
