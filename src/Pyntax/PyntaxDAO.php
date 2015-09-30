@@ -57,6 +57,7 @@ class PyntaxDAO
     public static function start() {
         Config::loadConfig();
         self::loadFactory();
+        self::loadFormFactory();
     }
 
     /**

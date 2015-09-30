@@ -72,5 +72,10 @@ interface BeanInterface {
     /**
      * @return mixed
      */
+    public function getPrimaryKey();
+
+    /**
+     * @return mixed
+     */
     public function loadRelatedBeanData();
 }

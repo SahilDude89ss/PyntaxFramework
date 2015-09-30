@@ -53,7 +53,8 @@ class Bean extends BeanAbstract
             }
 
         } else {
-            return $this->_db_adapter->Update($this->_table_name, $this->_columns, array($this->_primary_key => $primaryKeyValue));
+            $this->_db_adapter->Update($this->_table_name, $this->_columns, array($this->_primary_key => $primaryKeyValue));
+            return $primaryKeyValue;
         }
 
         return false;
@@ -82,7 +83,7 @@ class Bean extends BeanAbstract
     {
         $result = array();
 
-        if (is_int($searchCriteria) || intval($searchCriteria) > 0) {
+        if (is_int($searchCriteria)) {
             $primaryKeyValueForSearch = intval($searchCriteria);
             $result = $this->_db_adapter->getOneResult($this->_table_name, array($this->_primary_key => $primaryKeyValueForSearch));
         } else if (is_array($searchCriteria) && !empty($searchCriteria)) {

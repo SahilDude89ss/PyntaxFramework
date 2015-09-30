@@ -123,7 +123,7 @@ class FormFactory extends FormFactoryAbstract
             $_element_html = $this->generateElementWithArrayConfig($_tmp_form_config);
         } else {
             // A Default fall back if the config goes missing.
-            $_element_html = $this->generateElement('form', array('id' => 'frm_' . $bean->getName(), 'method' => 'post', 'class' => 'form-horizontal'), $_form_fields, true);
+            $_element_html = $this->generateElement('form', array('id' => 'frm_' . $bean->getName(), 'method' => 'post', 'class' => 'form-horizontal', 'action' => '#'.time()), $_form_fields, true);
         }
 
         //Return the HTML as string
@@ -210,6 +210,11 @@ class FormFactory extends FormFactoryAbstract
             }
         }
 
+        $_primary_key_value = $bean->{$bean->getPrimaryKey()};
+
+        if(!empty($_primary_key_value)) {
+            $_form_fields.= $this->generateElement('input',array('type' => 'hidden', 'name' => "PyntaxDAO[{$bean->getName()}][{$bean->getPrimaryKey()}]"), $_primary_key_value, false);
+        }
 
         if (isset($this->_form_config['form_column']['container_element_template']['tagName'])) {
             return $this->generateElement($this->_form_config['form_column']['container_element_template']['tagName'],
@@ -220,6 +225,9 @@ class FormFactory extends FormFactoryAbstract
         return $_form_fields;
     }
 
+    /**
+     * @return bool|BeanInterface
+     */
     public function saveBean()
     {
         if (isset($this->_form_config['capturePostAndSaveBean']) && $this->_form_config['capturePostAndSaveBean'] == true) {
@@ -250,7 +258,11 @@ class FormFactory extends FormFactoryAbstract
                 if (is_callable($afterSaveCallback)) {
                     $afterSaveCallback($bean, $id);
                 }
+
+                return $bean;
             }
         }
+
+        return false;
     }
 }

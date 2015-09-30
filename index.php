@@ -49,8 +49,7 @@ $startTime = microtime();
 
 $bean = \Pyntax\PyntaxDAO::getBean('clients');
 $bean->find(2);
-//var_dump($bean->users_id); die;
-//die;
+
 $htmlFactory = \Pyntax\PyntaxDAO::loadHtmlFactory();
 ?>
 
@@ -61,7 +60,6 @@ $htmlFactory = \Pyntax\PyntaxDAO::loadHtmlFactory();
 </head>
 <body>
 <h1>Example  <span style="font-size: 18px">- <?php echo ucfirst($bean->getName()) ?></span></h1>
-<?php //echo $htmlFactory->createForm($bean); ?>
 <?php echo \Pyntax\PyntaxDAO::generateForm($bean); ?>
 <?php echo $htmlFactory->createTable($bean); ?>
 

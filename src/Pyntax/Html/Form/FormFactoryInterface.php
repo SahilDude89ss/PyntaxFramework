@@ -72,7 +72,7 @@ interface FormFactoryInterface
     public function generateElementWithArrayConfig(array $config = array());
 
     /**
-     * @return mixed
+     * @return bool|BeanInterface
      */
     public function saveBean();
 }

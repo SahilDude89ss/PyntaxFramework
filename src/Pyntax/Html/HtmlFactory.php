@@ -39,7 +39,6 @@ class HtmlFactory extends HtmlFactoryAbstract
      */
     public function __construct()
     {
-        $this->setUpFormFactory();
         $this->setUpTableFactory();
         $this->setupElementFactory();
         $this->loadConfig();

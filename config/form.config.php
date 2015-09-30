@@ -65,7 +65,8 @@ Pyntax\Config\Config::writeConfig('form', array(
         'tagName' => 'form',
         'attributes' => array(
             'method' => 'post',
-            'class' => 'form-horizontal'
+            'class' => 'form-horizontal',
+            'action' => '#'.md5(time()),
         )
     ),
 
