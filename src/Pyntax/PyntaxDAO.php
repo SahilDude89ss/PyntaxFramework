@@ -58,6 +58,7 @@ class PyntaxDAO
         Config::loadConfig();
         self::loadFactory();
         self::loadFormFactory();
+        self::loadHtmlFactory();
     }
 
     /**
