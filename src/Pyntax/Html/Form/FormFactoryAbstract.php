@@ -88,6 +88,7 @@ abstract class FormFactoryAbstract extends ElementFactory implements FormFactory
      */
     public function convertColumnNameIntoLabel($columnName)
     {
+        $this->loadFormConfig();
         if (isset($this->_form_config['convertColumnNamesIntoLabel']) && $this->_form_config['convertColumnNamesIntoLabel'] == true) {
             $_new_labels = str_replace(array("_", "-"), " ", $columnName);
             return (ucwords($_new_labels));

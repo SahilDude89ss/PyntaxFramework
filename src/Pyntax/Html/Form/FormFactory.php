@@ -75,6 +75,7 @@ class FormFactory extends FormFactoryAbstract
      */
     public function generateForm(BeanInterface $bean, $returnString = false)
     {
+        $this->loadFormConfig();
         //Get all the colums that can be displayed for a the current bean
         $_columns_to_be_displayed = $bean->getDisplayColumns('form');
 
@@ -141,6 +142,7 @@ class FormFactory extends FormFactoryAbstract
      */
     public function generateSubmitButton(BeanInterface $bean)
     {
+        $this->loadFormConfig();
         $_submit_button_config = $this->getConfigForElement($this->_form_config, 'submitButton', $bean->getName(), 'beans');
 
         if (is_array($_submit_button_config)) {
@@ -160,6 +162,7 @@ class FormFactory extends FormFactoryAbstract
      */
     public function generateFormColumn(array $_columns_to_be_displayed, BeanInterface $bean)
     {
+        $this->loadFormConfig();
         $_form_fields = "";
 
         foreach ($_columns_to_be_displayed as $_column) {
@@ -230,6 +233,7 @@ class FormFactory extends FormFactoryAbstract
      */
     public function saveBean()
     {
+        $this->loadFormConfig();
         if (isset($this->_form_config['capturePostAndSaveBean']) && $this->_form_config['capturePostAndSaveBean'] == true) {
             $beanName = isset($_POST['PyntaxDAO']['BeanName']) ? $_POST['PyntaxDAO']['BeanName'] : false;
 

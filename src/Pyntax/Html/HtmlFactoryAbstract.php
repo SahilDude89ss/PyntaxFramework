@@ -221,6 +221,7 @@ abstract class HtmlFactoryAbstract implements HtmlFactoryInterface
      * @param string $printPlace
      */
     public function loadFilesFromConfig($fileType = self::FileTypeOption_CSS ,$printPlace = self::FilePlacementOption_Header) {
+        $this->loadConfig();
         if(isset($this->_html_config[$fileType][$printPlace])) {
             if(isset($this->_files[$printPlace][$fileType])) {
                 $this->_files[$printPlace][$fileType] = array_merge($this->_files[$printPlace][$fileType], $this->_html_config[$fileType][$printPlace]);
