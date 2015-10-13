@@ -30,8 +30,21 @@ namespace Pyntax\Config;
  */
 interface ConfigInterface {
 
+    /**
+     * This function returns the value of the key in the config.
+     * @param $key
+     *
+     * @return mixed
+     */
     public static function readConfig($key);
 
+    /**
+     * This function is used to write to the config variable.
+     * @param $key
+     * @param $value
+     *
+     * @return mixed
+     */
     public static function writeConfig($key, $value);
 
 }

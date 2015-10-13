@@ -39,15 +39,17 @@ abstract class ConfigAbstract implements ConfigInterface
     /**
      * @throws \Exception
      */
-    public static function loadConfig() {
-        $configFileDirectory = dirname(realpath(__DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."config")).DIRECTORY_SEPARATOR."config";
+    public static function loadConfig()
+    {
+        $configFileDirectory = dirname(realpath(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "config")) . DIRECTORY_SEPARATOR . "config";
         $configFiles = scandir($configFileDirectory);
-        if(is_array($configFiles)) {
-            foreach($configFiles as $_config_file) {
-                if(preg_match('/.*\.php/',$_config_file)) {
-                    if (is_file($configFileDirectory.DIRECTORY_SEPARATOR.$_config_file) &&
-                        file_exists($configFileDirectory.DIRECTORY_SEPARATOR.$_config_file)) {
-                        include_once $configFileDirectory.DIRECTORY_SEPARATOR."{$_config_file}";
+        if (is_array($configFiles)) {
+            foreach ($configFiles as $_config_file) {
+                if (preg_match('/.*\.php/', $_config_file)) {
+                    if (is_file($configFileDirectory . DIRECTORY_SEPARATOR . $_config_file) &&
+                        file_exists($configFileDirectory . DIRECTORY_SEPARATOR . $_config_file)
+                    ) {
+                        include_once $configFileDirectory . DIRECTORY_SEPARATOR . "{$_config_file}";
                     } else {
                         throw new \Exception("config/{$_config_file} not found!");
                     }
@@ -56,37 +58,43 @@ abstract class ConfigAbstract implements ConfigInterface
         }
     }
 
-    public function __construct() {
+    public function __construct()
+    {
         self::loadConfig();
     }
 
     /**
      * @param array $array
      */
-    public static function writeConfigArray(array $array = array()) {
-        if(!empty($array)) {
-            foreach($array as $key => $val) {
+    public static function writeConfigArray(array $array = array())
+    {
+        if (!empty($array)) {
+            foreach ($array as $key => $val) {
                 self::writeConfig($key, $val);
             }
         }
     }
 
+
     /**
      * @param $key
-     * @param $val
+     * @param $value
+     *
+     * @return bool
      */
-    public static function writeConfig($key, $val)
+    public static function writeConfig($key, $value)
     {
-        self::$_config[$key] = $val;
+        self::$_config[$key] = $value;
+        return true;
     }
 
     /**
      * @param $key
+     *
      * @return bool
      */
     public static function readConfig($key)
     {
         return isset(self::$_config[$key]) ? self::$_config[$key] : false;
     }
-
 }
