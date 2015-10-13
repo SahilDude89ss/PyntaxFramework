@@ -34,6 +34,8 @@ use Pyntax\PyntaxDAO;
  */
 class Bean extends BeanAbstract
 {
+    protected $_beanConfig = false;
+
     public function getPrimaryKey()
     {
         return $this->_primary_key;
@@ -102,7 +104,7 @@ class Bean extends BeanAbstract
     }
 
     public function loadRelatedBeanData() {
-        if($this->getConfigForElement($this->_bean_config,'load_related_beans',$this->_table_name))
+        if($this->getConfigForElement($this->_bean_config->readConfig(),'load_related_beans',$this->_table_name))
         {
             if(is_array($this->getForeignKeys()) && $this->_depth_counter < 1 )
             {
@@ -128,12 +130,13 @@ class Bean extends BeanAbstract
     public function getDisplayColumns($view = 'list')
     {
         $_display_columns = array();
+        $_bean_config = $this->_bean_config->readConfig();
 
-        if(isset(Config::$_config['orm']['beans'][$this->_table_name]))
+        if(isset($_bean_config['beans'][$this->_table_name]))
         {
-            if(isset(Config::$_config['orm']['beans'][$this->_table_name]['visible_columns'][$view]))
+            if(isset($_bean_config['beans'][$this->_table_name]['visible_columns'][$view]))
             {
-                $_display_columns = Config::$_config['orm']['beans'][$this->_table_name]['visible_columns'][$view];
+                $_display_columns = $_bean_config['beans'][$this->_table_name]['visible_columns'][$view];
             }
         }
 

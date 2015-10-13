@@ -31,12 +31,27 @@ namespace Pyntax\Config;
 interface ConfigInterface {
 
     /**
+     * This function is sued to write multiple config variables to the static $_config variable
+     * @param array $array
+     * @return mixed
+     */
+    public function writeConfigArray(array $array = array());
+
+    /**
      * This function returns the value of the key in the config.
+     *
+     * @param bool|false $key
+     * @return mixed
+     */
+    public function readConfig($key = false);
+
+    /**
      * @param $key
+     * @param $value
      *
      * @return mixed
      */
-    public static function readConfig($key);
+    public function writeToConfig($key, $value);
 
     /**
      * This function is used to write to the config variable.

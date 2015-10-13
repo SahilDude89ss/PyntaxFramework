@@ -34,7 +34,6 @@ use Pyntax\DAO\Bean\Column\ColumnInterface;
  */
 class ElementFactory extends ElementFactoryAbstract
 {
-
     protected $_module_config_key = false;
 
     public function __construct()
@@ -57,19 +56,18 @@ class ElementFactory extends ElementFactoryAbstract
             'html_element_template' => "<{{elTag}} {% for attribute in attributes %}{{attribute.name}}='{{attribute.value}}'{% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}>{% else %}value='{{elDataValue}}' />{% endif %}",
         );
 
-        $loadTemplatesFromConfig = Config::readConfig('template');
+        $_config = new Config('template');
 
-        if(!empty($loadTemplatesFromConfig) && is_array($loadTemplatesFromConfig)) {
-            if(sizeof($loadTemplatesFromConfig) > 0) {
-                $loadTemplatesFromConfig = array_merge($_default_template, $loadTemplatesFromConfig);
+        foreach(array_keys($_default_template) as $k => $v) {
+            $_overriding_value = $_config->readConfig($v);
+            if(!empty($_overriding_value)) {
+                $_default_template[$v] = $_overriding_value;
             }
-        } else {
-            $loadTemplatesFromConfig = $_default_template;
         }
 
         $this->_twig_environment = new \Twig_Environment(
             new \Twig_Loader_Array(
-                $loadTemplatesFromConfig
+                $_default_template
             )
         );
     }

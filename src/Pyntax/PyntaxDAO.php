@@ -55,7 +55,6 @@ class PyntaxDAO
     static $HtmlFactory = null;
 
     public static function start() {
-        Config::loadConfig();
         self::loadFactory();
         self::loadFormFactory();
         self::loadHtmlFactory();
@@ -114,7 +113,12 @@ class PyntaxDAO
      */
     private static function loadFactory()
     {
-        $db_config = Config::readConfig('database');
+        $dbConfig = new Config('database', 'config.php');
+        $db_config = array(
+            'server' => $dbConfig->readConfig('server'),
+            'database' => $dbConfig->readConfig('database'),
+            'password' => $dbConfig->readConfig('password'),
+        );
 
         $pdo = null;
 
@@ -126,13 +130,15 @@ class PyntaxDAO
 
             if (!is_null($pdo)) {
                 //load the MySqlAdapter from config.
-                $_core_config = Config::readConfig('core');
+//                $_core_config = Config::readConfig('core');
+                $_core_config = new Config('core');
+                $_mysql_adapter = $_core_config->readConfig('MySQLAdapter');
 
-                if (isset($_core_config['MySQLAdapter'])) {
+                if (isset($_mysql_adapter)) {
                     $mySqlAdapter = null;
 
                     try {
-                        $mySqlAdapter = new $_core_config['MySQLAdapter']($pdo);
+                        $mySqlAdapter = new $_mysql_adapter($pdo);
                     } catch (\Exception $e) {
                         throw $e;
                     }

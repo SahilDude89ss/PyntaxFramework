@@ -27,74 +27,83 @@ namespace Pyntax\Config;
 /**
  * Class ConfigAbstract
  * @package Pyntax\Config
- *
  */
 abstract class ConfigAbstract implements ConfigInterface
 {
     /**
+     * This variable will hold Config data for all the variables and will only be accessible using the Config object.
+     * This variables is marked as static because we only want one single source of truth.
+     *
      * @var array
      */
-    public static $_config = array();
+    protected static $_config = array();
 
     /**
-     * @throws \Exception
+     * @var string
      */
-    public static function loadConfig()
-    {
-        $configFileDirectory = dirname(realpath(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "config")) . DIRECTORY_SEPARATOR . "config";
-        $configFiles = scandir($configFileDirectory);
-        if (is_array($configFiles)) {
-            foreach ($configFiles as $_config_file) {
-                if (preg_match('/.*\.php/', $_config_file)) {
-                    if (is_file($configFileDirectory . DIRECTORY_SEPARATOR . $_config_file) &&
-                        file_exists($configFileDirectory . DIRECTORY_SEPARATOR . $_config_file)
-                    ) {
-                        include_once $configFileDirectory . DIRECTORY_SEPARATOR . "{$_config_file}";
-                    } else {
-                        throw new \Exception("config/{$_config_file} not found!");
-                    }
-                }
-            }
-        }
-    }
-
-    public function __construct()
-    {
-        self::loadConfig();
-    }
+    protected static $_config_folder_name = "config";
 
     /**
+     * @var bool
+     */
+    protected $_default_key = false;
+
+    /**
+     * @param string $filesToBeLoaded
+     * @return mixed
+     */
+    protected abstract function loadConfig($filesToBeLoaded = "config.php");
+
+    /**
+     * This function is sued to write multiple config variables to the static $_config variable
      * @param array $array
+     * @return mixed
      */
-    public static function writeConfigArray(array $array = array())
+    public function writeConfigArray(array $array = array())
     {
-        if (!empty($array)) {
-            foreach ($array as $key => $val) {
-                self::writeConfig($key, $val);
-            }
+        foreach ($array as $key => $val) {
+            $this->writeConfig($key, $val);
         }
     }
 
+    /**
+     * This function returns the value of the key in the config.
+     * @param $key
+     *
+     * @return mixed
+     */
+    public function readConfig($key = false)
+    {
+        if (empty($key)) {
+            if (isset($this->_default_key)) {
+                return isset(self::$_config[$this->_default_key]) ? self::$_config[$this->_default_key] : false;
+            }
+
+            return isset(self::$_config) ? self::$_config : false;
+        }
+
+        if (isset($this->_default_key)) {
+            return isset(self::$_config[$this->_default_key][$key]) ? self::$_config[$this->_default_key][$key] : false;
+        }
+
+        return isset(self::$_config[$key]) ? self::$_config[$key] : false;
+    }
 
     /**
+     * This function is used to write to the config variable.
      * @param $key
      * @param $value
      *
-     * @return bool
+     * @return mixed
      */
-    public static function writeConfig($key, $value)
+    public function writeToConfig($key, $value)
     {
         self::$_config[$key] = $value;
         return true;
     }
 
-    /**
-     * @param $key
-     *
-     * @return bool
-     */
-    public static function readConfig($key)
+    public static function writeConfig($key, $value)
     {
-        return isset(self::$_config[$key]) ? self::$_config[$key] : false;
+        self::$_config[$key] = $value;
     }
 }

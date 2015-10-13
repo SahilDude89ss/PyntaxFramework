@@ -96,8 +96,9 @@ abstract class BeanAbstract implements BeanInterface, ConfigAwareInterface
 
     protected function loadConfig()
     {
-        $_config = Config::readConfig('orm');
-        $this->_bean_config = is_array($_config) ? $_config : array();
+//        $_config = Config::readConfig('orm');
+        $_config = new Config('orm', 'orm.config.php');
+        $this->_bean_config = isset($_config) ? $_config : array();
     }
 
     /**

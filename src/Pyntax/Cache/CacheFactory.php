@@ -40,8 +40,8 @@ class CacheFactory extends CacheFactoryAbstract
     }
 
     public function loadCacheManager() {
-        $cacheAdapter = $this->getConfigForElement($this->_cache_config, 'adapter' , false, 'beans');
-        $_cache_directory = $this->getConfigForElement($this->_cache_config, 'cacheDir' , false, 'beans');
+        $cacheAdapter = $this->getConfigForElement($this->_cache_config->readConfig(), 'adapter' , false, 'beans');
+        $_cache_directory = $this->getConfigForElement($this->_cache_config->readConfig(), 'cacheDir' , false, 'beans');
         $cacheDirectory = !empty($_cache_directory) ? $_cache_directory  : "tmp/cache";
 
         if(is_writeable($_cache_directory)) {
@@ -52,7 +52,8 @@ class CacheFactory extends CacheFactoryAbstract
     }
 
     public function loadConfig() {
-        $this->_cache_config = Config::readConfig('cache');
+//        $this->_cache_config = Config::readConfig('cache');
+        $this->_cache_config = new Config('cache','cache.config.php');
     }
 
     /**

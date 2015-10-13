@@ -59,7 +59,8 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
         $table = $this->generateTableHeader($bean->getDisplayColumns('table'));
         $table .= $this->generateTableBody($searchResults, $bean->getDisplayColumns('table'));
 
-        $_table_config = Config::readConfig('table');
+        $_tableConfig = new Config('table','table.config.php');
+        $_table_config = $_tableConfig->readConfig();
 
         $attributes = isset($_table_config['table']) && is_array($_table_config['table']) ? $_table_config['table'] : array();
 
@@ -142,6 +143,7 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
     }
 
     protected function loadConfig() {
-        $this->_table_config = Config::readConfig('table');
+//        $this->_table_config = Config::readConfig('table');
+
     }
 }

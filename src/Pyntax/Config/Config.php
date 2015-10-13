@@ -28,6 +28,35 @@ namespace Pyntax\Config;
  * Class Config
  * @package Pyntax\Config
  */
-class Config extends ConfigAbstract {
+class Config extends ConfigAbstract
+{
+    /**
+     * @param bool|false $defaultKey
+     * @param bool|false $fileToBeLoaded
+     */
+    public function __construct($defaultKey = false, $fileToBeLoaded = false) {
+        $this->_default_key = $defaultKey;
+        $this->loadConfig($fileToBeLoaded);
+    }
 
+    /**
+     * @param string $filesToBeLoaded
+     * @return mixed
+     */
+    protected function loadConfig($filesToBeLoaded = "config.php")
+    {
+        $configFileDirectory = dirname(realpath(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . self::$_config_folder_name)) . DIRECTORY_SEPARATOR . self::$_config_folder_name;
+
+        if (empty($filesToBeLoaded)) {
+            //Do not load anything if the file is empty
+        } else if (is_array($filesToBeLoaded)) {
+            foreach ($filesToBeLoaded as $_fileToBeLoaded) {
+                include_once $configFileDirectory . DIRECTORY_SEPARATOR . $_fileToBeLoaded;
+            }
+        } else if (!empty($filesToBeLoaded)) {
+            if (file_exists($configFileDirectory . DIRECTORY_SEPARATOR . $filesToBeLoaded)) {
+                include_once $configFileDirectory . DIRECTORY_SEPARATOR . $filesToBeLoaded;
+            }
+        }
+    }
 }

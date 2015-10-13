@@ -76,8 +76,9 @@ abstract class HtmlFactoryAbstract implements HtmlFactoryInterface
     protected $_element_factory = null;
 
     protected function loadConfig() {
-        $_config = Config::readConfig('html');
-        $this->_html_config = is_array($_config) ? $_config : array();
+//        $_config = Config::readConfig('html');
+        $_config = new Config('html', 'html.config.php');
+        $this->_html_config = $_config;
     }
 
     /**
@@ -221,10 +222,10 @@ abstract class HtmlFactoryAbstract implements HtmlFactoryInterface
      * @param string $printPlace
      */
     public function loadFilesFromConfig($fileType = self::FileTypeOption_CSS ,$printPlace = self::FilePlacementOption_Header) {
-        $this->loadConfig();
-        if(isset($this->_html_config[$fileType][$printPlace])) {
+        $_html_config = $this->_html_config->readConfig();
+        if(isset($_html_config[$fileType][$printPlace])) {
             if(isset($this->_files[$printPlace][$fileType])) {
-                $this->_files[$printPlace][$fileType] = array_merge($this->_files[$printPlace][$fileType], $this->_html_config[$fileType][$printPlace]);
+                $this->_files[$printPlace][$fileType] = array_merge($this->_files[$printPlace][$fileType], $_html_config[$fileType][$printPlace]);
             }
         }
     }
