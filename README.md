@@ -45,7 +45,7 @@ the config is suppose to be loaded.
 In order to save or retrieve data from the database, we need to create a BEAN.
 
 ```
-$bean = \Pyntax\PyntaxDAO::getBean('<TABLE_NAME>');
+$bean = \Pyntax\Pyntax::getBean('<TABLE_NAME>');
 ```
 
 ### Save a Bean
@@ -62,7 +62,7 @@ $id = $bean->save();
 Once an empty bean is retrieved it can be used to search for data in the database.
 
 ```
-$bean = \Pyntax\PyntaxDAO::getBean('<TABLE_NAME>');
+$bean = \Pyntax\Pyntax::getBean('<TABLE_NAME>');
 $bean->find(1);
 ```
 
@@ -104,13 +104,13 @@ A Bean can be used to generate a form which can be used to save and update bean 
  * This has to be added in the bootloader so the POST request can 
  * grabbed and the data can be saved to the database.
  */
-\Pyntax\PyntaxDAO::run();
+\Pyntax\Pyntax::run();
 
 //Load the bean
-$attachmentBean = \Pyntax\PyntaxDAO::getBean('attachments');
+$attachmentBean = \Pyntax\Pyntax::getBean('attachments');
 
 //Generate the form
-echo \Pyntax\PyntaxDAO::generateForm($attachmentBean);
+echo \Pyntax\Pyntax::generateForm($attachmentBean);
 
 ```
 
@@ -278,7 +278,7 @@ all id fields and only keep string fields.
 
 
 ```
-$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
+$clientBean = \Pyntax\Pyntax::getBean('clients');
 
 $tableFactory = new Pyntax\Table\TableFactory;
 $tableFactory->generateTable($clientBean, array('AND' => array(
