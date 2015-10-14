@@ -34,10 +34,11 @@ Pyntax\Config\Config::writeConfig('database', array(
 
 ### Usage 
 ## Bootloader
-The following code is need to be added to the bootloader of the application.
+The following code is need to be added to the bootloader of the application. We need to specify the folder from which
+the config is suppose to be loaded.
 
 ```
-\Pyntax\PyntaxDAO::start();
+\Pyntax\Pyntax::start(dirname(__FILE__)."/config");
 ``` 
 
 ## Create a Bean

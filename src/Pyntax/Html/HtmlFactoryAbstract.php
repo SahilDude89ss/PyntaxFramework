@@ -77,8 +77,7 @@ abstract class HtmlFactoryAbstract implements HtmlFactoryInterface
 
     protected function loadConfig() {
 //        $_config = Config::readConfig('html');
-        $_config = new Config('html', 'html.config.php');
-        $this->_html_config = $_config;
+        $this->_html_config = new Config('html', 'html.config.php');
     }
 
     /**

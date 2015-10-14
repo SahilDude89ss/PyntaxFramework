@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 
 require_once('vendor/autoload.php');
-\Pyntax\PyntaxDAO::start();
+\Pyntax\Pyntax::start(dirname(__FILE__)."/config");
 
 //include_once("third-party/AdminLTE-2.3.0/pages/forms/PyntaxDAO-General.php"); die;
 //include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
@@ -47,10 +47,10 @@ require_once('vendor/autoload.php');
 
 $startTime = microtime();
 
-$bean = \Pyntax\PyntaxDAO::getBean('clients');
+$bean = \Pyntax\Pyntax::getBean('clients');
 $bean->find(2);
 
-$htmlFactory = \Pyntax\PyntaxDAO::loadHtmlFactory();
+$htmlFactory = \Pyntax\Pyntax::loadHtmlFactory();
 ?>
 
 <html>
@@ -60,7 +60,7 @@ $htmlFactory = \Pyntax\PyntaxDAO::loadHtmlFactory();
 </head>
 <body>
 <h1>Example  <span style="font-size: 18px">- <?php echo ucfirst($bean->getName()) ?></span></h1>
-<?php echo \Pyntax\PyntaxDAO::generateForm($bean); ?>
+<?php echo \Pyntax\Pyntax::generateForm($bean); ?>
 <?php echo $htmlFactory->createTable($bean); ?>
 
 <h3><?php  echo microtime() - $startTime ?></h3>

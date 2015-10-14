@@ -26,7 +26,7 @@ namespace Pyntax\DAO\Bean;
 
 use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\Column\ColumnInterface;
-use Pyntax\PyntaxDAO;
+use Pyntax\Pyntax;
 
 /**
  * Class Bean
@@ -111,7 +111,7 @@ class Bean extends BeanAbstract
                 foreach($this->getForeignKeys() as $_foreign_key)
                 {
                     $this->_depth_counter++;
-                    $_foreign_bean = PyntaxDAO::getBean($_foreign_key['foreign_key_table']); //, intval($_foreign_key['id'])
+                    $_foreign_bean = Pyntax::getBean($_foreign_key['foreign_key_table']); //, intval($_foreign_key['id'])
                     $_foreign_bean->setDepthCounter($this->_depth_counter);
                     $_result_bean = $_foreign_bean->find($this->__get($_foreign_key['column_name']));
 

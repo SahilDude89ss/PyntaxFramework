@@ -19,7 +19,9 @@
     "aura/html": "^2.4",
     "aura/session": "*",
     "twig/twig": "^1.21",
-    "zendframework/zend-cache": "^2.5"
+    "zendframework/zend-cache": "^2.5",
+    "pyntax/config": "dev-master",
+    "pyntax/cache": "dev-master"
   },
   "autoload": {
     "psr-4": {

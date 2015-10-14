@@ -37,7 +37,7 @@ use Pyntax\Html\HtmlFactory;
  * Class PyntaxDAO
  * @package Pyntax
  */
-class PyntaxDAO
+class Pyntax
 {
     /**
      * @var null
@@ -54,7 +54,15 @@ class PyntaxDAO
      */
     static $HtmlFactory = null;
 
-    public static function start() {
+    /**
+     * @var null
+     */
+    static $Config = null;
+
+    public static function start($configPath)
+    {
+        self::$Config = new Config(false,false,$configPath);
+
         self::loadFactory();
         self::loadFormFactory();
         self::loadHtmlFactory();
@@ -81,28 +89,31 @@ class PyntaxDAO
      * @param BeanInterface $bean
      * @return bool
      */
-    public static function generateForm(BeanInterface $bean) {
-        if(is_null(self::$FormFactory)) {
+    public static function generateForm(BeanInterface $bean)
+    {
+        if (is_null(self::$FormFactory)) {
             self::loadFormFactory();
         }
 
-        if(self::$FormFactory instanceof FormFactoryInterface) {
+        if (self::$FormFactory instanceof FormFactoryInterface) {
             return self::$FormFactory->generateForm($bean);
         }
 
         return false;
     }
 
-    public static function loadHtmlFactory() {
-        if(is_null(self::$HtmlFactory)) {
+    public static function loadHtmlFactory()
+    {
+        if (is_null(self::$HtmlFactory)) {
             self::$HtmlFactory = new HtmlFactory();
         }
 
         return self::$HtmlFactory;
     }
 
-    private static function loadFormFactory() {
-        if(is_null(self::$FormFactory)) {
+    private static function loadFormFactory()
+    {
+        if (is_null(self::$FormFactory)) {
             self::$FormFactory = new FormFactory();
         }
     }
