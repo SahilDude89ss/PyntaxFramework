@@ -34,7 +34,7 @@ use Pyntax\Html\Form\FormFactoryInterface;
 use Pyntax\Html\HtmlFactory;
 
 /**
- * Class PyntaxDAO
+ * Class Pyntax
  * @package Pyntax
  */
 class Pyntax

@@ -27,7 +27,7 @@ namespace Pyntax\Html\Form;
 use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\DAO\Bean\Column\ColumnInterface;
-use Pyntax\PyntaxDAO;
+use Pyntax\Pyntax;
 
 /**
  * Class FormFactory
@@ -256,7 +256,7 @@ class FormFactory extends FormFactoryAbstract
                     $_data =  $_POST['PyntaxDAO'][$beanName];
                 }
 
-                $bean = PyntaxDAO::getBean($beanName);
+                $bean = Pyntax::getBean($beanName);
                 foreach ($_data as $key => $val) {
                     $bean->$key = $val;
                 }
