@@ -5,7 +5,7 @@ ini_set('display_errors', true);
 require_once('vendor/autoload.php');
 \Pyntax\Pyntax::start(dirname(__FILE__)."/config");
 
-\Pyntax\Config\Config::writeConfig('database', array(
+\Pyntax\Config\Config::write('database', array(
     'database' => 'sugarcrm_amsa_crmuat',
     'server' => 'localhost',
     'password' => '',

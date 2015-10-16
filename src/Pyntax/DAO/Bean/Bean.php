@@ -24,6 +24,7 @@
 
 namespace Pyntax\DAO\Bean;
 
+use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\Column\ColumnInterface;
 use Pyntax\Pyntax;
 
@@ -129,7 +130,7 @@ class Bean extends BeanAbstract
     public function getDisplayColumns($view = 'list')
     {
         $_display_columns = array();
-        $_bean_config = $this->_bean_config->readConfig();
+        $_bean_config = Config::read('orm');
 
         if(isset($_bean_config['beans'][$this->_table_name]))
         {

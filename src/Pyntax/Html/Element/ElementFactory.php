@@ -53,17 +53,15 @@ class ElementFactory extends ElementFactoryAbstract
     protected function setupTwig()
     {
         $_default_template = array(
-            'html_element_template' => "<{{elTag}} {% for attribute in attributes %}{{attribute.name}}='{{attribute.value}}'{% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}>{% else %}value='{{elDataValue}}' />{% endif %}",
+            'html_element_template' => "<{{elTag}} {% for attribute in attributes %} {{attribute.name}}='{{attribute.value}}' {% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}> {% else %} value='{{elDataValue}}' /> {% endif %}",
         );
 
-        $_config = new Config('template');
-
-        foreach(array_keys($_default_template) as $k => $v) {
-            $_overriding_value = $_config->readConfig($v);
-            if(!empty($_overriding_value)) {
-                $_default_template[$v] = $_overriding_value;
-            }
-        }
+//        foreach(array_keys($_default_template) as $k => $v) {
+//            $_overriding_value = Config::read('template');
+//            if(!empty($_overriding_value) && isset($_overriding_value[$v]) {
+//                $_default_template[$v] = $_overriding_value;
+//            }
+//        }
 
         $this->_twig_environment = new \Twig_Environment(
             new \Twig_Loader_Array(

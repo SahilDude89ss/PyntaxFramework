@@ -43,7 +43,6 @@ class FormFactory extends FormFactoryAbstract
     public function __construct()
     {
         parent::__construct();
-        $this->loadFormConfig();
         $this->setModuleConfigKey('form');
 
         /**
@@ -75,13 +74,12 @@ class FormFactory extends FormFactoryAbstract
      */
     public function generateForm(BeanInterface $bean, $returnString = false)
     {
-        $this->loadFormConfig();
         //Get all the colums that can be displayed for a the current bean
         $_columns_to_be_displayed = $bean->getDisplayColumns('form');
 
         $_form_fields = "";
 
-        $_form_column = $this->_form_config->readConfig('form_column');
+        $_form_column = Config::read(array('form','form_column'));
 
         //Check if the form is supposed to tbe borken into columns
         if (isset($_form_column)) {
@@ -100,19 +98,19 @@ class FormFactory extends FormFactoryAbstract
         }
 
         //Only add the hidden field if the Saving the Bean is turned on in Config
-        if ($this->getConfigForElement($this->_form_config->readConfig(), 'capturePostAndSaveBean', $bean->getName(), 'beans')) {
+        if ($this->getConfigForElement(Config::read('form'), 'capturePostAndSaveBean', $bean->getName(), 'beans')) {
             $_form_fields .= $this->generateElement('input', array('type' => 'hidden', 'name' => 'PyntaxDAO[BeanName]'), $bean->getName(), false);
         }
 
         //Generate the save button
         $_form_fields .= $this->generateSubmitButton($bean);
 
-        $_form_template_generate_form_config = $this->_form_config->readConfig($this->_form_template_key);
+        $_form_template_generate_form_config = Config::read($this->_form_template_key);
         //Load the config for the form template and generate the form
         if (isset($_form_template_generate_form_config)) {
 
             //Load the form config, with overrides for the Bean
-            $_tmp_form_config = $this->getConfigForElement($this->_form_config->readConfig(), $this->_form_template_key, $bean->getName(), 'beans');
+            $_tmp_form_config = $this->getConfigForElement(Config::read('form'), $this->_form_template_key, $bean->getName(), 'beans');
 
             //If the id is not set in the attribute then set the ID for the Bean::getName()
             if (!isset($_tmp_form_config['attributes']['id'])) {
@@ -144,8 +142,7 @@ class FormFactory extends FormFactoryAbstract
      */
     public function generateSubmitButton(BeanInterface $bean)
     {
-        $this->loadFormConfig();
-        $_submit_button_config = $this->getConfigForElement($this->_form_config->readConfig(), 'submitButton', $bean->getName(), 'beans');
+        $_submit_button_config = $this->getConfigForElement(Config::read('form'), 'submitButton', $bean->getName(), 'beans');
 
         if (is_array($_submit_button_config)) {
             return $this->generateElementWithArrayConfig($_submit_button_config);
@@ -164,21 +161,20 @@ class FormFactory extends FormFactoryAbstract
      */
     public function generateFormColumn(array $_columns_to_be_displayed, BeanInterface $bean)
     {
-        $this->loadFormConfig();
         $_form_fields = "";
 
         foreach ($_columns_to_be_displayed as $_column) {
             if ($_column instanceof ColumnInterface) {
                 $_field_html = "";
 
-                $_show_label = $this->getConfigForElement($this->_form_config->readConfig(), 'showLabels', $bean->getName(), 'beans');
+                $_show_label = $this->getConfigForElement(Config::read('form'), 'showLabels', $bean->getName(), 'beans');
 
                 if ($_show_label) {
                     $_field_html = $this->generateElement('label', array(
                         'for' => "PyntaxDAO[{$bean->getName()}][{$_column->getName()}]"
                     ), $this->convertColumnNameIntoLabel($_column->getName()), true);
 
-                    $_label_container = $this->_form_config->readConfig('label_container');
+                    $_label_container = Config::read(array('form','label_container'));
                     if (isset($_label_container) && isset($_label_container['tagName'])) {
                         $_label_element_container = $this->generateElement($_label_container['tagName'],
                             isset($_label_container['attributes']) && is_array($_label_container['attributes']) ?$_label_container['attributes'] : array(),
@@ -189,7 +185,7 @@ class FormFactory extends FormFactoryAbstract
                     }
                 }
 
-                $_element_container = $this->_form_config->readConfig('element_container');
+                $_element_container = Config::read(array('form','element_container'));
                 if (isset($_element_container) && isset($_element_container['tagName'])) {
 
                     $_element_html = $this->generateElementByColumn($bean, $_column);
@@ -205,7 +201,7 @@ class FormFactory extends FormFactoryAbstract
                 }
 
 
-                $_form_element_container_config = $this->_form_config->readConfig('form_element_container_template');
+                $_form_element_container_config = Config::read(array('form','form_element_container_template'));
 
                 if (isset($_form_element_container_config['templateName']) && isset($_form_element_container_config['data']['tagName'])) {
                     $_field_html = $this->generateElement($_form_element_container_config['data']['tagName'],
@@ -223,7 +219,7 @@ class FormFactory extends FormFactoryAbstract
             $_form_fields.= $this->generateElement('input',array('type' => 'hidden', 'name' => "PyntaxDAO[{$bean->getName()}][{$bean->getPrimaryKey()}]"), $_primary_key_value, false);
         }
 
-        $_form_column = $this->_form_config->readConfig('form_column');
+        $_form_column =  Config::read(array('form','form_column'));
         if (isset($_form_column['container_element_template']['tagName'])) {
             return $this->generateElement($_form_column['container_element_template']['tagName'],
                 isset($_form_column['container_element_template']['attributes']) ? $_form_column['container_element_template']['attributes'] : array(),
@@ -238,16 +234,15 @@ class FormFactory extends FormFactoryAbstract
      */
     public function saveBean()
     {
-        $this->loadFormConfig();
-//        if (isset($this->_form_config['capturePostAndSaveBean']) && $this->_form_config['capturePostAndSaveBean'] == true) {
-        if($this->_form_config->readConfig('capturePostAndSaveBean') == true) {
+      //        if (isset($this->_form_config['capturePostAndSaveBean']) && $this->_form_config['capturePostAndSaveBean'] == true) {
+        if(Config::read(array('form', 'capturePostAndSaveBean'))) {
             $beanName = isset($_POST['PyntaxDAO']['BeanName']) ? $_POST['PyntaxDAO']['BeanName'] : false;
 
             if ($beanName && isset($_POST['PyntaxDAO'][$beanName])) {
 
                 $_data = $_POST['PyntaxDAO'][$beanName];
 
-                $beforeSaveCallBack = $this->getConfigForElement($this->_form_config->readConfig(), 'callback_before_capturePostAndSaveBean', $beanName, 'beans');
+                $beforeSaveCallBack = $this->getConfigForElement(Config::read('form'), 'callback_before_capturePostAndSaveBean', $beanName, 'beans');
                 if (is_callable($beforeSaveCallBack)) {
                     $_data = $beforeSaveCallBack($_POST['PyntaxDAO'][$beanName]);
                 }
@@ -263,7 +258,7 @@ class FormFactory extends FormFactoryAbstract
 
                 $id = $bean->save();
 
-                $afterSaveCallback = $this->getConfigForElement($this->_form_config->readConfig(), 'callback_after_capturePostAndSaveBean', $beanName, 'beans');
+                $afterSaveCallback = $this->getConfigForElement(Config::read('form'), 'callback_after_capturePostAndSaveBean', $beanName, 'beans');
 
                 if (is_callable($afterSaveCallback)) {
                     $afterSaveCallback($bean, $id);

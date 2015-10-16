@@ -41,11 +41,6 @@ abstract class FormFactoryAbstract extends ElementFactory implements FormFactory
      */
     static protected $_bean_meta_data = array();
 
-    public function loadFormConfig() {
-        $_config = new Config('form', 'form.config.php');
-        $this->_form_config = !empty($_config) ? $_config : array();
-    }
-
     /**
      * @param BeanInterface $bean
      */
@@ -87,8 +82,7 @@ abstract class FormFactoryAbstract extends ElementFactory implements FormFactory
      */
     public function convertColumnNameIntoLabel($columnName)
     {
-        $this->loadFormConfig();
-        if ($this->_form_config->readConfig('convertColumnNamesIntoLabel') == true) {
+        if (Config::read(array('form','convertColumnNamesIntoLabel')) == true) {
             $_new_labels = str_replace(array("_", "-"), " ", $columnName);
             return (ucwords($_new_labels));
         }

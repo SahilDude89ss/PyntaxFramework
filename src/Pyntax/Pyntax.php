@@ -55,13 +55,13 @@ class Pyntax
     static $HtmlFactory = null;
 
     /**
-     * @var null
+     * @param $configPath
+     * @throws \Exception
      */
-    static $Config = null;
-
     public static function start($configPath)
     {
-        self::$Config = new Config(false,false,$configPath);
+        //Load all the files in the CachePath
+        Config::loadConfigFiles($configPath);
 
         self::loadFactory();
         self::loadFormFactory();
@@ -127,6 +127,7 @@ class Pyntax
      */
     private static function loadFactory()
     {
+        $db_config = Config::read('database');
         $pdo = null;
 
         if (!empty($db_config['server']) && !empty($db_config['database'])) {
@@ -137,8 +138,7 @@ class Pyntax
 
             if (!is_null($pdo)) {
                 //load the MySqlAdapter from config.
-                $_core_config = new Config('core');
-                $_mysql_adapter = $_core_config->readConfig('MySQLAdapter');
+                $_mysql_adapter = Config::read(array('core','MySQLAdapter'));
 
                 if (isset($_mysql_adapter)) {
                     $mySqlAdapter = null;
