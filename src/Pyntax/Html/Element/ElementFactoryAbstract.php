@@ -23,13 +23,12 @@
  */
 
 namespace Pyntax\Html\Element;
-use Pyntax\Config\ConfigAwareInterface;
 
 /**
  * Class ElementFactory
  * @package Pyntax\Html\Element
  */
-abstract class ElementFactoryAbstract implements ElementFactoryInterface, ConfigAwareInterface
+abstract class ElementFactoryAbstract implements ElementFactoryInterface
 {
     /**
      * @var bool

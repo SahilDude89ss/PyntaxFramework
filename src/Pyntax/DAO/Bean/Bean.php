@@ -24,7 +24,6 @@
 
 namespace Pyntax\DAO\Bean;
 
-use Pyntax\Config\Config;
 use Pyntax\DAO\Bean\Column\ColumnInterface;
 use Pyntax\Pyntax;
 

@@ -1,5 +1,5 @@
 <?php
-Pyntax\Config\Config::writeConfig('table', array(
+Pyntax\Config\Config::write('table', array(
     'table' => array(
         'class' => 'table table-bordered table-hover',
         'id' => 'example2'

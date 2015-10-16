@@ -25,7 +25,6 @@
 namespace Pyntax\Html\Table;
 
 use Pyntax\Config\Config;
-use Pyntax\Config\ConfigAwareInterface;
 use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\Html\Element\ElementFactory;
 
@@ -33,7 +32,7 @@ use Pyntax\Html\Element\ElementFactory;
  * Class TableFactoryAbstract
  * @package Pyntax\Table
  */
-abstract class TableFactoryAbstract extends ElementFactory implements TableFactoryInterface, ConfigAwareInterface
+abstract class TableFactoryAbstract extends ElementFactory implements TableFactoryInterface
 {
     /**
      * @var array

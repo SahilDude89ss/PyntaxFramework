@@ -25,7 +25,6 @@
 namespace Pyntax\Html\Form;
 
 use Pyntax\Config\Config;
-use Pyntax\Config\ConfigAwareInterface;
 use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\Html\Element\ElementFactory;
 
@@ -33,7 +32,7 @@ use Pyntax\Html\Element\ElementFactory;
  * Class FormFactory
  * @package Pyntax\Form
  */
-abstract class FormFactoryAbstract extends ElementFactory implements FormFactoryInterface, ConfigAwareInterface
+abstract class FormFactoryAbstract extends ElementFactory implements FormFactoryInterface
 {
     protected $_form_config = array();
 

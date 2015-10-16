@@ -10,11 +10,10 @@ namespace Pyntax\DAO\Bean;
 
 use Pyntax\Cache\CacheFactory;
 use Pyntax\Config\Config;
-use Pyntax\Config\ConfigAwareInterface;
 use Pyntax\DAO\Bean\Column\Column;
 use Pyntax\DAO\Adapter\AdapterInterface;
 
-abstract class BeanAbstract implements BeanInterface, ConfigAwareInterface
+abstract class BeanAbstract implements BeanInterface
 {
     /**
      * @var array
@@ -96,7 +95,6 @@ abstract class BeanAbstract implements BeanInterface, ConfigAwareInterface
 
     protected function loadConfig()
     {
-//        $_config = Config::readConfig('orm');
         $_config = new Config('orm', 'orm.config.php');
         $this->_bean_config = isset($_config) ? $_config : array();
     }

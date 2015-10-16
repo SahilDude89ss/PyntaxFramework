@@ -1,5 +1,5 @@
 <?php
-\Pyntax\Config\Config::writeConfig('html', array(
+\Pyntax\Config\Config::write('html', array(
     /**
      * @property: \Pyntax\Html\HtmlFactory::FileTypeOption_CSS | css
      * This property is used to set files which will be auto loaded when printCSSFiles is used.

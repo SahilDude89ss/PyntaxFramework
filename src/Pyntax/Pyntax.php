@@ -71,6 +71,8 @@ class Pyntax
     /**
      * @param $beanName
      * @return bool | BeanInterface
+     *
+     * @throws \Exception
      */
     public static function getBean($beanName)
     {
@@ -82,7 +84,8 @@ class Pyntax
             return self::$BeanFactory->getBean($beanName);
 
         }
-        return false;
+
+        throw new \Exception("BeanFactory was empty. Please check if database config is set");
     }
 
     /**
@@ -124,13 +127,6 @@ class Pyntax
      */
     private static function loadFactory()
     {
-        $dbConfig = new Config('database', 'config.php');
-        $db_config = array(
-            'server' => $dbConfig->readConfig('server'),
-            'database' => $dbConfig->readConfig('database'),
-            'password' => $dbConfig->readConfig('password'),
-        );
-
         $pdo = null;
 
         if (!empty($db_config['server']) && !empty($db_config['database'])) {
@@ -141,7 +137,6 @@ class Pyntax
 
             if (!is_null($pdo)) {
                 //load the MySqlAdapter from config.
-//                $_core_config = Config::readConfig('core');
                 $_core_config = new Config('core');
                 $_mysql_adapter = $_core_config->readConfig('MySQLAdapter');
 

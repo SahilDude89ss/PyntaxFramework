@@ -1,5 +1,5 @@
 <?php
-\Pyntax\Config\Config::writeConfig('cache', array(
+\Pyntax\Config\Config::write('cache', array(
     'adapter' => 'filesystem',
     'cacheDir' => 'tmp/cache'
 ));

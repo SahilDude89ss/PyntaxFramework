@@ -2,7 +2,7 @@
 /**
  * @property: orm
  */
-Pyntax\Config\Config::writeConfig('orm', array(
+Pyntax\Config\Config::write('orm', array(
     'load_related_beans' => true,
     'beans' => array(
 //        'attachments' => array(

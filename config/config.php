@@ -22,17 +22,17 @@
  * SOFTWARE.
  */
 
-Pyntax\Config\Config::writeConfig('core',array(
+Pyntax\Config\Config::write('core',array(
     'MySQLAdapter' => 'Pyntax\DAO\Adapter\MySqlAdapter'
 ));
 
-Pyntax\Config\Config::writeConfig('database', array(
+Pyntax\Config\Config::write('database', array(
     'server' => 'localhost',
     'user' => 'root',
     'password' => '',
     'database' => 'simplemanager_db_v3'
 ));
 
-Pyntax\Config\Config::writeConfig('template', array(
+Pyntax\Config\Config::write('template', array(
     'html_element_template' => "<{{elTag}} {% for attribute in attributes %}{{attribute.name}}='{{attribute.value}}'{% endfor %} {% if( elTagClosable == true) %}> {{elDataValue|raw}} </{{elTag}}>{% else %}value='{{elDataValue}}' />{% endif %}",
 ));

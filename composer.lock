@@ -262,12 +262,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SahilDude89ss/PyntaxFramework-Cache.git",
-                "reference": "13800cd0030a2b8bb5cfc1c281d55247efc9195e"
+                "reference": "da7f8f3b72a3ee15672a0e8e1c2807ed0980e680"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SahilDude89ss/PyntaxFramework-Cache/zipball/13800cd0030a2b8bb5cfc1c281d55247efc9195e",
-                "reference": "13800cd0030a2b8bb5cfc1c281d55247efc9195e",
+                "url": "https://api.github.com/repos/SahilDude89ss/PyntaxFramework-Cache/zipball/da7f8f3b72a3ee15672a0e8e1c2807ed0980e680",
+                "reference": "da7f8f3b72a3ee15672a0e8e1c2807ed0980e680",
                 "shasum": ""
             },
             "require": {
@@ -291,7 +291,7 @@
                 }
             ],
             "description": "Cache component of the Pyntax Framework",
-            "time": "2015-10-13 23:40:56"
+            "time": "2015-10-16 02:31:17"
         },
         {
             "name": "pyntax/config",
@@ -299,12 +299,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SahilDude89ss/PyntaxFramework-Config.git",
-                "reference": "0f8651770ca1165107e59a48b481c9b44e5e8c18"
+                "reference": "1dfac09d4682ab49317922d16a030b61c0ab71d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SahilDude89ss/PyntaxFramework-Config/zipball/0f8651770ca1165107e59a48b481c9b44e5e8c18",
-                "reference": "0f8651770ca1165107e59a48b481c9b44e5e8c18",
+                "url": "https://api.github.com/repos/SahilDude89ss/PyntaxFramework-Config/zipball/1dfac09d4682ab49317922d16a030b61c0ab71d7",
+                "reference": "1dfac09d4682ab49317922d16a030b61c0ab71d7",
                 "shasum": ""
             },
             "type": "library",
@@ -324,7 +324,7 @@
                 }
             ],
             "description": "Config component of the Pyntax Framework",
-            "time": "2015-10-14 05:59:45"
+            "time": "2015-10-16 02:21:53"
         },
         {
             "name": "twig/twig",

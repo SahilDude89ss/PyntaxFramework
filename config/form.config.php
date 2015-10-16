@@ -1,5 +1,5 @@
 <?php
-Pyntax\Config\Config::writeConfig('form', array(
+Pyntax\Config\Config::write('form', array(
     /**
      * @property: capturePostAndSaveBean
      * This allows the bean to be saved into the database when a form is submitted.

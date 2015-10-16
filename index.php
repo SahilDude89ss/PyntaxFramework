@@ -5,6 +5,13 @@ ini_set('display_errors', true);
 require_once('vendor/autoload.php');
 \Pyntax\Pyntax::start(dirname(__FILE__)."/config");
 
+\Pyntax\Config\Config::writeConfig('database', array(
+    'database' => 'sugarcrm_amsa_crmuat',
+    'server' => 'localhost',
+    'password' => '',
+));
+
+
 //include_once("third-party/AdminLTE-2.3.0/pages/forms/PyntaxDAO-General.php"); die;
 //include_once("third-party/AdminLTE-2.3.0/pages/tables/PyntaxDAO-Table.php");
 //$clientBean = \Pyntax\PyntaxDAO::getBean('clients');
@@ -47,7 +54,7 @@ require_once('vendor/autoload.php');
 
 $startTime = microtime();
 
-$bean = \Pyntax\Pyntax::getBean('clients');
+$bean = \Pyntax\Pyntax::getBean('users');
 $bean->find(2);
 
 $htmlFactory = \Pyntax\Pyntax::loadHtmlFactory();
