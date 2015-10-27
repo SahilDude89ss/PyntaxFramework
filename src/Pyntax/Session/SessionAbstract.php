@@ -37,7 +37,7 @@ class SessionAbstract implements SessionInterface
     protected $_properties_to_be_loaded_from_config = array('use_PHP_session');
 
     public function loadConfig() {
-        $_session_config = Config::readConfig('session');
+        $_session_config = Config::read('session');
         $this->_config = !empty($_session_config) ? $_session_config : array();
 
         foreach($this->_properties_to_be_loaded_from_config as $key => $val) {
