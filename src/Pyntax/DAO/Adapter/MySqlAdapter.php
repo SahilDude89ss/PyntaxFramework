@@ -456,8 +456,7 @@ class MySqlAdapter implements AdapterInterface
      */
     public function getForeignKeys($table)
     {
-        $config = new Config('database');
-        $config = $config->readConfig();
+        $config = Config::read('database');
 
         if(isset($config['database'])) {
             $database = $config['database'];

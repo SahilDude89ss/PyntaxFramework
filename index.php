@@ -6,7 +6,7 @@ require_once('vendor/autoload.php');
 \Pyntax\Pyntax::start(dirname(__FILE__)."/config");
 
 \Pyntax\Config\Config::write('database', array(
-    'database' => 'sugarcrm_amsa_crmuat',
+    'database' => 'simplemanger_db_v3',
     'server' => 'localhost',
     'password' => '',
 ));
@@ -54,7 +54,7 @@ require_once('vendor/autoload.php');
 
 $startTime = microtime();
 
-$bean = \Pyntax\Pyntax::getBean('users');
+$bean = \Pyntax\Pyntax::getBean('clients');
 $bean->find(2);
 
 $htmlFactory = \Pyntax\Pyntax::loadHtmlFactory();

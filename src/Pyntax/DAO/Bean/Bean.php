@@ -104,7 +104,8 @@ class Bean extends BeanAbstract
     }
 
     public function loadRelatedBeanData() {
-        if($this->getConfigForElement($this->_bean_config->readConfig(),'load_related_beans',$this->_table_name))
+        $_bean_config = Config::read('orm');
+        if($this->getConfigForElement($_bean_config,'load_related_beans',$this->_table_name))
         {
             if(is_array($this->getForeignKeys()) && $this->_depth_counter < 1 )
             {
