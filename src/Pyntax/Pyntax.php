@@ -62,10 +62,10 @@ class Pyntax
     {
         //Load all the files in the CachePath
         Config::loadConfigFiles($configPath);
-
-        self::loadFactory();
-        self::loadFormFactory();
-        self::loadHtmlFactory();
+//
+//        self::loadFactory();
+//        self::loadFormFactory();
+//        self::loadHtmlFactory();
     }
 
     /**
