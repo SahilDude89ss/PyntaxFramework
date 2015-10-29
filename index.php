@@ -6,7 +6,7 @@ require_once('vendor/autoload.php');
 \Pyntax\Pyntax::start(dirname(__FILE__)."/config");
 
 \Pyntax\Config\Config::write('database', array(
-    'database' => 'simplemanger_db_v3',
+    'database' => 'simplemanager_db_v3',
     'server' => 'localhost',
     'password' => '',
 ));

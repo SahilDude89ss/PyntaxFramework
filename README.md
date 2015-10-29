@@ -24,7 +24,7 @@ All of the configuration files for the Pyntax framework are stored in the config
 Edit confing/config.php to add database details.
 
 ```
-Pyntax\Config\Config::writeConfig('database', array(
+Pyntax\Config\Config::write('database', array(
     'server' => 'localhost',
     'user' => 'root',
     'password' => '',
@@ -116,7 +116,7 @@ echo \Pyntax\Pyntax::generateForm($attachmentBean);
 
 ### Config for Forms
 ```
-Pyntax\Config\Config::writeConfig('form', array(
+Pyntax\Config\Config::write('form', array(
     /**
      * @property: capturePostAndSaveBean
      * This allows the bean to be saved into the database when a form is submitted.
