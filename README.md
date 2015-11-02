@@ -1,5 +1,5 @@
 #PyntaxFramework 
-Everything you need for development
+Everything you need for development. [Documentation](http://framework.pyntax.net/docs/)
 
 ## Installation
 ### Server Requirements
@@ -18,7 +18,14 @@ composer install
 
 ### Basic Configuration
 All of the configuration files for the Pyntax framework are stored in the config folder. 
+ 
+## Bootloader
+The following code is need to be added to the bootloader of the application. We need to specify the folder from which
+the config is suppose to be loaded.
 
+```
+\Pyntax\Pyntax::start(dirname(__FILE__)."/config");
+``` 
 
 ## Configure Database
 Edit confing/config.php to add database details.
@@ -31,16 +38,6 @@ Pyntax\Config\Config::write('database', array(
     'database' => 'simplemanager_db_v3'
 ));
 ```
-
-### Usage 
-## Bootloader
-The following code is need to be added to the bootloader of the application. We need to specify the folder from which
-the config is suppose to be loaded.
-
-```
-\Pyntax\Pyntax::start(dirname(__FILE__)."/config");
-``` 
-
 ## Create a Bean
 In order to save or retrieve data from the database, we need to create a BEAN.
 
