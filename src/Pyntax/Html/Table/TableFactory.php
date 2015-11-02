@@ -38,15 +38,20 @@ class TableFactory extends TableFactoryAbstract
     }
 
     /**
+     * This function generates the table with the Bean and findCondition is passed.
+     *
      * @param BeanInterface $bean
      * @param string $findCondition
      * @param bool|false $returnString
+     *
      * @return string
      */
     public function generateTable(BeanInterface $bean, $findCondition = "", $returnString = false)
     {
+        //Load the config
         $this->loadConfig();
-        if((is_array($findCondition) && !isset($findCondition['limit'])) || empty($findCondition)) {
+        if((is_array($findCondition) && !isset($findCondition['limit'])) || empty($findCondition))
+        {
             $recordLimitOnOnePage = $this->getConfigForElement($this->_table_config, 'recordLimitOnOnePage', $bean->getName(), 'beans');
             if (empty($recordLimitOnOnePage)) {
                 $recordLimitOnOnePage = 10;

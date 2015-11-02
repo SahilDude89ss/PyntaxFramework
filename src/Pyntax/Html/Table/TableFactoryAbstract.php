@@ -35,6 +35,7 @@ use Pyntax\Html\Element\ElementFactory;
 abstract class TableFactoryAbstract extends ElementFactory implements TableFactoryInterface
 {
     /**
+     * @deprecated
      * @var array
      */
     protected $_table_config = array();
@@ -55,14 +56,18 @@ abstract class TableFactoryAbstract extends ElementFactory implements TableFacto
      */
     public function generateTableHtml(BeanInterface $bean, $searchResults = array())
     {
-        $table = $this->generateTableHeader($bean->getDisplayColumns('table'));
+        $table = "";
+        $tableHeader = $this->getConfigForElement(Config::read('table'), 'tableHeader', $bean->getName(), 'beans');
+
+        if($tableHeader == true) {
+            $table = $this->generateTableHeader($bean->getDisplayColumns('table'));
+        }
+
         $table .= $this->generateTableBody($searchResults, $bean->getDisplayColumns('table'));
 
-        $_table_config = Config::read('table');
+        $_table_attributes = $this->getConfigForElement(Config::read('table'), 'table', $bean->getName(), 'beans');
 
-        $attributes = isset($_table_config['table']) && is_array($_table_config['table']) ? $_table_config['table'] : array();
-
-        return $this->generateElement('table', $attributes, $table, true);
+        return $this->generateElement('table', $_table_attributes, $table, true);
     }
 
     /**

@@ -45,6 +45,8 @@ class HtmlFactory extends HtmlFactoryAbstract
     }
 
     /**
+     * This function generates the Table based on the Bean and the search condition that is passed.
+     *
      * @param BeanInterface $bean
      * @param string $findCondition
      * @return bool|string
