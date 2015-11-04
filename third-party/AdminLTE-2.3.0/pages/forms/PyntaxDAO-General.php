@@ -472,7 +472,7 @@
                         <div class="box-body">
                             <?php
                             $htmlFactory = new \Pyntax\Html\HtmlFactory();
-                            echo $htmlFactory->createForm(Pyntax\PyntaxDAO::getBean('clients'));
+                            echo $htmlFactory->createForm(Pyntax\Pyntax::getBean('clients'));
                             ?>
                         </div>
                     </div>

@@ -55,7 +55,7 @@ require_once('vendor/autoload.php');
 $startTime = microtime();
 
 $bean = \Pyntax\Pyntax::getBean('clients');
-$bean->find(2);
+//$bean->find(2);
 
 $htmlFactory = \Pyntax\Pyntax::loadHtmlFactory();
 ?>
@@ -67,7 +67,7 @@ $htmlFactory = \Pyntax\Pyntax::loadHtmlFactory();
 </head>
 <body>
 <h1>Example  <span style="font-size: 18px">- <?php echo ucfirst($bean->getName()) ?></span></h1>
-<?php //echo \Pyntax\Pyntax::generateForm($bean); ?>
+<?php echo \Pyntax\Pyntax::generateForm($bean); ?>
 <?php echo $htmlFactory->createTable($bean); ?>
 
 <h3><?php  echo microtime() - $startTime ?></h3>

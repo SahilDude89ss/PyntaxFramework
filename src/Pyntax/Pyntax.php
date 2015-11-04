@@ -114,7 +114,7 @@ class Pyntax
         return self::$HtmlFactory;
     }
 
-    private static function loadFormFactory()
+    public static function loadFormFactory()
     {
         if (is_null(self::$FormFactory)) {
             self::$FormFactory = new FormFactory();

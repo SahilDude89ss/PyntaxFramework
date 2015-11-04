@@ -27,6 +27,7 @@ use Pyntax\DAO\Bean\BeanInterface;
 use Pyntax\Html\Element\ElementFactory;
 use Pyntax\Html\Form\FormFactoryInterface;
 use Pyntax\Html\Table\TableFactoryInterface;
+use Pyntax\Pyntax;
 
 /**
  * Class HtmlFactory
@@ -64,9 +65,10 @@ class HtmlFactory extends HtmlFactoryAbstract
      * @return bool|mixed
      */
     public function createForm(BeanInterface $bean) {
-        if($this->_form_factory instanceof FormFactoryInterface) {
-            return $this->_form_factory->generateForm($bean, true);
+        if(!$this->_form_factory instanceof FormFactoryInterface) {
+            $this->_form_factory = Pyntax::loadFormFactory();
         }
+        return $this->_form_factory->generateForm($bean, true);
 
         return false;
     }
