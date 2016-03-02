@@ -20,7 +20,7 @@
     "aura/session": "*",
     "twig/twig": "^1.21",
     "zendframework/zend-cache": "^2.5",
-    "pyntax/config": "~1.0",
+    "pyntax/config": "^1.0",
     "pyntax/cache": "dev-master"
   },
   "autoload": {
