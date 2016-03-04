@@ -193,7 +193,7 @@ class MySqlAdapter implements AdapterInterface
      *
      * @return mixed
      */
-    public function Select($table, $where = null, $limit = 0 , $groupBy = null, $orderBy = null)
+    public function Select($table, $where = null, $limit = null , $groupBy = null, $orderBy = null)
     {
         $select = $this->queryFactory->newSelect();
         $select->cols(array('*'))
@@ -213,7 +213,7 @@ class MySqlAdapter implements AdapterInterface
             $select->orderBy($orderBy);
         }
 
-        if ($limit > 0) {
+        if (!empty($limit)) {
             $select->limit($limit);
         }
         return $this->exec($select->getStatement(), $where);
@@ -461,13 +461,14 @@ class MySqlAdapter implements AdapterInterface
         if(isset($config['database'])) {
             $database = $config['database'];
 
-            $SQL = "SELECT CONSTRAINT_NAME, TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_SCHEMA, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
-                  FROM information_schema.KEY_COLUMN_USAGE
-                  WHERE information_schema.KEY_COLUMN_USAGE.TABLE_NAME = '{$table}'
-                    AND information_schema.KEY_COLUMN_USAGE.TABLE_SCHEMA = '{$database}'
-                    AND (information_schema.KEY_COLUMN_USAGE.REFERENCED_TABLE_SCHEMA = '{$database}'
-                      AND information_schema.KEY_COLUMN_USAGE.REFERENCED_TABLE_NAME IS NOT NULL
-                      AND information_schema.KEY_COLUMN_USAGE.REFERENCED_COLUMN_NAME IS NOT NULL)";
+            $SQL = "SELECT CONSTRAINT_NAME, TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME,
+                      REFERENCED_TABLE_SCHEMA, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
+                        FROM information_schema.KEY_COLUMN_USAGE
+                          WHERE information_schema.KEY_COLUMN_USAGE.TABLE_NAME = '{$table}'
+                          AND information_schema.KEY_COLUMN_USAGE.TABLE_SCHEMA = '{$database}'
+                          AND (information_schema.KEY_COLUMN_USAGE.REFERENCED_TABLE_SCHEMA = '{$database}'
+                          AND information_schema.KEY_COLUMN_USAGE.REFERENCED_TABLE_NAME IS NOT NULL
+                          AND information_schema.KEY_COLUMN_USAGE.REFERENCED_COLUMN_NAME IS NOT NULL)";
 
             return $this->exec($SQL);
         }
