@@ -97,9 +97,7 @@ class MySqlAdapter implements AdapterInterface
     {
         //Check if the query is a SELECT|INSERT|UPDATE and :variation is available
         if (preg_match("/.*(SELECT|INSERT|UPDATE|SHOW|DELETE).*/", $sql)) {
-
-            $result = false;
-
+            
             $this->sql = $sql;
 
             //Always prepare the SQL statement first
