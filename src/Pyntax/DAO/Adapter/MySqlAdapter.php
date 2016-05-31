@@ -116,9 +116,13 @@ class MySqlAdapter implements AdapterInterface
                     }
                 }
 
+
                 //Add the binding variables to the query
                 if ($query->execute($bindingValues)) {
                     return $this->getLastInsertID();
+                } else {
+                    //@ToDo:When the save or update fails make sure we handle the error gracefully!
+                    throw new \Exception(implode("\n", $query->errorInfo()));
                 }
 
             } else {
